@@ -42,7 +42,7 @@ int main()
                 if (it != keyMap.end())
                 {
                     auto idx = keyMap[event.key.code];
-                    player.setInput(idx);
+                    player.move(idx);
                 }
             }
         }

@@ -6,7 +6,8 @@ class Player : public sf::Drawable
 {
 private:
     float t;
-    int input;
+    int dirBuf;
+    bool finished;
 
     int dirX[4] = {0, 1, 0, -1};
     int dirY[4] = {-1, 0, 1, 0};
@@ -19,7 +20,7 @@ public:
     Player();
     Player(sf::Vector2f pos);
 
-    void setInput(int input);
+    void move(int dir);
 
     void update(sf::Time dt);
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;

@@ -2,7 +2,8 @@
 
 Player::Player()
 {
-    input = -1;
+    dirBuf = -1;
+    finished = false;
 
     pos.x = 0;
     pos.y = 0;
@@ -17,7 +18,9 @@ Player::Player()
 
 Player::Player(sf::Vector2f pos)
 {
-    this->input = -1;
+    dirBuf = -1;
+    finished = false;
+
     this->pos = pos;
     
     off.x = 0;
@@ -28,18 +31,29 @@ Player::Player(sf::Vector2f pos)
     spr.setFillColor(sf::Color::Green);
 }
 
-void Player::update(sf::Time dt)
+void Player::move(int dir)
 {
-    if (input != -1)
+    if (finished)
     {
-        pos.x += dirX[input];
-        pos.y += dirY[input];
+        pos.x += dirX[dir];
+        pos.y += dirY[dir];
 
-        off.x = -dirX[input] * 8;
-        off.y = -dirY[input] * 8;
+        off.x = -dirX[dir] * 8;
+        off.y = -dirY[dir] * 8;
 
         t = 0;
-        input = -1;
+        finished = false;
+    }
+    else 
+        dirBuf = dir;
+}
+
+void Player::update(sf::Time dt)
+{
+    if (dirBuf != -1 && finished)
+    {
+        move(dirBuf);
+        dirBuf = -1;
     }
 
     spr.setPosition(pos.x * 8 + off.x, pos.y * 8 + off.y);
@@ -50,12 +64,10 @@ void Player::update(sf::Time dt)
     off.y = off.y * (1 - t);
 
     if(t == 1)
+    {
         t = 0;
-}
-
-void Player::setInput(int input)
-{
-    this->input = input;
+        finished = true;
+    }
 }
 
 void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const
