@@ -21,7 +21,7 @@ int main()
     if (!tex.create(size, size))
         std::cerr << "Error creating render texture!\n";
 
-    Player player({0, 0});
+    Player player({.5f, .5f});
 
     sf::Time dt;
     sf::Clock clk;
@@ -49,7 +49,7 @@ int main()
 
         player.update(dt);
 
-        tex.clear();
+        tex.clear(sf::Color(62, 35, 44, 255));
         tex.draw(player);
         tex.display();
 
