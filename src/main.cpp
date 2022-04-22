@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include "Player.h"
 
 std::map<sf::Keyboard::Key, int> keyMap = 
@@ -8,6 +9,35 @@ std::map<sf::Keyboard::Key, int> keyMap =
     { sf::Keyboard::S, 2 },
     { sf::Keyboard::A, 3 },
 };
+
+std::vector<sf::Sprite> loadMap(const char* path, sf::Texture& tex)
+{
+    std::vector<sf::Sprite> map;
+    std::ifstream in(path);
+
+    if(!tex.loadFromFile("img/brick.png"))
+        std::cerr << "Error loading brick texture!\n";
+
+    int x;
+    for (int i = 0; i < 16; i++)
+    {
+        for (int j = 0; j < 16; j++)
+        {
+            in >> x;
+
+            if (x != 0)
+            {
+                sf::Sprite spr;
+                spr.setTexture(tex);
+                spr.setPosition(j * 8.f, i * 8.f);
+                map.push_back(spr);
+            }
+        }
+    }
+
+    in.close();
+    return map;
+}
 
 int main()
 {
@@ -22,6 +52,9 @@ int main()
         std::cerr << "Error creating render texture!\n";
 
     Player player({.5f, .5f});
+
+    sf::Texture brickTex;
+    std::vector<sf::Sprite> map = loadMap("map.txt", brickTex);
 
     sf::Time dt;
     sf::Clock clk;
@@ -50,6 +83,11 @@ int main()
         player.update(dt);
 
         tex.clear(sf::Color(62, 35, 44, 255));
+        for (size_t i = 0; i < map.size(); i++)
+        {
+            tex.draw(map[i]);
+        }
+
         tex.draw(player);
         tex.display();
 
