@@ -10,29 +10,22 @@ std::map<sf::Keyboard::Key, int> keyMap =
     { sf::Keyboard::A, 3 },
 };
 
-std::vector<sf::Sprite> loadMap(const char* path, sf::Texture& tex)
+std::vector<std::vector<int>> loadMap(const char* path)
 {
-    std::vector<sf::Sprite> map;
+    std::vector<std::vector<int>> map;
     std::ifstream in(path);
-
-    if(!tex.loadFromFile("img/brick.png"))
-        std::cerr << "Error loading brick texture!\n";
 
     int x;
     for (int i = 0; i < 16; i++)
     {
+        std::vector<int> temp;
         for (int j = 0; j < 16; j++)
         {
             in >> x;
 
-            if (x != 0)
-            {
-                sf::Sprite spr;
-                spr.setTexture(tex);
-                spr.setPosition(j * 8.f, i * 8.f);
-                map.push_back(spr);
-            }
+            temp.push_back(x);
         }
+        map.push_back(temp);
     }
 
     in.close();
@@ -41,7 +34,7 @@ std::vector<sf::Sprite> loadMap(const char* path, sf::Texture& tex)
 
 int main()
 {
-    float scale = 3.f;
+    float scale = 4.f;
     int size = 8 * 16;
     sf::RenderWindow window(sf::VideoMode(size * scale, size * scale), "SFML works!");
     window.setFramerateLimit(60);
@@ -53,8 +46,15 @@ int main()
 
     Player player({.5f, .5f});
 
-    sf::Texture brickTex;
-    std::vector<sf::Sprite> map = loadMap("map.txt", brickTex);
+    sf::Texture tileTex;
+    if(!tileTex.loadFromFile("img/tiles.png"))
+        std::cerr << "error\n";
+
+    sf::Sprite spr;
+    spr.setTexture(tileTex);
+    spr.setTextureRect({{0, 0}, {8, 8}});
+
+    std::vector<std::vector<int>> map = loadMap("map.txt");
 
     sf::Time dt;
     sf::Clock clk;
@@ -85,7 +85,12 @@ int main()
         tex.clear(sf::Color(62, 35, 44, 255));
         for (size_t i = 0; i < map.size(); i++)
         {
-            tex.draw(map[i]);
+            for (size_t j = 0; j < map[i].size(); j++)
+            {
+                spr.setTextureRect({{map[i][j] * 8.f, 0}, {8, 8}});
+                spr.setPosition(j * 8.f, i * 8.f);
+                tex.draw(spr);
+            }
         }
 
         tex.draw(player);
