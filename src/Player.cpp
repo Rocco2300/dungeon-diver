@@ -11,9 +11,6 @@ Player::Player()
     pos.x = .5f;
     pos.y = .5f;
 
-    off.x = 0;
-    off.y = 0;
-
     if (!tex.loadFromFile("img/player.png"))
         std::cerr << "Error loading player sprite!\n";
 
@@ -30,9 +27,6 @@ Player::Player(sf::Vector2f pos)
     finished = false;
 
     this->pos = pos;
-    
-    off.x = 0;
-    off.y = 0;
 
     if (!tex.loadFromFile("img/player.png"))
         std::cerr << "Error loading player sprite!\n";
@@ -50,16 +44,15 @@ void Player::move(int dir)
         pos.x += dirX[dir];
         pos.y += dirY[dir];
 
-        off.x = -dirX[dir] * 8;
-        off.y = -dirY[dir] * 8;
+        offS.x = -dirX[dir] * 8;
+        offS.y = -dirY[dir] * 8;
+
+        off.x = offS.x;
+        off.y = offS.y;
 
         t = 0;
         finished = false;
 
-        // if (dirX[dir] == -1)
-        //     flip = true;
-        // else if(dirX[dir] == 1)
-        //     flip = false;
         if (dirX[dir] != 0)
             spr.setScale(dirX[dir], 1.f);
     }
@@ -92,14 +85,17 @@ void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 void Player::animate(float animationSpeed)
 {
-    t = std::min(t + animationSpeed, 1.f);
-
-    off.x = off.x * (1 - t);
-    off.y = off.y * (1 - t);
-
-    if(t == 1)
+    if (!finished)
     {
-        t = 0;
-        finished = true;
+        t = std::min(t + animationSpeed, 1.f);
+
+        off.x = offS.x * (1 - t);
+        off.y = offS.y * (1 - t);
+
+        if(t == 1)
+        {
+            t = 0;
+            finished = true;
+        }
     }
 }

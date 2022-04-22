@@ -16,6 +16,7 @@ private:
     int dirY[4] = {-1, 0, 1, 0};
 
     sf::Vector2f pos;
+    sf::Vector2f offS;
     sf::Vector2f off;
 
     bool flip;
