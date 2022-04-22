@@ -2,7 +2,6 @@
 
 Player::Player()
 {
-    dirBuf = -1;
     finished = false;
 
     pos.x = 0;
@@ -18,7 +17,6 @@ Player::Player()
 
 Player::Player(sf::Vector2f pos)
 {
-    dirBuf = -1;
     finished = false;
 
     this->pos = pos;
@@ -45,15 +43,17 @@ void Player::move(int dir)
         finished = false;
     }
     else 
-        dirBuf = dir;
+        dirBuf.push_back(dir);
 }
 
 void Player::update(sf::Time dt)
 {
-    if (dirBuf != -1 && finished)
+    if (!dirBuf.empty() && finished)
     {
-        move(dirBuf);
-        dirBuf = -1;
+        auto mov = dirBuf.front();
+        dirBuf.erase(dirBuf.begin());
+
+        move(mov);
     }
 
     spr.setPosition(pos.x * 8 + off.x, pos.y * 8 + off.y);

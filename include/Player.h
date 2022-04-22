@@ -1,14 +1,17 @@
 #pragma once
 
+#include <vector>
+
 #include <SFML/Graphics.hpp>
 
 class Player : public sf::Drawable
 {
 private:
     float t;
-    int dirBuf;
     bool finished;
 
+    std::vector<int> dirBuf;
+    
     int dirX[4] = {0, 1, 0, -1};
     int dirY[4] = {-1, 0, 1, 0};
 
