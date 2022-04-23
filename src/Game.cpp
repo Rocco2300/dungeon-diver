@@ -7,7 +7,7 @@ Game::Game()
 {
     clock.restart();
 
-    window.create(sf::VideoMode(size * scale, size * scale), "SFML works!");
+    window.create(sf::VideoMode(size * scale, size * scale), "Dungeon Diver");
     window.setFramerateLimit(60);
     window.setKeyRepeatEnabled(false);
 
@@ -67,9 +67,14 @@ void Game::handleInput(sf::Keyboard::Key key)
         auto pos = player.getPosition();
         auto dest = map[dirY[idx] + pos.y][dirX[idx] + pos.x];
 
-        if (player.notMoving() && dest != 2)
-            player.move({dirX[idx], dirY[idx]});
-        else if (!player.notMoving() && dest != 2)
+        if (player.notMoving())
+        {
+            if (dest == 0 || dest == 1)
+                player.move({dirX[idx], dirY[idx]});
+            else if (dest == 3)
+                map[dirY[idx] + pos.y][dirX[idx] + pos.x]++;
+        }
+        else if (!player.notMoving())
             moveBuf.push_back({dirX[idx], dirY[idx]});
     }
 }
