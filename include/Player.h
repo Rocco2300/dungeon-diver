@@ -1,5 +1,6 @@
 #pragma once
 
+#include <functional>
 #include <vector>
 
 #include <SFML/Graphics.hpp>
@@ -19,11 +20,14 @@ private:
 
     sf::Texture tex;
     sf::Sprite spr;
+
+    std::function<void()> animation;
 public:
     Player();
     Player(sf::Vector2f pos);
 
     void move(sf::Vector2f o);
+    void bump(sf::Vector2f o);
 
     bool notMoving();
     sf::Vector2f getPosition();
@@ -32,5 +36,7 @@ public:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 private:
     void animate(float animationSpeed);
+    void animateMove();
+    void animateBump();
 };
 

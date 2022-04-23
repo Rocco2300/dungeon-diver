@@ -18,6 +18,8 @@ Player::Player()
     spr.setTextureRect(sf::IntRect({0, 0}, {8, 8}));
     spr.setOrigin(4.f, 4.f);
     spr.setPosition(pos.x * 8 + off.x, pos.x * 8 + off.x);
+
+    animation = std::bind(&Player::animateBump, this);
 }
 
 Player::Player(sf::Vector2f pos)
@@ -56,16 +58,42 @@ void Player::move(sf::Vector2f o)
         if (o.x != 0)
             spr.setScale(o.x, 1.f);
     }
+
+    animation = std::bind(&Player::animateMove, this);
+}
+
+void Player::bump(sf::Vector2f o)
+{
+    if (finished)
+    {
+        offS.x = o.x * 8;
+        offS.y = o.y * 8;
+
+        off.x = offS.x;
+        off.y = offS.y;
+
+        t = 0;
+        finished = false;
+
+        if (o.x != 0)
+            spr.setScale(o.x, 1.f);
+    }
+
+    animation = std::bind(&Player::animateBump, this);
 }
 
 void Player::update(sf::Time dt)
 {
-    frame += dt.asSeconds() * 4;
+    frame += dt.asSeconds() * 5;
 
-    spr.setPosition(pos.x * 8 + off.x, pos.y * 8 + off.y);
     spr.setTextureRect({{(int)std::floor(frame) % 3 * 8, 0}, {8, 8}});
 
-    animate(dt.asSeconds() * 8);
+    if (!finished)
+    {
+        animate(dt.asSeconds() * 8);
+    }
+    
+    spr.setPosition(pos.x * 8 + off.x, pos.y * 8 + off.y);
 }
 
 bool Player::notMoving()
@@ -85,17 +113,32 @@ void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 void Player::animate(float animationSpeed)
 {
-    if (!finished)
-    {
-        t = std::min(t + animationSpeed, 1.f);
+    t = std::min(t + animationSpeed, 1.f);
 
+    animation();
+
+    if(t == 1)
+    {
+        finished = true;
+    }
+}
+
+void Player::animateMove()
+{
+    off.x = offS.x * (1 - t);
+    off.y = offS.y * (1 - t);
+}
+
+void Player::animateBump()
+{
+    if (t < 0.5f)
+    {
+        off.x = offS.x * t;
+        off.y = offS.y * t;
+    }
+    else
+    {
         off.x = offS.x * (1 - t);
         off.y = offS.y * (1 - t);
-
-        if(t == 1)
-        {
-            t = 0;
-            finished = true;
-        }
     }
 }

@@ -64,18 +64,8 @@ void Game::handleInput(sf::Keyboard::Key key)
     if (it != keyMap.end())
     {
         auto idx = keyMap[key];
-        auto pos = player.getPosition();
-        auto dest = map[dirY[idx] + pos.y][dirX[idx] + pos.x];
 
-        if (player.notMoving())
-        {
-            if (dest == 0 || dest == 1)
-                player.move({dirX[idx], dirY[idx]});
-            else if (dest == 3)
-                map[dirY[idx] + pos.y][dirX[idx] + pos.x]++;
-        }
-        else if (!player.notMoving())
-            moveBuf.push_back({dirX[idx], dirY[idx]});
+        moveBuf.push_back({dirX[idx], dirY[idx]});
     }
 }
 
@@ -104,8 +94,15 @@ void Game::update(sf::Time dt)
         auto pos = player.getPosition();
         auto dest = map[mov.y + pos.y][mov.x + pos.x];
 
-        if (dest != 2)
-            player.move(mov);
+        if (dest == 0 || dest == 1)
+            player.move({mov.x, mov.y});
+        else
+        {
+            player.bump({mov.x, mov.y});
+
+            if (map[mov.y + pos.y][mov.x + pos.x] == 3)
+                map[mov.y + pos.y][mov.x + pos.x]++;
+        }
     }
 
     player.update(dt);
