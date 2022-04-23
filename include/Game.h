@@ -12,6 +12,10 @@ private:
         { sf::Keyboard::S, 2 },
         { sf::Keyboard::A, 3 },
     };
+    std::vector<sf::Vector2f> moveBuf;
+
+    float dirX[4] = {0.f, 1.f, 0.f, -1.f};
+    float dirY[4] = {-1.f, 0.f, 1.f, 0.f};
 
     sf::RenderWindow window;
     sf::RenderTexture texture;
@@ -31,6 +35,8 @@ public:
     void run();
 private:
     std::vector<std::vector<int>> loadMap(const char* path);
+
+    void handleInput(sf::Keyboard::Key key);
 
     void pollEvents();
     void update(sf::Time dt);

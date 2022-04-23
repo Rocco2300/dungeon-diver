@@ -37,15 +37,15 @@ Player::Player(sf::Vector2f pos)
     spr.setPosition(pos.x * 8 + off.x, pos.x * 8 + off.x);
 }
 
-void Player::move(int dir)
+void Player::move(sf::Vector2f o)
 {
     if (finished)
     {
-        pos.x += dirX[dir];
-        pos.y += dirY[dir];
+        pos.x += o.x;
+        pos.y += o.y;
 
-        offS.x = -dirX[dir] * 8;
-        offS.y = -dirY[dir] * 8;
+        offS.x = -o.x * 8;
+        offS.y = -o.y * 8;
 
         off.x = offS.x;
         off.y = offS.y;
@@ -53,29 +53,29 @@ void Player::move(int dir)
         t = 0;
         finished = false;
 
-        if (dirX[dir] != 0)
-            spr.setScale(dirX[dir], 1.f);
+        if (o.x != 0)
+            spr.setScale(o.x, 1.f);
     }
-    else 
-        dirBuf.push_back(dir);
 }
 
 void Player::update(sf::Time dt)
 {
-    if (!dirBuf.empty() && finished)
-    {
-        auto mov = dirBuf.front();
-        dirBuf.erase(dirBuf.begin());
-
-        move(mov);
-    }
-
     frame += dt.asSeconds() * 4;
 
     spr.setPosition(pos.x * 8 + off.x, pos.y * 8 + off.y);
     spr.setTextureRect({{(int)std::floor(frame) % 3 * 8, 0}, {8, 8}});
 
     animate(dt.asSeconds() * 8);
+}
+
+bool Player::notMoving()
+{
+    return finished;
+}
+
+sf::Vector2f Player::getPosition()
+{
+    return pos;
 }
 
 void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const

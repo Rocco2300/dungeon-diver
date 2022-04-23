@@ -57,6 +57,23 @@ std::vector<std::vector<int>> Game::loadMap(const char* path)
     return map;
 }
 
+void Game::handleInput(sf::Keyboard::Key key)
+{
+    auto it = keyMap.find(key);
+            
+    if (it != keyMap.end())
+    {
+        auto idx = keyMap[key];
+        auto pos = player.getPosition();
+        auto dest = map[dirY[idx] + pos.y][dirX[idx] + pos.x];
+
+        if (player.notMoving() && dest != 2)
+            player.move({dirX[idx], dirY[idx]});
+        else if (!player.notMoving() && dest != 2)
+            moveBuf.push_back({dirX[idx], dirY[idx]});
+    }
+}
+
 void Game::pollEvents()
 {
     sf::Event event;
@@ -67,30 +84,36 @@ void Game::pollEvents()
 
         if (event.type == sf::Event::KeyPressed)
         {
-            auto it = keyMap.find(event.key.code);
-            
-            if (it != keyMap.end())
-            {
-                auto idx = keyMap[event.key.code];
-                player.move(idx);
-            }
+            handleInput(event.key.code);
         }
     }
 }
 
 void Game::update(sf::Time dt)
 {
+    if (!moveBuf.empty() && player.notMoving())
+    {
+        auto mov = moveBuf.front();
+        moveBuf.erase(moveBuf.begin());
+
+        auto pos = player.getPosition();
+        auto dest = map[mov.y + pos.y][mov.x + pos.x];
+
+        if (dest != 2)
+            player.move(mov);
+    }
+
     player.update(dt);
 }
 
 void Game::draw()
 {
-    texture.clear(sf::Color(62, 35, 44, 255));
+    texture.clear();
     for (size_t i = 0; i < map.size(); i++)
     {
         for (size_t j = 0; j < map[i].size(); j++)
         {
-            tile.setTextureRect({{map[i][j] * 8.f, 0}, {8, 8}});
+            tile.setTextureRect({{map[i][j] * 8, 0}, {8, 8}});
             tile.setPosition(j * 8.f, i * 8.f);
             texture.draw(tile);
         }

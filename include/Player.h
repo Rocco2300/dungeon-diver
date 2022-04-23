@@ -10,11 +10,6 @@ private:
     float t;
     bool finished;
 
-    std::vector<int> dirBuf;
-
-    int dirX[4] = {0, 1, 0, -1};
-    int dirY[4] = {-1, 0, 1, 0};
-
     sf::Vector2f pos;
     sf::Vector2f offS;
     sf::Vector2f off;
@@ -28,7 +23,10 @@ public:
     Player();
     Player(sf::Vector2f pos);
 
-    void move(int dir);
+    void move(sf::Vector2f o);
+
+    bool notMoving();
+    sf::Vector2f getPosition();
 
     void update(sf::Time dt);
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
