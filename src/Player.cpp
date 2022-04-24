@@ -52,41 +52,39 @@ Player::Player(sf::Vector2f pos)
 
 void Player::move(sf::Vector2f o)
 {
-    if (t == 1)
-    {
-        pos.x += o.x;
-        pos.y += o.y;
+    if (t != 1)
+        return;
 
-        offS.x = -o.x * 8;
-        offS.y = -o.y * 8;
+    pos.x += o.x;
+    pos.y += o.y;
 
-        off.x = offS.x;
-        off.y = offS.y;
+    offS.x = -o.x * 8;
+    offS.y = -o.y * 8;
 
-        t = 0;
+    off = offS;
 
-        if (o.x != 0)
-            spr.setScale(o.x, 1.f);
-    }
+    t = 0;
+
+    if (o.x != 0)
+        spr.setScale(o.x, 1.f);
 
     animation = std::bind(&Player::animateMove, this);
 }
 
 void Player::bump(sf::Vector2f o)
 {
-    if (t == 1)
-    {
-        offS.x = o.x * 8;
-        offS.y = o.y * 8;
+    if (t != 1)
+        return;
+        
+    offS.x = o.x * 8;
+    offS.y = o.y * 8;
 
-        off.x = offS.x;
-        off.y = offS.y;
+    off = offS;
 
-        t = 0;
+    t = 0;
 
-        if (o.x != 0)
-            spr.setScale(o.x, 1.f);
-    }
+    if (o.x != 0)
+        spr.setScale(o.x, 1.f);
 
     animation = std::bind(&Player::animateBump, this);
 }
