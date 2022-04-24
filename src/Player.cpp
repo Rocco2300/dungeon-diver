@@ -6,10 +6,10 @@
 Player::Player()
 {
     frame = 0.f;
-    finished = false;
 
     pos.x = .5f;
     pos.y = .5f;
+
 
     if (!tex.loadFromFile("img/player.png"))
         std::cerr << "Error loading player sprite!\n";
@@ -19,6 +19,11 @@ Player::Player()
     spr.setOrigin(4.f, 4.f);
     spr.setPosition(pos.x * 8 + off.x, pos.x * 8 + off.x);
 
+    // sprite = Tileset("img/player.png", 8, 8);
+
+    // sprite.setOrigin(4.f, 4.f);
+    // sprite.setPosition(pos.x * 8 + off.x, pos.y * 8 + off.y);
+
     animation = std::bind(&Player::animateBump, this);
 }
 
@@ -26,7 +31,6 @@ Player::Player(sf::Vector2f pos)
 {
     flip = false;
     frame = 0.f;
-    finished = false;
 
     this->pos = pos;
 
@@ -37,11 +41,18 @@ Player::Player(sf::Vector2f pos)
     spr.setTextureRect(sf::IntRect({0, 0}, {8, 8}));
     spr.setOrigin(4.f, 4.f);
     spr.setPosition(pos.x * 8 + off.x, pos.x * 8 + off.x);
+
+    // sprite = Tileset("img/player.png", 8, 8);
+
+    // sprite.setOrigin(4.f, 4.f);
+    // sprite.setPosition(pos.x * 8 + off.x, pos.y * 8 + off.y);
+
+    animation = std::bind(&Player::animateBump, this);
 }
 
 void Player::move(sf::Vector2f o)
 {
-    if (finished)
+    if (t == 1)
     {
         pos.x += o.x;
         pos.y += o.y;
@@ -53,7 +64,6 @@ void Player::move(sf::Vector2f o)
         off.y = offS.y;
 
         t = 0;
-        finished = false;
 
         if (o.x != 0)
             spr.setScale(o.x, 1.f);
@@ -64,7 +74,7 @@ void Player::move(sf::Vector2f o)
 
 void Player::bump(sf::Vector2f o)
 {
-    if (finished)
+    if (t == 1)
     {
         offS.x = o.x * 8;
         offS.y = o.y * 8;
@@ -73,7 +83,6 @@ void Player::bump(sf::Vector2f o)
         off.y = offS.y;
 
         t = 0;
-        finished = false;
 
         if (o.x != 0)
             spr.setScale(o.x, 1.f);
@@ -87,18 +96,20 @@ void Player::update(sf::Time dt)
     frame += dt.asSeconds() * 5;
 
     spr.setTextureRect({{(int)std::floor(frame) % 3 * 8, 0}, {8, 8}});
+    // sprite.setSpriteIndex((int)std::floor(frame) % 3 * 8);
+    // currFrame = sprite[(int)std::floor(frame) % 3 * 8];
 
-    if (!finished)
+    if (t != 1)
     {
         animate(dt.asSeconds() * 8);
     }
-    
+
     spr.setPosition(pos.x * 8 + off.x, pos.y * 8 + off.y);
 }
 
 bool Player::notMoving()
 {
-    return finished;
+    return (t == 1);
 }
 
 sf::Vector2f Player::getPosition()
@@ -116,11 +127,6 @@ void Player::animate(float animationSpeed)
     t = std::min(t + animationSpeed, 1.f);
 
     animation();
-
-    if(t == 1)
-    {
-        finished = true;
-    }
 }
 
 void Player::animateMove()

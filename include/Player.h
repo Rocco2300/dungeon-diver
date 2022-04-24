@@ -3,13 +3,12 @@
 #include <functional>
 #include <vector>
 
-#include <SFML/Graphics.hpp>
+#include "Tileset.h"
 
 class Player : public sf::Drawable
 {
 private:
     float t;
-    bool finished;
 
     sf::Vector2f pos;
     sf::Vector2f offS;
@@ -18,6 +17,8 @@ private:
     bool flip;
     float frame;
 
+    // Tileset sprite;
+    // sf::Sprite currFrame;
     sf::Texture tex;
     sf::Sprite spr;
 
