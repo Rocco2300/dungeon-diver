@@ -6,21 +6,16 @@
 class Tileset : public sf::Drawable
 {
 private:
-    int tileWidth;
-    int tileHeight;
+    sf::Vector2i tileSize;
 
-    std::unique_ptr<sf::Texture> texture;
-    std::unique_ptr<sf::Sprite> sprite;
+    sf::Texture texture;
+    sf::VertexArray quad;
 public:
     Tileset();
-    Tileset(const char* path, int tileWidth, int tileHeight);
-    Tileset(Tileset&& other);
-    Tileset& operator=(const Tileset& other);
+    Tileset(const char* path, sf::Vector2i tileSize);
+    void create(const char* path, sf::Vector2i tileSize);
 
     void setSpriteIndex(int index);
-    void setPosition(int x, int y);
-    void setOrigin(int x, int y);
-    void setScale(float x, float y);
 
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };

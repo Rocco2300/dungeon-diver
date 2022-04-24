@@ -7,68 +7,64 @@ Tileset::Tileset()
 
 }
 
-Tileset::Tileset(const char* path, int tileWidth, int tileHeight)
+Tileset::Tileset(const char* path, sf::Vector2i tileSize)
 {
-    this->tileWidth = tileWidth;
-    this->tileHeight = tileHeight;
+    this->tileSize = tileSize;
 
-    if (!texture->loadFromFile(path))
-        std::cerr << "Error loading tileset texture!\n";
+    if (!texture.loadFromFile(path))
+        std::cerr << "Error!\n";
+    
+    quad.setPrimitiveType(sf::Quads);
+    quad.resize(4);
 
-    sprite->setTexture(*texture);
-    sprite->setTextureRect({{0, 0}, {tileWidth, tileHeight}});
+    quad[0].position = sf::Vector2f(0.f, 0.f);
+    quad[1].position = sf::Vector2f(tileSize.x, 0.f);
+    quad[2].position = sf::Vector2f(tileSize.x, tileSize.y);
+    quad[3].position = sf::Vector2f(0.f, tileSize.y);
+
+    quad[0].texCoords = sf::Vector2f(0.f, 0.f);
+    quad[1].texCoords = sf::Vector2f(tileSize.x, 0.f);
+    quad[2].texCoords = sf::Vector2f(tileSize.x, tileSize.y);
+    quad[3].texCoords = sf::Vector2f(0.f, tileSize.y);
 }
 
-Tileset::Tileset(Tileset&& other)
+void Tileset::create(const char* path, sf::Vector2i tileSize)
 {
-    tileWidth = other.tileWidth;
-    tileHeight = other.tileHeight;
+    this->tileSize = tileSize;
 
-    texture = std::move(other.texture);
-    sprite = std::move(other.sprite);
-}
+    if (!texture.loadFromFile(path))
+        std::cerr << "Error!\n";
+    
+    quad.setPrimitiveType(sf::Quads);
+    quad.resize(4);
 
+    quad[0].position = sf::Vector2f(0.f, 0.f);
+    quad[1].position = sf::Vector2f(tileSize.x, 0.f);
+    quad[2].position = sf::Vector2f(tileSize.x, tileSize.y);
+    quad[3].position = sf::Vector2f(0.f, tileSize.y);
 
-Tileset& Tileset::operator=(const Tileset& other)
-{
-    this->tileWidth = other.tileWidth;
-    this->tileHeight = other.tileHeight;
-
-    auto img = other.texture->copyToImage();
-
-    if (!texture->loadFromImage(img))
-        std::cerr << "Error loading tileset texture!\n";
-
-    sprite->setTexture(*texture);
-    sprite->setTextureRect({{0, 0}, {tileWidth, tileHeight}});
-
-    return *this;
+    quad[0].texCoords = sf::Vector2f(0.f, 0.f);
+    quad[1].texCoords = sf::Vector2f(tileSize.x, 0.f);
+    quad[2].texCoords = sf::Vector2f(tileSize.x, tileSize.y);
+    quad[3].texCoords = sf::Vector2f(0.f, tileSize.y);
 }
 
 void Tileset::setSpriteIndex(int index)
 {
-    int width = texture->getSize().x;
-    int x = index % width;
-    int y = index / width;
-    sprite->setTextureRect({{x * tileWidth, y * tileHeight}, {tileWidth, tileHeight}});
-}
+    // int width = texture->getSize().x;
+    // int x = index % width;
+    // int y = index / width;
+    // sprite->setTextureRect({{x * tileWidth, y * tileHeight}, {tileWidth, tileHeight}});
 
-void Tileset::setPosition(int x, int y)
-{
-    sprite->setPosition(x, y);
-}
-
-void Tileset::setOrigin(int x, int y)
-{
-    sprite->setOrigin(x, y);
-}
-
-void Tileset::setScale(float x, float y)
-{
-    sprite->setScale(x, y);
+    quad[0].texCoords = sf::Vector2f(0.f + index * tileSize.x, 0.f);
+    quad[1].texCoords = sf::Vector2f((index + 1) * tileSize.x, 0.f);
+    quad[2].texCoords = sf::Vector2f((index + 1) * tileSize.x, tileSize.y);
+    quad[3].texCoords = sf::Vector2f(0.f + index * tileSize.x, tileSize.y);
 }
 
 void Tileset::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-    target.draw(*sprite, states);
+    states.texture = &texture;
+
+    target.draw(quad, states);
 }

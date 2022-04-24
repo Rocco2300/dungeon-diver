@@ -9,18 +9,15 @@ class Player : public sf::Drawable
 {
 private:
     float t;
+    float flip;
+    float frame;
 
     sf::Vector2f pos;
     sf::Vector2f offS;
     sf::Vector2f off;
 
-    bool flip;
-    float frame;
-
-    // Tileset sprite;
-    // sf::Sprite currFrame;
-    sf::Texture tex;
-    sf::Sprite spr;
+    Tileset sprite;
+    sf::Sprite currFrame;
 
     std::function<void()> animation;
 public:
