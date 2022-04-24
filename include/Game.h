@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Player.h"
+#include "Tile.h"
 
 class Game
 {
@@ -27,14 +28,13 @@ private:
 
     Player player;
 
-    sf::Texture tileSet;
-    sf::Sprite tile;
-    std::vector<std::vector<int>> map;
+    Tileset tileset;
+    std::vector<Tile> map;
 public:
     Game();
     void run();
 private:
-    std::vector<std::vector<int>> loadMap(const char* path);
+    void loadMap(const char* path);
 
     void handleInput(sf::Keyboard::Key key);
 

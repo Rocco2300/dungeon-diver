@@ -14,13 +14,9 @@ Game::Game()
     if (!texture.create(size, size))
         std::cerr << "Error creating render texture!\n";
 
-    if(!tileSet.loadFromFile("img/tiles.png"))
-        std::cerr << "error\n";
+    tileset.create("img/tiles.png", {8, 8});
 
-    tile.setTexture(tileSet);
-    tile.setTextureRect({{0, 0}, {8, 8}});
-
-    map = loadMap("map.txt");
+    loadMap("map.txt");
 }
 
 void Game::run()
@@ -35,9 +31,8 @@ void Game::run()
     }
 }
 
-std::vector<std::vector<int>> Game::loadMap(const char* path)
+void Game::loadMap(const char* path)
 {
-    std::vector<std::vector<int>> map;
     std::ifstream in(path);
 
     int x;
@@ -48,13 +43,17 @@ std::vector<std::vector<int>> Game::loadMap(const char* path)
         {
             in >> x;
 
-            temp.push_back(x);
+            Tile tile;
+            tile.setTileset(tileset);
+            tile.setID(x);
+            tile.setWalkable((x == 0 || x == 1 || x == 9 || x == 10));
+            tile.setInteractable((x == 3 || x == 5));
+
+            map.push_back(tile);
         }
-        map.push_back(temp);
     }
 
     in.close();
-    return map;
 }
 
 void Game::handleInput(sf::Keyboard::Key key)
@@ -92,16 +91,18 @@ void Game::update(sf::Time dt)
         moveBuf.erase(moveBuf.begin());
 
         auto pos = player.getPosition();
-        auto dest = map[mov.y + pos.y][mov.x + pos.x];
+        
+        int idx = (mov.y + pos.y) * 16 + (mov.x + pos.x); 
+        auto dest = map[idx];
 
-        if (dest == 0 || dest == 1)
+        if (dest.isWalkable())
             player.move({mov.x, mov.y});
         else
         {
             player.bump({mov.x, mov.y});
 
-            if (map[mov.y + pos.y][mov.x + pos.x] == 3)
-                map[mov.y + pos.y][mov.x + pos.x]++;
+            if (dest.isInteractable())
+                std::cout << "Interact!" << std::endl;
         }
     }
 
@@ -113,12 +114,15 @@ void Game::draw()
     texture.clear();
     for (size_t i = 0; i < map.size(); i++)
     {
-        for (size_t j = 0; j < map[i].size(); j++)
-        {
-            tile.setTextureRect({{map[i][j] * 8, 0}, {8, 8}});
-            tile.setPosition(j * 8.f, i * 8.f);
-            texture.draw(tile);
-        }
+        int x = i % 16;
+        int y = i / 16;
+
+        sf::Transform transform;
+        transform.translate(x * 8, y * 8);
+        sf::RenderStates states;
+        states.transform = transform;
+
+        texture.draw(map[i], states);
     }
 
     texture.draw(player);

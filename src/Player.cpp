@@ -5,6 +5,7 @@
 
 Player::Player()
 {
+    t = 1.f;
     flip = 1.f;
     frame = 0.f;
 
@@ -12,20 +13,17 @@ Player::Player()
     pos.y = 0.f;
 
     sprite.create("img/player.png", {8, 8});
-
-    animation = std::bind(&Player::animateBump, this);
 }
 
 Player::Player(sf::Vector2f pos)
 {
+    t = 1.f;
     flip = 1.f;
     frame = 0.f;
 
     this->pos = pos;
 
     sprite.create("img/player.png", {8, 8});
-
-    animation = std::bind(&Player::animateBump, this);
 }
 
 void Player::move(sf::Vector2f o)
@@ -33,8 +31,7 @@ void Player::move(sf::Vector2f o)
     if (t != 1)
         return;
 
-    pos.x += o.x;
-    pos.y += o.y;
+    pos += o;
 
     offS.x = -o.x * 8;
     offS.y = -o.y * 8;
