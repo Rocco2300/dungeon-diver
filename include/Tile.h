@@ -17,6 +17,7 @@ private:
 public:
     Tile();
 
+    int getID();
     bool isWalkable();
     bool isInteractable();
 

@@ -4,6 +4,11 @@ Tile::Tile()
 {
 }
 
+int Tile::getID()
+{
+    return tileID;
+}
+
 bool Tile::isWalkable()
 {
     return walkable;
