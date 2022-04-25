@@ -82,7 +82,14 @@ void Game::update(sf::Time dt)
                 const auto ID = map(dest).getID();
 
                 map(dest).setInteractable(false);
-                map(dest).setID(ID+1);
+
+                if (ID == 7 || ID == 8)
+                {
+                    map(dest).setID(1);
+                    map(dest).setWalkable(true);
+                }
+                else if (ID == 3 || ID == 5)
+                    map(dest).setID(ID+1);
             }
         }
     }
