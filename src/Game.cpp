@@ -70,8 +70,6 @@ void Game::update(sf::Time dt)
         auto pos = player.getPosition();
         
         sf::Vector2i dest(mov.x + pos.x, mov.y + pos.y);
-        // int idx = (mov.y + pos.y) * 16 + (mov.x + pos.x); 
-        // auto dest = map[idx];
 
         if (map(dest).isWalkable())
             player.move({mov.x, mov.y});

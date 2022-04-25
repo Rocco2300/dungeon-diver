@@ -1,5 +1,6 @@
 #include "Map.h"
 
+#include <algorithm>
 #include <fstream>
 
 Map::Map()
@@ -43,8 +44,16 @@ void Map::loadMap(const char* path)
             Tile tile;
             tile.setTileset(*tileset);
             tile.setID(x);
-            tile.setWalkable((x == 0 || x == 1 || x == 9 || x == 10));
-            tile.setInteractable((x == 3 || x == 5));
+
+            if (std::find(walkableTiles, walkableTiles+2, x) != walkableTiles+2)
+                tile.setWalkable(true);
+            else 
+                tile.setWalkable(false);
+            
+            if (std::find(interactableTiles, interactableTiles+4, x) != interactableTiles+4)
+                tile.setInteractable(true);
+            else
+                tile.setInteractable(false);
 
             tiles.push_back(tile);
         }

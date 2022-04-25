@@ -4,7 +4,10 @@
 
 class Map : public sf::Drawable
 {
-private:    
+private:
+    const int interactableTiles[4] = {3, 5, 7, 8};
+    const int walkableTiles[2] = {0, 1};
+
     sf::Vector2i size;
 
     Tileset* tileset;

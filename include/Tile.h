@@ -2,7 +2,10 @@
 
 #include "Tileset.h"
 
-#include <functional>
+enum TileID
+{
+    
+};
 
 class Tile : public sf::Drawable
 {
