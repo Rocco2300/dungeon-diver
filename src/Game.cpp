@@ -5,6 +5,9 @@
 
 Game::Game()
 {
+    srand(time(NULL));
+    slimeMovTime = sf::seconds(1.f);
+
     clock.restart();
 
     window.create(sf::VideoMode(size * scale, size * scale), "Dungeon Diver");
@@ -60,6 +63,11 @@ void Game::pollEvents()
     }
 }
 
+bool isInBounds(sf::Vector2i dest)
+{
+    return dest.x >= 0 && dest.x <= 16 && dest.y >= 0 && dest.y <= 16;
+}
+
 void Game::update(sf::Time dt)
 {
     if (!moveBuf.empty() && player.notMoving())
@@ -94,7 +102,29 @@ void Game::update(sf::Time dt)
         }
     }
 
+    slimeMovTime -= dt;
+
+    if (slimeMovTime.asSeconds() <= 0.f)
+    {  
+        int randDir;
+        sf::Vector2i dest;
+
+        do 
+        {
+            randDir = rand() % 4;
+            dest.x = dirX[randDir];
+            dest.y = dirY[randDir];
+
+        } while(!map(dest).isWalkable() || !isInBounds(dest));
+
+        if (map(dest).isWalkable())
+            slime.move({dirX[randDir], dirY[randDir]});
+            
+        slimeMovTime = sf::seconds(1.f);
+    }
+    
     player.update(dt);
+    slime.update(dt);
 }
 
 void Game::draw()
@@ -102,6 +132,7 @@ void Game::draw()
     texture.clear();
     texture.draw(map);
     texture.draw(player);
+    texture.draw(slime);
     texture.display();
 
     sf::Sprite spr;

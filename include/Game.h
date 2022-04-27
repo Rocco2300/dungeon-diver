@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Slime.h"
 #include "Player.h"
 #include "Map.h"
 
@@ -25,8 +26,10 @@ private:
 
     sf::Clock clock;
     sf::Time dt;
+    sf::Time slimeMovTime;
 
     Player player;
+    Slime slime;
 
     Map map;
     Tileset tileset;
