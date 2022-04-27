@@ -112,14 +112,14 @@ void Game::update(sf::Time dt)
         do 
         {
             randDir = rand() % 4;
-            dest.x = dirX[randDir];
-            dest.y = dirY[randDir];
+            dest.x = dirX[randDir] + slime.getPosition().x;
+            dest.y = dirY[randDir] + slime.getPosition().y;
 
         } while(!map(dest).isWalkable() || !isInBounds(dest));
 
         if (map(dest).isWalkable())
             slime.move({dirX[randDir], dirY[randDir]});
-            
+
         slimeMovTime = sf::seconds(1.f);
     }
     
