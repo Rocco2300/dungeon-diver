@@ -5,11 +5,19 @@
 
 #include "Entity.h"
 
+class World;
+
 class Player : public Entity
 {
+private:
+    World* world;
+
+    sf::Vector2f nextMove;
 public:
     Player();
+    void init(World& world);
 
+    void onKeyPressed(sf::Keyboard::Key key);
     void update(sf::Time dt);
 };
 
