@@ -12,7 +12,7 @@ class Player : public Entity
 private:
     World* world;
 
-    sf::Vector2f nextMove;
+    std::vector<sf::Vector2f> moves;
 public:
     Player();
     void init(World& world);

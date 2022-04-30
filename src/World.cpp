@@ -15,9 +15,9 @@ void World::create(Tileset& tileset)
     player.init(*this);
 }
 
-bool World::isEmpty(sf::Vector2f pos)
+bool World::isWall(sf::Vector2f pos)
 {
-    return map((int)pos.x, (int)pos.y).isWalkable();
+    return !map((int)pos.x, (int)pos.y).isWalkable();
 }
 
 void World::keyPressed(sf::Keyboard::Key key)

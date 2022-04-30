@@ -18,28 +18,30 @@ void Player::onKeyPressed(sf::Keyboard::Key key)
     switch (key)
     {
     case sf::Keyboard::W:
-        nextMove = sf::Vector2f(0.f, -1.f);
+        moves.push_back(sf::Vector2f(0.f, -1.f));
         break;
     case sf::Keyboard::D:
-        nextMove = sf::Vector2f(1.f, 0.f);
+        moves.push_back(sf::Vector2f(1.f, 0.f));
         break;
     case sf::Keyboard::S:
-        nextMove = sf::Vector2f(0.f, 1.f);
+        moves.push_back(sf::Vector2f(0.f, 1.f));
         break;
     case sf::Keyboard::A:
-        nextMove = sf::Vector2f(-1.f, 0.f);
+        moves.push_back(sf::Vector2f(-1.f, 0.f));
         break;
     default:
-        nextMove = sf::Vector2f(0.f, 0.f);
         break;
     }
 }
 
 void Player::update(sf::Time dt)
 {
-    if (notMoving())
+    if (notMoving() && !moves.empty())
     {
-        if (world->isEmpty(pos + nextMove))
+        auto nextMove = moves.front();
+        moves.erase(moves.begin());
+
+        if (!world->isWall(pos + nextMove))
             move(nextMove);
         else 
             bump(nextMove);
