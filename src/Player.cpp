@@ -41,12 +41,13 @@ void Player::update(sf::Time dt)
         auto nextMove = moves.front();
         moves.erase(moves.begin());
 
-        if (!world->isWall(pos + nextMove))
-            move(nextMove);
-        else 
+        if (world->isOccupied(this, pos + nextMove))
             bump(nextMove);
 
-        nextMove = sf::Vector2f(0.f, 0.f);
+        if (world->isWall(pos + nextMove))
+            bump(nextMove);
+
+        move(nextMove);
     }
 
     Entity::update(dt);
