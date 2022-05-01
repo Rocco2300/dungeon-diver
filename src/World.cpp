@@ -19,10 +19,10 @@ void World::create(Tileset& tileset)
     entities.push_back(&player);
     entities.push_back(&slime);
 
-    moveTime = sf::seconds(1.f);
+    moveTime = sf::seconds(.3f);
 }
 
-bool World::isWall(sf::Vector2f pos)
+bool World::isWall(Entity* caller, sf::Vector2f pos)
 {
     if (pos.x < 0 || pos.x > 16 || pos.y < 0 || pos.y > 16)
         return true;
@@ -47,14 +47,14 @@ void World::keyPressed(sf::Keyboard::Key key)
         player.onKeyPressed(key);
         playerTurn = false;
 
-        moveTime = sf::seconds(1.f);
+        moveTime = sf::seconds(.3f);
     }
 }
 void World::update(sf::Time dt)
 {
     moveTime -= dt;
 
-    if (!playerTurn & moveTime.asSeconds() <= 0)
+    if (!playerTurn && moveTime.asSeconds() <= 0)
     {
         int randDir;
         sf::Vector2f dirOff;
@@ -64,7 +64,7 @@ void World::update(sf::Time dt)
             randDir = rand() % 4;
 
             dirOff = sf::Vector2f(dirX[randDir], dirY[randDir]);
-        } while (isWall(slime.getPosition() + dirOff));
+        } while (isWall(&slime, slime.getPosition() + dirOff));
 
         if (isOccupied(&slime, slime.getPosition() + dirOff))
             slime.bump(dirOff);

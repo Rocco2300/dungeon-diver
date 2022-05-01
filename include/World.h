@@ -24,7 +24,7 @@ public:
     World();
     void create(Tileset& tileset);
 
-    bool isWall(sf::Vector2f pos);
+    bool isWall(Entity* caller, sf::Vector2f pos);
     bool isOccupied(Entity* caller, sf::Vector2f pos);
 
     void keyPressed(sf::Keyboard::Key key);

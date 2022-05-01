@@ -44,7 +44,7 @@ void Player::update(sf::Time dt)
         if (world->isOccupied(this, pos + nextMove))
             bump(nextMove);
 
-        if (world->isWall(pos + nextMove))
+        if (world->isWall(this, pos + nextMove))
             bump(nextMove);
 
         move(nextMove);
