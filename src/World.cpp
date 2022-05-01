@@ -27,7 +27,34 @@ bool World::isWall(Entity* caller, sf::Vector2f pos)
     if (pos.x < 0 || pos.x > 16 || pos.y < 0 || pos.y > 16)
         return true;
 
-    return !map((int)pos.x, (int)pos.y).isWalkable();
+    sf::Vector2i posI((int)pos.x, (int)pos.y);
+
+    auto returnVal = !map(posI).isWalkable();
+
+    if (caller == &player)
+    {
+        if (map(posI).isInteractable())
+        {
+            auto type = map(posI).getTileType();
+
+            if (type == TileType::SmallChest || 
+                type == TileType::LargeChest)
+            {
+                map(posI).setInteractable(false);
+
+                auto ID = map(posI).getID();
+                map(posI).setID(ID+1);
+            }
+            else if (type == TileType::Vase)
+            {
+                map(posI).setInteractable(false);
+                map(posI).setWalkable(true);
+                map(posI).setID(1);
+            }
+        }
+    }
+
+    return returnVal;
 }
 
 bool World::isOccupied(Entity* caller, sf::Vector2f pos)

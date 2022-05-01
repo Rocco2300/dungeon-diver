@@ -55,6 +55,17 @@ void Map::loadMap(const char* path)
             else
                 tile.setInteractable(false);
 
+            if (x == 2)
+                tile.setTileType(TileType::Wall);
+            else if (x == 3)
+                tile.setTileType(TileType::LargeChest);
+            else if (x == 5)
+                tile.setTileType(TileType::SmallChest);
+            else if (x == 7 || x == 8)
+                tile.setTileType(TileType::Vase);
+            else 
+                tile.setTileType(TileType::Deco);
+
             tiles.push_back(tile);
         }
     }
