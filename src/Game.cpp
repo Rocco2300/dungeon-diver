@@ -48,11 +48,6 @@ void Game::pollEvents()
     }
 }
 
-bool isInBounds(sf::Vector2i dest)
-{
-    return dest.x >= 0 && dest.x <= 16 && dest.y >= 0 && dest.y <= 16;
-}
-
 void Game::update(sf::Time dt)
 {
     world.update(dt);

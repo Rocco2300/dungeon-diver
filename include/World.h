@@ -7,9 +7,14 @@
 class World : public sf::Drawable
 {
 private:
+    bool playerTurn;
+
+    sf::Time moveTime;
+
     Map map;
     Tileset* tileset;
 
+    std::vector<Entity*> entities;
     Player player;
     Slime slime;
 public:
