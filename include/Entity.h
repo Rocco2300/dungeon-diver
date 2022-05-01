@@ -11,17 +11,25 @@ protected:
     float t;
     float flip;
     float frame;
+    
+    Tileset sprite;
+    sf::Sprite currFrame;
+
+    std::function<void()> animation;
 
     sf::Vector2f pos;
     sf::Vector2f offS;
     sf::Vector2f off;
 
-    Tileset sprite;
-    sf::Sprite currFrame;
-
-    std::function<void()> animation;
+    int hp;
+    bool dead;
 public:
     Entity();
+
+    int getHp();
+    bool isDead();
+
+    void takeDamage(int damageAmount);
 
     void move(sf::Vector2f o);
     void bump(sf::Vector2f o);

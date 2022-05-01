@@ -24,7 +24,7 @@ void World::create(Tileset& tileset)
 
 bool World::isWall(Entity* caller, sf::Vector2f pos)
 {
-    if (pos.x < 0 || pos.x > 16 || pos.y < 0 || pos.y > 16)
+    if (pos.x < 0 || pos.x > 15 || pos.y < 0 || pos.y > 15)
         return true;
 
     sf::Vector2i posI((int)pos.x, (int)pos.y);
@@ -59,10 +59,17 @@ bool World::isWall(Entity* caller, sf::Vector2f pos)
 
 bool World::isOccupied(Entity* caller, sf::Vector2f pos)
 {
-    for (size_t i = 0; i < entities.size(); i++)
+    for (int i = entities.size()-1; i >= 0; i--)
     {
         if (pos == entities[i]->getPosition())
+        {
+            entities[i]->takeDamage(1);
+
+            if (entities[i]->isDead())
+                entities.erase(entities.begin() + i);
+
             return true;
+        }
     }
     return false;
 }
@@ -101,12 +108,13 @@ void World::update(sf::Time dt)
     }
 
     player.update(dt);
-    slime.update(dt);
+    if (!slime.isDead())
+        slime.update(dt);
 }
 
 void World::draw(sf::RenderTarget& target, sf::RenderStates states) const 
 {
-    target.draw(map);
-    target.draw(slime);
+    target.draw(map, states);
+    target.draw(slime, states);
     target.draw(player, states);
 }

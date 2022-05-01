@@ -4,6 +4,8 @@
 
 Slime::Slime()
 {
+    hp = 1;
+
     sprite.create("img/slime.png", {8, 8});
 }
 

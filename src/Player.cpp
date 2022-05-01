@@ -5,6 +5,8 @@
 
 Player::Player()
 {
+    hp = 5;
+
     sprite.create("img/player.png", {8, 8});
 }
 

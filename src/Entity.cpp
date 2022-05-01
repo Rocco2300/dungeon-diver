@@ -12,6 +12,26 @@ Entity::Entity()
 
     pos.x = 0.f;
     pos.y = 0.f;
+
+    dead = false;
+}
+
+int Entity::getHp()
+{
+    return hp;
+}
+
+bool Entity::isDead()
+{
+    return dead;
+}
+
+void Entity::takeDamage(int damageAmount)
+{
+    hp -= damageAmount;
+
+    if (hp <= 0)
+        dead = true;
 }
 
 void Entity::move(sf::Vector2f o)
@@ -54,6 +74,9 @@ void Entity::bump(sf::Vector2f o)
 
 void Entity::update(sf::Time dt)
 {
+    if (dead)
+        return;
+
     frame += dt.asSeconds() * 5;
 
     sprite.setSpriteIndex((int)std::floor(frame) % 3);
@@ -76,6 +99,9 @@ sf::Vector2f Entity::getPosition()
 
 void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
+    if (dead)
+        return;
+        
     sf::Transform transform;
     transform.translate(pos.x * 8 + off.x, pos.y * 8 + off.y);
     transform.scale({flip, 1.f}, {4.f, 4.f});
