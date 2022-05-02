@@ -17,6 +17,9 @@ void Player::init(World& world)
 
 void Player::onKeyPressed(sf::Keyboard::Key key)
 {
+    if (!world->isPlayerTurn())
+        return;
+
     switch (key)
     {
     case sf::Keyboard::W:
@@ -34,22 +37,23 @@ void Player::onKeyPressed(sf::Keyboard::Key key)
     default:
         break;
     }
+
+    world->endTurn(this);
 }
 
 void Player::update(sf::Time dt)
 {
-    if (notMoving() && !moves.empty())
+    if (notMoving() && !moves.empty() && world->isPlayerTurn())
     {
         auto nextMove = moves.front();
         moves.erase(moves.begin());
 
         if (world->isOccupied(this, pos + nextMove))
             bump(nextMove);
-
-        if (world->isWall(this, pos + nextMove))
+        else if (world->isWall(this, pos + nextMove))
             bump(nextMove);
-
-        move(nextMove);
+        else 
+            move(nextMove);
     }
 
     Entity::update(dt);

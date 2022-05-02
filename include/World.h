@@ -28,7 +28,7 @@ public:
     bool isOccupied(Entity* caller, sf::Vector2f pos);
     bool isPlayerTurn();
 
-    void endTurn();
+    void endTurn(Entity* entity);
 
     void keyPressed(sf::Keyboard::Key key);
 

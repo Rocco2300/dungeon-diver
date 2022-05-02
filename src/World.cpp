@@ -80,22 +80,26 @@ bool World::isPlayerTurn()
     return playerTurn;
 }
 
-void World::endTurn()
+void World::endTurn(Entity* entity)
 {
-    playerTurn = true;
+    if (entity == &player)
+        playerTurn = false;
+    else 
+        playerTurn = true;
 }
 
 void World::keyPressed(sf::Keyboard::Key key)
 {
-    if (playerTurn)
-    {
+    // if (playerTurn)
+    // {
         player.onKeyPressed(key);
 
-        if (!slime.isDead())
-            playerTurn = false;
-        else
-            playerTurn = true;
-    }
+        // if (!slime.isDead())
+        //     playerTurn = false;
+        // else
+        //     playerTurn = true;
+    //     playerTurn = false;
+    // }
 }
 void World::update(sf::Time dt)
 {

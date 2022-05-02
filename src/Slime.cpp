@@ -7,7 +7,7 @@ Slime::Slime()
 {
     hp = 1;
 
-    moveTime = sf::seconds(.3f);
+    moveTime = sf::seconds(.5f);
 
     sprite.create("img/slime.png", {8, 8});
 }
@@ -38,9 +38,9 @@ void Slime::update(sf::Time dt)
         else
             move(dirOff);
         
-        moveTime = sf::seconds(.3f);
+        moveTime = sf::seconds(.5f);
 
-        world->endTurn();
+        world->endTurn(this);
     }
 
     Entity::update(dt);
