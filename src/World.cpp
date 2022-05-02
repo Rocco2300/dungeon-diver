@@ -14,6 +14,7 @@ void World::create(Tileset& tileset)
     map.loadMap("map.txt");
 
     player.init(*this);
+    slime.init(*this);
     slime.move({1.f, 0.f});
 
     entities.push_back(&player);
@@ -74,38 +75,32 @@ bool World::isOccupied(Entity* caller, sf::Vector2f pos)
     return false;
 }
 
+bool World::isPlayerTurn()
+{
+    return playerTurn;
+}
+
+void World::endTurn()
+{
+    playerTurn = true;
+}
+
 void World::keyPressed(sf::Keyboard::Key key)
 {
     if (playerTurn)
     {
         player.onKeyPressed(key);
-        playerTurn = false;
 
-        moveTime = sf::seconds(.3f);
+        if (!slime.isDead())
+            playerTurn = false;
+        else
+            playerTurn = true;
     }
 }
 void World::update(sf::Time dt)
 {
-    moveTime -= dt;
-
-    if (!playerTurn && moveTime.asSeconds() <= 0)
-    {
-        int randDir;
-        sf::Vector2f dirOff;
-
-        do 
-        {
-            randDir = rand() % 4;
-
-            dirOff = sf::Vector2f(dirX[randDir], dirY[randDir]);
-        } while (isWall(&slime, slime.getPosition() + dirOff));
-
-        if (isOccupied(&slime, slime.getPosition() + dirOff))
-            slime.bump(dirOff);
-        else
-            slime.move(dirOff);
+    if (entities.size() < 2)
         playerTurn = true;
-    }
 
     player.update(dt);
     if (!slime.isDead())
