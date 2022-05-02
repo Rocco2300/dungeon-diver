@@ -19,7 +19,8 @@ void Slime::init(World& world)
 
 void Slime::update(sf::Time dt)
 {
-    moveTime -= dt;
+    if (!world->isPlayerTurn())
+        moveTime -= dt;
 
     if (!world->isPlayerTurn() && moveTime.asSeconds() <= 0)
     {

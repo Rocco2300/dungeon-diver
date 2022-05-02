@@ -37,8 +37,6 @@ void Player::onKeyPressed(sf::Keyboard::Key key)
     default:
         break;
     }
-
-    world->endTurn(this);
 }
 
 void Player::update(sf::Time dt)
@@ -54,6 +52,8 @@ void Player::update(sf::Time dt)
             bump(nextMove);
         else 
             move(nextMove);
+        
+        world->endTurn(this);
     }
 
     Entity::update(dt);

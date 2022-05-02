@@ -1,5 +1,7 @@
 #include "World.h"
 
+#include <iostream>
+
 World::World()
 {
 }
@@ -90,16 +92,7 @@ void World::endTurn(Entity* entity)
 
 void World::keyPressed(sf::Keyboard::Key key)
 {
-    // if (playerTurn)
-    // {
-        player.onKeyPressed(key);
-
-        // if (!slime.isDead())
-        //     playerTurn = false;
-        // else
-        //     playerTurn = true;
-    //     playerTurn = false;
-    // }
+    player.onKeyPressed(key);
 }
 void World::update(sf::Time dt)
 {
