@@ -14,7 +14,7 @@ enum TileType
 
 class Tile : public sf::Drawable
 {
-private:
+protected:
     Tileset* tileset;
 
     TileType tileType;

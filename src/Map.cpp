@@ -10,13 +10,13 @@ Map::Map()
 Tile& Map::operator()(int x, int y)
 {
     auto idx = y * size.x + x;
-    return tiles[idx];
+    return *tiles[idx];
 }
 
 Tile& Map::operator()(sf::Vector2i pos)
 {
     auto idx = pos.y * size.x + pos.x;
-    return tiles[idx];
+    return *tiles[idx];
 }
 
 void Map::setSize(sf::Vector2i size)
@@ -41,30 +41,33 @@ void Map::loadMap(const char* path)
         {
             in >> x;
 
-            Tile tile;
-            tile.setTileset(*tileset);
-            tile.setID(x);
+            Tile* tile;
+            if (x == 7 || x == 8)
+                tile = new PotTile();
+            else
+                tile = new Tile();
+            
+            tile->setTileset(*tileset);
+            tile->setID(x);
 
             if (std::find(walkableTiles, walkableTiles+2, x) != walkableTiles+2)
-                tile.setWalkable(true);
+                tile->setWalkable(true);
             else 
-                tile.setWalkable(false);
+                tile->setWalkable(false);
             
             if (std::find(interactableTiles, interactableTiles+4, x) != interactableTiles+4)
-                tile.setInteractable(true);
+                tile->setInteractable(true);
             else
-                tile.setInteractable(false);
+                tile->setInteractable(false);
 
             if (x == 2)
-                tile.setTileType(TileType::Wall);
+                tile->setTileType(TileType::Wall);
             else if (x == 3)
-                tile.setTileType(TileType::LargeChest);
+                tile->setTileType(TileType::LargeChest);
             else if (x == 5)
-                tile.setTileType(TileType::SmallChest);
-            else if (x == 7 || x == 8)
-                tile.setTileType(TileType::Vase);
+                tile->setTileType(TileType::SmallChest);
             else 
-                tile.setTileType(TileType::Deco);
+                tile->setTileType(TileType::Deco);
 
             tiles.push_back(tile);
         }
@@ -85,7 +88,7 @@ void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
         sf::RenderStates states;
         states.transform = transform;
 
-        target.draw(tiles[i], states);
+        target.draw(*tiles[i], states);
     }
 
 }

@@ -48,11 +48,11 @@ bool World::isWall(Entity* caller, sf::Vector2f pos)
                 auto ID = map(posI).getID();
                 map(posI).setID(ID+1);
             }
-            else if (type == TileType::Vase)
+            
+            auto t = dynamic_cast<InteractableTile*>(&map(posI));
+            if (t != nullptr)
             {
-                map(posI).setInteractable(false);
-                map(posI).setWalkable(true);
-                map(posI).setID(1);
+                t->onInteract();
             }
         }
     }

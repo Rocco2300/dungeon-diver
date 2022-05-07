@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Tile.h"
+#include "PotTile.h"
 
 class Map : public sf::Drawable
 {
@@ -12,7 +13,7 @@ private:
 
     Tileset* tileset;
 
-    std::vector<Tile> tiles;
+    std::vector<Tile*> tiles;
 public:
     Map();
     void create(sf::Vector2i size);
