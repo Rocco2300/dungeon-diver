@@ -2,6 +2,8 @@
 
 class InteractableTile
 {
+protected:
+    bool interactable = true;
 public:
     InteractableTile();
     virtual ~InteractableTile() { }

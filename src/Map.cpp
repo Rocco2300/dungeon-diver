@@ -44,6 +44,8 @@ void Map::loadMap(const char* path)
             Tile* tile;
             if (x == 7 || x == 8)
                 tile = new PotTile();
+            else if (x == 3 || x == 5)
+                tile = new ChestTile();
             else
                 tile = new Tile();
             
@@ -55,19 +57,14 @@ void Map::loadMap(const char* path)
             else 
                 tile->setWalkable(false);
             
-            if (std::find(interactableTiles, interactableTiles+4, x) != interactableTiles+4)
-                tile->setInteractable(true);
-            else
-                tile->setInteractable(false);
-
-            if (x == 2)
-                tile->setTileType(TileType::Wall);
-            else if (x == 3)
-                tile->setTileType(TileType::LargeChest);
-            else if (x == 5)
-                tile->setTileType(TileType::SmallChest);
-            else 
-                tile->setTileType(TileType::Deco);
+            // if (x == 2)
+            //     tile->setTileType(TileType::Wall);
+            // else if (x == 3)
+            //     tile->setTileType(TileType::LargeChest);
+            // else if (x == 5)
+            //     tile->setTileType(TileType::SmallChest);
+            // else 
+            //     tile->setTileType(TileType::Deco);
 
             tiles.push_back(tile);
         }

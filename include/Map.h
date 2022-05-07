@@ -2,6 +2,7 @@
 
 #include "Tile.h"
 #include "PotTile.h"
+#include "ChestTile.h"
 
 class Map : public sf::Drawable
 {

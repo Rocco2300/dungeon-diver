@@ -36,24 +36,11 @@ bool World::isWall(Entity* caller, sf::Vector2f pos)
 
     if (caller == &player)
     {
-        if (map(posI).isInteractable())
+        auto t = dynamic_cast<InteractableTile*>(&map(posI));
+
+        if (t != nullptr)
         {
-            auto type = map(posI).getTileType();
-
-            if (type == TileType::SmallChest || 
-                type == TileType::LargeChest)
-            {
-                map(posI).setInteractable(false);
-
-                auto ID = map(posI).getID();
-                map(posI).setID(ID+1);
-            }
-            
-            auto t = dynamic_cast<InteractableTile*>(&map(posI));
-            if (t != nullptr)
-            {
-                t->onInteract();
-            }
+            t->onInteract();
         }
     }
 
