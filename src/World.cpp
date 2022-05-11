@@ -17,7 +17,7 @@ void World::create(Tileset& tileset)
 
     player.init(*this);
     slime.init(*this);
-    slime.move({1.f, 0.f});
+    slime.setPosition({3.f, 1.f});
 
     entities.push_back(&player);
     entities.push_back(&slime);

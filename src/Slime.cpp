@@ -2,6 +2,7 @@
 
 #include "World.h"
 #include <random>
+#include <iostream>
 
 Slime::Slime()
 {
@@ -59,11 +60,25 @@ bool Slime::playerLos()
     float dx = playerPos.x - pos.x;
     float dy = playerPos.y - pos.y;
 
-    for (auto x = pos.x; x <= playerPos.x; x += 1.f)
+    if (pos.x < playerPos.x)
     {
-        float y = pos.y + dy * (x - pos.x) / dx;
+        for (auto x = pos.x; x <= playerPos.x; x += 1.f)
+        {
+            // std::cout << "Here" << "\n";
+            float y = pos.y + dy * (x - pos.x) / dx;
 
-        world->map(x, y).setID(2);
+            world->map(x, y).setID(1);
+        }
+    }
+    else
+    {
+        for (auto x = pos.x; x >= playerPos.x; x -= 1.f)
+        {
+            // std::cout << "Here" << "\n";
+            float y = pos.y + dy * (x - pos.x) / dx;
+
+            world->map(x, y).setID(1);
+        }
     }
 
     return true;

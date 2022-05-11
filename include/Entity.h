@@ -30,6 +30,7 @@ public:
     bool isDead();
 
     void takeDamage(int damageAmount);
+    void setPosition(sf::Vector2f pos);
 
     void move(sf::Vector2f o);
     void bump(sf::Vector2f o);

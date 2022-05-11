@@ -34,6 +34,11 @@ void Entity::takeDamage(int damageAmount)
         dead = true;
 }
 
+void Entity::setPosition(sf::Vector2f pos)
+{
+    this->pos = pos;
+}
+
 void Entity::move(sf::Vector2f o)
 {
     if (t != 1)
