@@ -60,25 +60,25 @@ bool Slime::playerLos()
     float dx = playerPos.x - pos.x;
     float dy = playerPos.y - pos.y;
 
-    if (pos.x < playerPos.x)
-    {
-        for (auto x = pos.x; x <= playerPos.x; x += 1.f)
-        {
-            // std::cout << "Here" << "\n";
-            float y = pos.y + dy * (x - pos.x) / dx;
-
-            world->map(x, y).setID(1);
-        }
-    }
+    float step;
+    if (std::abs(dx) >= std::abs(dy))
+        step = std::abs(dx);
     else
-    {
-        for (auto x = pos.x; x >= playerPos.x; x -= 1.f)
-        {
-            // std::cout << "Here" << "\n";
-            float y = pos.y + dy * (x - pos.x) / dx;
+        step = std::abs(dy);
 
-            world->map(x, y).setID(1);
-        }
+    dx /= step;
+    dy /= step;
+
+    float x = pos.x;
+    float y = pos.y;
+
+    int i = 1;
+    while (i <= step)
+    {
+        world->map(x, y).setID(1);
+        x += dx;
+        y += dy;
+        i ++;
     }
 
     return true;
