@@ -4,6 +4,8 @@
 #include "PotTile.h"
 #include "ChestTile.h"
 
+#include <memory>
+
 class Map : public sf::Drawable
 {
 private:
@@ -14,7 +16,7 @@ private:
 
     Tileset* tileset;
 
-    std::vector<Tile*> tiles;
+    std::vector<std::unique_ptr<Tile>> tiles;
 public:
     Map();
     void create(sf::Vector2i size);

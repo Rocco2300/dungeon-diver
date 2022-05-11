@@ -10,13 +10,13 @@ Map::Map()
 Tile& Map::operator()(int x, int y)
 {
     auto idx = y * size.x + x;
-    return *tiles[idx];
+    return *tiles[idx].get();
 }
 
 Tile& Map::operator()(sf::Vector2i pos)
 {
     auto idx = pos.y * size.x + pos.x;
-    return *tiles[idx];
+    return *tiles[idx].get();
 }
 
 void Map::setSize(sf::Vector2i size)
@@ -41,13 +41,13 @@ void Map::loadMap(const char* path)
         {
             in >> x;
 
-            Tile* tile;
+            std::unique_ptr<Tile> tile;
             if (x == 7 || x == 8)
-                tile = new PotTile();
+                tile = std::make_unique<PotTile>();
             else if (x == 3 || x == 5)
-                tile = new ChestTile();
+                tile = std::make_unique<ChestTile>();
             else
-                tile = new Tile();
+                tile = std::make_unique<Tile>();
             
             tile->setTileset(*tileset);
             tile->setID(x);
@@ -56,17 +56,8 @@ void Map::loadMap(const char* path)
                 tile->setWalkable(true);
             else 
                 tile->setWalkable(false);
-            
-            // if (x == 2)
-            //     tile->setTileType(TileType::Wall);
-            // else if (x == 3)
-            //     tile->setTileType(TileType::LargeChest);
-            // else if (x == 5)
-            //     tile->setTileType(TileType::SmallChest);
-            // else 
-            //     tile->setTileType(TileType::Deco);
 
-            tiles.push_back(tile);
+            tiles.push_back(std::move(tile));
         }
     }
 
@@ -85,7 +76,7 @@ void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
         sf::RenderStates states;
         states.transform = transform;
 
-        target.draw(*tiles[i], states);
+        target.draw(*tiles[i].get(), states);
     }
 
 }

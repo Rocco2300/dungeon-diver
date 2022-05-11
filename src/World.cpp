@@ -13,11 +13,11 @@ void World::create(Tileset& tileset)
 
     map.setSize({16, 16});
     map.setTileset(*this->tileset);
-    map.loadMap("map1.txt");
+    map.loadMap("map.txt");
 
     player.init(*this);
     slime.init(*this);
-    slime.setPosition({3.f, 10.f});
+    slime.setPosition({1.f, 0.f});
 
     entities.push_back(&player);
     entities.push_back(&slime);
@@ -53,6 +53,11 @@ bool World::isOccupied(Entity* caller, sf::Vector2f pos)
     {
         if (pos == entities[i]->getPosition())
         {
+            // If we use this function in another context
+            // ouside of entity interaction don't damage entities
+            if (caller == nullptr)
+                return true;
+
             entities[i]->takeDamage(1);
 
             if (entities[i]->isDead())

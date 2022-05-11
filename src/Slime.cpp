@@ -27,6 +27,8 @@ void Slime::update(sf::Time dt)
 
     if (!world->isPlayerTurn() && moveTime.asSeconds() <= 0)
     {
+        std::cout << x << std::endl;
+
         int randDir;
         sf::Vector2f dirOff;
 
@@ -50,9 +52,6 @@ void Slime::update(sf::Time dt)
     Entity::update(dt);
 }
 
-// Naive line drawing
-// Where x1, y1 is the slime pos
-// and x2 y2 is the player pos
 bool Slime::playerLos()
 {
     auto playerPos = world->getPlayerPos();
@@ -74,8 +73,10 @@ bool Slime::playerLos()
 
     int i = 1;
     while (i <= step)
-    {
-        world->map(x, y).setID(1);
+    {   
+        if (world->isWall(nullptr, {x, y}))
+            return false;
+
         x += dx;
         y += dy;
         i ++;
