@@ -19,6 +19,8 @@ void Slime::init(World& world)
 
 void Slime::update(sf::Time dt)
 {
+    bool x = playerLos();
+
     if (!world->isPlayerTurn())
         moveTime -= dt;
 
@@ -45,4 +47,24 @@ void Slime::update(sf::Time dt)
     }
 
     Entity::update(dt);
+}
+
+// Naive line drawing
+// Where x1, y1 is the slime pos
+// and x2 y2 is the player pos
+bool Slime::playerLos()
+{
+    auto playerPos = world->getPlayerPos();
+
+    float dx = playerPos.x - pos.x;
+    float dy = playerPos.y - pos.y;
+
+    for (auto x = pos.x; x <= playerPos.x; x += 1.f)
+    {
+        float y = pos.y + dy * (x - pos.x) / dx;
+
+        world->map(x, y).setID(2);
+    }
+
+    return true;
 }

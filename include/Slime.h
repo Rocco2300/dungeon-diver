@@ -15,5 +15,7 @@ public:
     void init(World& world);
 
     void update(sf::Time dt);
+private:
+    bool playerLos();
 };
 

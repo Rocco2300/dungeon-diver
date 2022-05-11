@@ -69,6 +69,11 @@ bool World::isPlayerTurn()
     return playerTurn;
 }
 
+sf::Vector2f World::getPlayerPos()
+{
+    return player.getPosition();
+}
+
 void World::endTurn(Entity* entity)
 {
     if (entity == &player)

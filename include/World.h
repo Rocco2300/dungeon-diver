@@ -11,13 +11,14 @@ private:
 
     sf::Time moveTime;
 
-    Map map;
     Tileset* tileset;
 
     std::vector<Entity*> entities;
     Player player;
     Slime slime;
 public:
+    Map map;
+
     float dirX[4] = {0.f, 1.f, 0.f, -1.f};
     float dirY[4] = {-1.f, 0.f, 1.f, 0.f};
 public:
@@ -27,6 +28,7 @@ public:
     bool isWall(Entity* caller, sf::Vector2f pos);
     bool isOccupied(Entity* caller, sf::Vector2f pos);
     bool isPlayerTurn();
+    sf::Vector2f getPlayerPos();
 
     void endTurn(Entity* entity);
 
