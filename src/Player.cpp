@@ -10,11 +10,6 @@ Player::Player()
     sprite.create("img/player.png", {8, 8});
 }
 
-void Player::init(World& world)
-{
-    this->world = &world;
-}
-
 void Player::onKeyPressed(sf::Keyboard::Key key)
 {
     if (!world->isPlayerTurn())

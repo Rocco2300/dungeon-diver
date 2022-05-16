@@ -5,9 +5,13 @@
 
 #include "Tileset.h"
 
+class World;
+
 class Entity : public sf::Drawable
 {
 protected:
+    World* world;
+
     float t;
     float flip;
     float frame;
@@ -24,7 +28,8 @@ protected:
     int hp;
     bool dead;
 public:
-    Entity();
+    Entity();   
+    void init(World& world);
 
     int getHp();
     bool isDead();

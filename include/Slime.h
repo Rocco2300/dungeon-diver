@@ -1,21 +1,14 @@
 #pragma once
 
-#include "Entity.h"
+#include "Enemy.h"
 
 class World;
 
-class Slime : public Entity
+class Slime : public Enemy
 {
-private:
-    World* world;
-
-    sf::Time moveTime;
 public:
     Slime();
-    void init(World& world);
 
     void update(sf::Time dt);
-private:
-    bool playerLos();
 };
 

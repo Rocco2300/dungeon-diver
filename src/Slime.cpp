@@ -13,11 +13,6 @@ Slime::Slime()
     sprite.create("img/slime.png", {8, 8});
 }
 
-void Slime::init(World& world)
-{
-    this->world = &world;
-}
-
 void Slime::update(sf::Time dt)
 {
     bool x = playerLos();
@@ -50,37 +45,4 @@ void Slime::update(sf::Time dt)
     }
 
     Entity::update(dt);
-}
-
-bool Slime::playerLos()
-{
-    auto playerPos = world->getPlayerPos();
-
-    float dx = playerPos.x - pos.x;
-    float dy = playerPos.y - pos.y;
-
-    float step;
-    if (std::abs(dx) >= std::abs(dy))
-        step = std::abs(dx);
-    else
-        step = std::abs(dy);
-
-    dx /= step;
-    dy /= step;
-
-    float x = pos.x;
-    float y = pos.y;
-
-    int i = 1;
-    while (i <= step)
-    {   
-        if (world->isWall(nullptr, {x, y}))
-            return false;
-
-        x += dx;
-        y += dy;
-        i ++;
-    }
-
-    return true;
 }

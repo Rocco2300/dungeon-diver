@@ -4,6 +4,8 @@
 #include <iostream>
 #include <cmath>
 
+#include "World.h"
+
 Entity::Entity()
 {
     t = 1.f;
@@ -14,6 +16,11 @@ Entity::Entity()
     pos.y = 0.f;
 
     dead = false;
+}
+
+void Entity::init(World& world)
+{
+    this->world = &world;
 }
 
 int Entity::getHp()
