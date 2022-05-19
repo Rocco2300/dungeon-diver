@@ -1,6 +1,8 @@
 #include "Slime.h"
 
 #include "World.h"
+#include "Constants.h"
+
 #include <random>
 #include <iostream>
 
@@ -31,7 +33,7 @@ void Slime::update(sf::Time dt)
         {
             randDir = rand() % 4;
 
-            dirOff = sf::Vector2f(world->dirX[randDir], world->dirY[randDir]);
+            dirOff = sf::Vector2f(dirX[randDir], dirY[randDir]);
         } while (world->isWall(this, pos + dirOff));
 
         if (world->isOccupied(this, pos + dirOff))

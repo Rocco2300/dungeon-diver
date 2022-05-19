@@ -17,11 +17,7 @@ private:
     bool playerTurn;
 
     sf::Time moveTime;
-    
-public:
 
-    float dirX[4] = {0.f, 1.f, 0.f, -1.f};
-    float dirY[4] = {-1.f, 0.f, 1.f, 0.f};
 public:
     World();
     void create(Tileset& tileset);
