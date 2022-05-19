@@ -17,6 +17,7 @@ private:
     Tileset* tileset;
 
     std::vector<std::unique_ptr<Tile>> tiles;
+    // std::vector<
 public:
     Map();
     void create(sf::Vector2i size);
