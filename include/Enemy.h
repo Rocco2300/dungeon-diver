@@ -40,6 +40,7 @@ protected:
 
 public:
     int heuristic(sf::Vector2i curr, sf::Vector2i end);
+    sf::Vector2i getLowestScore();
     void aStar();
     void reconstructPath();
 };
