@@ -2,11 +2,12 @@
 
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 #include "Entity.h"
 
 class World;
 
-struct MyHash
+struct VectorHash
 {
     size_t operator()(const sf::Vector2i& op) const
     {
@@ -20,7 +21,13 @@ struct MyHash
 class Enemy : public Entity
 {
 protected:
-    std::unordered_map<sf::Vector2i, int, MyHash> gScore;
+    std::unordered_set<sf::Vector2i, VectorHash> openSet;
+    std::unordered_set<sf::Vector2i, VectorHash> closedSet;
+
+    std::unordered_map<sf::Vector2i, int, VectorHash> fScore;
+    std::unordered_map<sf::Vector2i, int, VectorHash> gScore;
+    std::unordered_map<sf::Vector2i, int, VectorHash> hScore;
+
     sf::Time moveTime;
 
 public:

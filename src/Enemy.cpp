@@ -30,8 +30,8 @@ bool Enemy::playerLos()
     dx /= step;
     dy /= step;
 
-    float x = pos.x;
-    float y = pos.y;
+    int x = pos.x;
+    int y = pos.y;
 
     int i = 1;
     while (i <= step)
