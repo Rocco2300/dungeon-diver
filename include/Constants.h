@@ -1,4 +1,4 @@
 #pragma once
 
-inline float dirX[4] = {0.f, 1.f, 0.f, -1.f};
-inline float dirY[4] = {-1.f, 0.f, 1.f, 0.f};
+inline int dirX[4] = {0, 1, 0, -1};
+inline int dirY[4] = {-1, 0, 1, 0};
