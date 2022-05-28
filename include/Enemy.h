@@ -16,5 +16,10 @@ public:
 
 protected:
     bool playerLos();
+
+public:
+    int heuristic(sf::Vector2f curr, sf::Vector2f end);
+    void aStar();
+    void reconstructPath();
 };
 

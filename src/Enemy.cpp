@@ -1,9 +1,18 @@
 #include "Enemy.h"
 
+#include <cmath>
 #include "World.h"
+#include "Constants.h"
 
 Enemy::Enemy()
 {
+}
+
+int Enemy::heuristic(sf::Vector2f curr, sf::Vector2f end)
+{
+    int a = curr.x - end.x;
+    int b = curr.y - end.y;
+    return std::abs(a) + std::abs(b);
 }
 
 bool Enemy::playerLos()
