@@ -24,15 +24,7 @@ void Slime::update(sf::Time dt)
     {
         if (playerLos())
         {
-            auto path = aStar();
-            for (int i = 0; i < 16; i++)
-            {
-                for (int j = 0; j < 16; j++)
-                {
-                    if (world->map(i, j).getID() == 1)
-                        world->map(i, j).setID(0);
-                }
-            }
+            auto path = aStar(this->pos, world->getPlayerPos());
 
             for (int i = 0; i < path.size(); i++)
             {

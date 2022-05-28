@@ -43,6 +43,6 @@ public:
     int distance(sf::Vector2i curr, sf::Vector2i end);
     sf::Vector2i getLowestScore(TileHashSet& openSet, ScoreHashMap& fScore);
     Path reconstructPath(PathHashMap cameFrom, sf::Vector2i current);
-    Path aStar();
+    Path aStar(sf::Vector2i start, sf::Vector2i end);
 };
 

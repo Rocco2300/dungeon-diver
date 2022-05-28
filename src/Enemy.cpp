@@ -35,7 +35,6 @@ sf::Vector2i Enemy::getLowestScore(TileHashSet& openSet, ScoreHashMap& fScore)
 Enemy::Path Enemy::reconstructPath(PathHashMap cameFrom, sf::Vector2i current)
 {
     Path totalPath;
-    // std::cout << current.x << " " << current.y << std::endl;
 
     while (cameFrom.find(current) != cameFrom.end())
     {
@@ -46,29 +45,25 @@ Enemy::Path Enemy::reconstructPath(PathHashMap cameFrom, sf::Vector2i current)
     return totalPath;
 }
 
-Enemy::Path Enemy::aStar()
+Enemy::Path Enemy::aStar(sf::Vector2i start, sf::Vector2i end)
 {
     TileHashSet openSet;
-    openSet.insert(this->pos);
+    openSet.insert(start);
 
     PathHashMap cameFrom;
 
     ScoreHashMap fScore;
     ScoreHashMap gScore;
 
-    gScore[this->pos] = 0;
-    fScore[this->pos] = distance(this->pos, world->getPlayerPos());
+    gScore[start] = 0;
+    fScore[start] = distance(this->pos, world->getPlayerPos());
 
     while (!openSet.empty())
     {
         auto current = getLowestScore(openSet, fScore);
-        std::cout << current.x << " " << current.y << " \n";
 
-        if (current == world->getPlayerPos())
-        {
-            std::cout << "huawa" << "\n";
+        if (current == end)
             return reconstructPath(cameFrom, current);
-        }
 
         openSet.erase(current);
 
@@ -83,18 +78,7 @@ Enemy::Path Enemy::aStar()
 
             auto tentGScore = gScore[current] + 1;
             auto found = gScore.find(neighbour) != gScore.end();
-            if (found && tentGScore < gScore[neighbour])
-            {
-                cameFrom[neighbour] = current;
-                gScore[neighbour] = tentGScore;
-                fScore[neighbour] = tentGScore + distance(neighbour, world->getPlayerPos());
-
-                if (openSet.find(neighbour) == openSet.end())
-                {
-                    openSet.insert(neighbour);
-                }
-            }
-            else if (!found)
+            if ((found && tentGScore < gScore[neighbour]) || !found)
             {
                 cameFrom[neighbour] = current;
                 gScore[neighbour] = tentGScore;
