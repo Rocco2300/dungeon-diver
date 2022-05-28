@@ -1,6 +1,5 @@
 #include "Enemy.h"
 
-#include <cmath>
 #include "World.h"
 #include "Constants.h"
 
@@ -8,7 +7,7 @@ Enemy::Enemy()
 {
 }
 
-int Enemy::heuristic(sf::Vector2f curr, sf::Vector2f end)
+int Enemy::heuristic(sf::Vector2i curr, sf::Vector2i end)
 {
     int a = curr.x - end.x;
     int b = curr.y - end.y;
