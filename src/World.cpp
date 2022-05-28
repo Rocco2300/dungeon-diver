@@ -15,15 +15,6 @@ void World::create(Tileset& tileset)
     map.setTileset(*this->tileset);
     map.loadMap("map.txt");
 
-    for (int i = 0; i < 16; i++)
-    {
-        for (int j = 0; j < 16; j++)
-        {
-            if (map(i, j).getID() == 1)
-                map(i, j).setID(0);
-        }
-    }
-
     player.init(*this);
     slime.init(*this);
     slime.setPosition({7, 7});
@@ -100,8 +91,7 @@ void World::endTurn(Entity* entity)
         {
             for (int j = 0; j < 16; j++)
             {
-                if (map(i, j).getID() == 1)
-                    map(i, j).setID(0);
+                map(i, j).setDebug(false);
             }
         }
     }

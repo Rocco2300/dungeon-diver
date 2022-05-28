@@ -22,8 +22,8 @@ protected:
     std::function<void()> animation;
 
     sf::Vector2i pos;
-    sf::Vector2i offS;
-    sf::Vector2i off;
+    sf::Vector2f offS;
+    sf::Vector2f off;
 
     int hp;
     bool dead;

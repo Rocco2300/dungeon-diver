@@ -22,31 +22,36 @@ void Slime::update(sf::Time dt)
 
     if (!world->isPlayerTurn() && moveTime.asSeconds() <= 0)
     {
+        Path path;
+        auto playerPos = world->getPlayerPos();
+
         if (playerLos())
         {
-            auto path = aStar(this->pos, world->getPlayerPos());
+            path = aStar(this->pos, playerPos);
 
-            for (int i = 0; i < path.size(); i++)
-            {
-                world->map(path[i]).setID(1);
-            }
+            // @Debugging
+            // for (int i = 0; i < path.size(); i++)
+            // {
+            //     world->map(path[i]).setDebug(true);
+            //     world->map(path[i]).setDebugRect(sf::Color::Green, 120);
+            // }
         }
 
-        int randDir;
-        sf::Vector2i dirOff;
-
-        do 
+        if (!path.empty() && distance(this->pos, playerPos) > 1)
         {
-            randDir = rand() % 4;
+            auto nextPos = path.front();
+            auto dirOff = sf::Vector2i(nextPos - this->pos);
+            path.erase(path.begin());
 
-            dirOff = sf::Vector2i(dirX[randDir], dirY[randDir]);
-        } while (world->isWall(this, pos + dirOff));
-
-        if (world->isOccupied(this, pos + dirOff))
-            bump(dirOff);
-        else
             move(dirOff);
-        
+        }
+        else if (distance(this->pos, world->getPlayerPos()) == 1)
+        {
+            auto dirOff = sf::Vector2i(playerPos - this->pos);
+
+            bump(dirOff);
+        }
+
         moveTime = sf::seconds(.5f);
 
         world->endTurn(this);

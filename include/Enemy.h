@@ -26,7 +26,6 @@ private:
     using ScoreHashMap = std::unordered_map<sf::Vector2i, int, VectorHash>;
     using TileHashSet = std::unordered_set<sf::Vector2i, VectorHash>; 
     using PathHashMap = std::unordered_map<sf::Vector2i, sf::Vector2i, VectorHash>;
-    using Path = std::vector<sf::Vector2i>;
 
 protected:
     sf::Time moveTime;
@@ -37,9 +36,9 @@ public:
     virtual ~Enemy() = default;
 
 protected:
-    bool playerLos();
+    using Path = std::vector<sf::Vector2i>;
 
-public:
+    bool playerLos();
     int distance(sf::Vector2i curr, sf::Vector2i end);
     sf::Vector2i getLowestScore(TileHashSet& openSet, ScoreHashMap& fScore);
     Path reconstructPath(PathHashMap cameFrom, sf::Vector2i current);

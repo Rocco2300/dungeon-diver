@@ -35,6 +35,7 @@ sf::Vector2i Enemy::getLowestScore(TileHashSet& openSet, ScoreHashMap& fScore)
 Enemy::Path Enemy::reconstructPath(PathHashMap cameFrom, sf::Vector2i current)
 {
     Path totalPath;
+    // totalPath.push_back(current);
 
     while (cameFrom.find(current) != cameFrom.end())
     {
@@ -42,6 +43,7 @@ Enemy::Path Enemy::reconstructPath(PathHashMap cameFrom, sf::Vector2i current)
         totalPath.push_back(current);
     }
 
+    // totalPath.erase(totalPath.begin());
     return totalPath;
 }
 
