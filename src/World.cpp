@@ -17,7 +17,7 @@ void World::create(Tileset& tileset)
 
     player.init(*this);
     slime.init(*this);
-    slime.setPosition({7.f, 7.f});
+    slime.setPosition({7, 7});
 
     entities.push_back(&player);
     entities.push_back(&slime);
@@ -25,12 +25,12 @@ void World::create(Tileset& tileset)
     moveTime = sf::seconds(.3f);
 }
 
-bool World::isWall(Entity* caller, sf::Vector2f pos)
+bool World::isWall(Entity* caller, sf::Vector2i pos)
 {
     if (pos.x < 0 || pos.x > 15 || pos.y < 0 || pos.y > 15)
         return true;
 
-    sf::Vector2i posI((int)pos.x, (int)pos.y);
+    sf::Vector2i posI(pos.x, pos.y);
 
     auto returnVal = !map(posI).isWalkable();
 
@@ -47,7 +47,7 @@ bool World::isWall(Entity* caller, sf::Vector2f pos)
     return returnVal;
 }
 
-bool World::isOccupied(Entity* caller, sf::Vector2f pos)
+bool World::isOccupied(Entity* caller, sf::Vector2i pos)
 {
     for (int i = entities.size()-1; i >= 0; i--)
     {
@@ -74,7 +74,7 @@ bool World::isPlayerTurn()
     return playerTurn;
 }
 
-sf::Vector2f World::getPlayerPos()
+sf::Vector2i World::getPlayerPos()
 {
     return player.getPosition();
 }

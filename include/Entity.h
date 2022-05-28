@@ -21,9 +21,9 @@ protected:
 
     std::function<void()> animation;
 
-    sf::Vector2f pos;
-    sf::Vector2f offS;
-    sf::Vector2f off;
+    sf::Vector2i pos;
+    sf::Vector2i offS;
+    sf::Vector2i off;
 
     int hp;
     bool dead;
@@ -35,13 +35,13 @@ public:
     bool isDead();
 
     void takeDamage(int damageAmount);
-    void setPosition(sf::Vector2f pos);
+    void setPosition(sf::Vector2i pos);
 
-    void move(sf::Vector2f o);
-    void bump(sf::Vector2f o);
+    void move(sf::Vector2i o);
+    void bump(sf::Vector2i o);
 
     bool notMoving();
-    sf::Vector2f getPosition();
+    sf::Vector2i getPosition();
 
     void update(sf::Time dt);
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;

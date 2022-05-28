@@ -27,13 +27,13 @@ void Slime::update(sf::Time dt)
         std::cout << x << std::endl;
 
         int randDir;
-        sf::Vector2f dirOff;
+        sf::Vector2i dirOff;
 
         do 
         {
             randDir = rand() % 4;
 
-            dirOff = sf::Vector2f(dirX[randDir], dirY[randDir]);
+            dirOff = sf::Vector2i(dirX[randDir], dirY[randDir]);
         } while (world->isWall(this, pos + dirOff));
 
         if (world->isOccupied(this, pos + dirOff))

@@ -22,10 +22,10 @@ public:
     World();
     void create(Tileset& tileset);
 
-    bool isWall(Entity* caller, sf::Vector2f pos);
-    bool isOccupied(Entity* caller, sf::Vector2f pos);
+    bool isWall(Entity* caller, sf::Vector2i pos);
+    bool isOccupied(Entity* caller, sf::Vector2i pos);
     bool isPlayerTurn();
-    sf::Vector2f getPlayerPos();
+    sf::Vector2i getPlayerPos();
 
     void endTurn(Entity* entity);
 

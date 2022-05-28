@@ -18,16 +18,16 @@ void Player::onKeyPressed(sf::Keyboard::Key key)
     switch (key)
     {
     case sf::Keyboard::W:
-        moves.push_back(sf::Vector2f(0.f, -1.f));
+        moves.push_back(sf::Vector2i(0, -1));
         break;
     case sf::Keyboard::D:
-        moves.push_back(sf::Vector2f(1.f, 0.f));
+        moves.push_back(sf::Vector2i(1, 0));
         break;
     case sf::Keyboard::S:
-        moves.push_back(sf::Vector2f(0.f, 1.f));
+        moves.push_back(sf::Vector2i(0, 1));
         break;
     case sf::Keyboard::A:
-        moves.push_back(sf::Vector2f(-1.f, 0.f));
+        moves.push_back(sf::Vector2i(-1, 0));
         break;
     default:
         break;

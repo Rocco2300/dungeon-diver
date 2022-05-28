@@ -8,7 +8,7 @@
 class Player : public Entity
 {
 private:
-    std::vector<sf::Vector2f> moves;
+    std::vector<sf::Vector2i> moves;
 
 public:
     Player();

@@ -41,12 +41,12 @@ void Entity::takeDamage(int damageAmount)
         dead = true;
 }
 
-void Entity::setPosition(sf::Vector2f pos)
+void Entity::setPosition(sf::Vector2i pos)
 {
     this->pos = pos;
 }
 
-void Entity::move(sf::Vector2f o)
+void Entity::move(sf::Vector2i o)
 {
     if (t != 1)
         return;
@@ -66,7 +66,7 @@ void Entity::move(sf::Vector2f o)
     animation = std::bind(&Entity::animateMove, this);
 }
 
-void Entity::bump(sf::Vector2f o)
+void Entity::bump(sf::Vector2i o)
 {
     if (t != 1)
         return;
@@ -104,7 +104,7 @@ bool Entity::notMoving()
     return (t == 1);
 }
 
-sf::Vector2f Entity::getPosition()
+sf::Vector2i Entity::getPosition()
 {
     return pos;
 }
