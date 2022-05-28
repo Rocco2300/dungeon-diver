@@ -50,7 +50,7 @@ void Map::loadMap(const char* path)
                 tile = std::make_unique<Tile>();
             
             tile->setTileset(*tileset);
-            tile->setID(x);
+            tile->setID((x != 1) ? x : 0);
 
             if (std::find(walkableTiles, walkableTiles+2, x) != walkableTiles+2)
                 tile->setWalkable(true);

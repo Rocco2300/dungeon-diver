@@ -14,8 +14,7 @@ int Enemy::distance(sf::Vector2i curr, sf::Vector2i end)
     return std::abs(a) + std::abs(b);
 }
 
-sf::Vector2i Enemy::getLowestScore(std::unordered_set<sf::Vector2i, VectorHash>& openSet,
-    std::unordered_map<sf::Vector2i, int, VectorHash>& fScore)
+sf::Vector2i Enemy::getLowestScore(TileHashSet& openSet, ScoreHashMap& fScore)
 {
     int min = 2'000'000'000;
     auto minIt = openSet.begin();
@@ -32,13 +31,28 @@ sf::Vector2i Enemy::getLowestScore(std::unordered_set<sf::Vector2i, VectorHash>&
     return *minIt;
 }
 
-void Enemy::aStar()
+Enemy::Path Enemy::reconstructPath(PathHashMap cameFrom, sf::Vector2i current)
 {
-    std::unordered_set<sf::Vector2i, VectorHash> openSet;
+    Path totalPath;
+
+    while (cameFrom.find(current) != cameFrom.end())
+    {
+        current = cameFrom[current];
+        totalPath.push_back(current);
+    }
+
+    return totalPath;
+}
+
+Enemy::Path Enemy::aStar()
+{
+    TileHashSet openSet;
     openSet.insert(this->pos);
 
-    std::unordered_map<sf::Vector2i, int, VectorHash> fScore;
-    std::unordered_map<sf::Vector2i, int, VectorHash> gScore;
+    PathHashMap cameFrom;
+
+    ScoreHashMap fScore;
+    ScoreHashMap gScore;
 
     gScore[this->pos] = 0;
     fScore[this->pos] = distance(this->pos, world->getPlayerPos());
@@ -48,7 +62,7 @@ void Enemy::aStar()
         auto current = getLowestScore(openSet, fScore);
 
         if (current == world->getPlayerPos())
-            return;
+            return reconstructPath(cameFrom, current);
 
         openSet.erase(current);
 
@@ -65,7 +79,7 @@ void Enemy::aStar()
 
             if (tentGScore < gScore[neighbour])
             {
-                // cameFrom ...
+                cameFrom[neighbour] = current;
                 gScore[neighbour] = tentGScore;
                 fScore[neighbour] = tentGScore + distance(neighbour, world->getPlayerPos());
 
@@ -76,6 +90,8 @@ void Enemy::aStar()
             }
         }
     }
+
+    return Path();
 }
 
 bool Enemy::playerLos()

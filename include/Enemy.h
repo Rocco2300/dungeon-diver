@@ -23,6 +23,11 @@ private:
         }
     };
 
+    using ScoreHashMap = std::unordered_map<sf::Vector2i, int, VectorHash>;
+    using TileHashSet = std::unordered_set<sf::Vector2i, VectorHash>; 
+    using PathHashMap = std::unordered_map<sf::Vector2i, sf::Vector2i, VectorHash>;
+    using Path = std::vector<sf::Vector2i>;
+
 protected:
     sf::Time moveTime;
 
@@ -36,9 +41,8 @@ protected:
 
 public:
     int distance(sf::Vector2i curr, sf::Vector2i end);
-    sf::Vector2i getLowestScore(std::unordered_set<sf::Vector2i, VectorHash>& openSet,
-        std::unordered_map<sf::Vector2i, int, VectorHash>& fScore);
-    void aStar();
-    void reconstructPath();
+    sf::Vector2i getLowestScore(TileHashSet& openSet, ScoreHashMap& fScore);
+    Path reconstructPath(PathHashMap cameFrom, sf::Vector2i current);
+    Path aStar();
 };
 
