@@ -1,5 +1,6 @@
 #include "Enemy.h"
 
+#include <iostream>
 #include "World.h"
 #include "Constants.h"
 
@@ -34,6 +35,7 @@ sf::Vector2i Enemy::getLowestScore(TileHashSet& openSet, ScoreHashMap& fScore)
 Enemy::Path Enemy::reconstructPath(PathHashMap cameFrom, sf::Vector2i current)
 {
     Path totalPath;
+    // std::cout << current.x << " " << current.y << std::endl;
 
     while (cameFrom.find(current) != cameFrom.end())
     {
@@ -60,24 +62,39 @@ Enemy::Path Enemy::aStar()
     while (!openSet.empty())
     {
         auto current = getLowestScore(openSet, fScore);
+        std::cout << current.x << " " << current.y << " \n";
 
         if (current == world->getPlayerPos())
+        {
+            std::cout << "huawa" << "\n";
             return reconstructPath(cameFrom, current);
+        }
 
         openSet.erase(current);
 
         // Go through all the neighbours
         for (int i = 0; i < 4; i++)
         {
+            auto neighbour = sf::Vector2i(current.x + dirX[i], current.y + dirY[i]);
+
             // if is wall
-            if (world->isWall(nullptr, {dirX[i], dirY[i]}))
+            if (world->isWall(nullptr, neighbour))
                 continue; 
-            
-            auto neighbour = sf::Vector2i(dirX[i], dirY[i]);
 
             auto tentGScore = gScore[current] + 1;
+            auto found = gScore.find(neighbour) != gScore.end();
+            if (found && tentGScore < gScore[neighbour])
+            {
+                cameFrom[neighbour] = current;
+                gScore[neighbour] = tentGScore;
+                fScore[neighbour] = tentGScore + distance(neighbour, world->getPlayerPos());
 
-            if (tentGScore < gScore[neighbour])
+                if (openSet.find(neighbour) == openSet.end())
+                {
+                    openSet.insert(neighbour);
+                }
+            }
+            else if (!found)
             {
                 cameFrom[neighbour] = current;
                 gScore[neighbour] = tentGScore;

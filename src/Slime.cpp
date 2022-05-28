@@ -17,14 +17,28 @@ Slime::Slime()
 
 void Slime::update(sf::Time dt)
 {
-    bool x = playerLos();
-
     if (!world->isPlayerTurn())
         moveTime -= dt;
 
     if (!world->isPlayerTurn() && moveTime.asSeconds() <= 0)
     {
-        std::cout << x << std::endl;
+        if (playerLos())
+        {
+            auto path = aStar();
+            for (int i = 0; i < 16; i++)
+            {
+                for (int j = 0; j < 16; j++)
+                {
+                    if (world->map(i, j).getID() == 1)
+                        world->map(i, j).setID(0);
+                }
+            }
+
+            for (int i = 0; i < path.size(); i++)
+            {
+                world->map(path[i]).setID(1);
+            }
+        }
 
         int randDir;
         sf::Vector2i dirOff;

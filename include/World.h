@@ -7,7 +7,6 @@
 class World : public sf::Drawable
 {
 private:
-    Map map;
     Tileset* tileset;
 
     std::vector<Entity*> entities;
@@ -17,6 +16,8 @@ private:
     bool playerTurn;
 
     sf::Time moveTime;
+public:
+    Map map;
 
 public:
     World();
