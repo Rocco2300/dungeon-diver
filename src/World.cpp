@@ -17,6 +17,8 @@ void World::create(Tileset& tileset)
 
     player.setWorld(*this);
     slime.setWorld(*this);
+    slime.setHP(2);
+    slime.setSprite("img/slime.png", {8, 8});
     slime.setPosition({7, 7});
 
     entities.push_back(&player);

@@ -36,7 +36,6 @@ sf::Vector2i AStar::getLowestScore(TileHashSet& openSet, ScoreHashMap& fScore)
 Path AStar::reconstructPath(PathHashMap cameFrom, sf::Vector2i current)
 {
     Path totalPath;
-    // totalPath.push_back(current);
 
     while (cameFrom.find(current) != cameFrom.end())
     {
@@ -44,14 +43,11 @@ Path AStar::reconstructPath(PathHashMap cameFrom, sf::Vector2i current)
         totalPath.push_back(current);
     }
 
-    // totalPath.erase(totalPath.begin());
     return totalPath;
 }
 
 Path AStar::findPath(sf::Vector2i start, sf::Vector2i end)
 {
-    std::cout << world << std::endl;
-
     TileHashSet openSet;
     openSet.insert(start);
 

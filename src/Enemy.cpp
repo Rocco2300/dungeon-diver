@@ -6,17 +6,23 @@
 
 Enemy::Enemy()
 {
-    hp = 1;
-
     moveTime = sf::seconds(.5f);
-
-    sprite.create("img/slime.png", {8, 8});
 }
 
 void Enemy::setWorld(World& world)
 {
     this->world = &world;
     aStar.setWorld(this->world);
+}
+
+void Enemy::setHP(int hp)
+{
+    this->hp = hp;
+}
+
+void Enemy::setSprite(const char* path, sf::Vector2i size)
+{
+    sprite.create(path, size);
 }
 
 void Enemy::update(sf::Time dt)
@@ -31,8 +37,6 @@ void Enemy::update(sf::Time dt)
 
         if (playerLos())
         {
-            std::cout << world << std::endl;
-
             path = aStar.findPath(this->pos, playerPos);
 
             // @Debugging
