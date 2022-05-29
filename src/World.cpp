@@ -81,12 +81,11 @@ sf::Vector2i World::getPlayerPos()
 
 void World::endTurn(Entity* entity)
 {
-    // std::cout << slime.heuristic(player.getPosition(), slime.getPosition()) << "\n";
-    // slime.aStar();
     if (entity == &player)
     {
         playerTurn = false;
 
+        // @Debugging
         for (int i = 0; i < 16; i++)
         {
             for (int j = 0; j < 16; j++)
