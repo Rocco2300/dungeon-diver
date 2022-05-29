@@ -18,7 +18,7 @@ Entity::Entity()
     dead = false;
 }
 
-void Entity::init(World& world)
+void Entity::setWorld(World& world)
 {
     this->world = &world;
 }

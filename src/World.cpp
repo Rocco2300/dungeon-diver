@@ -15,8 +15,8 @@ void World::create(Tileset& tileset)
     map.setTileset(*this->tileset);
     map.loadMap("map.txt");
 
-    player.init(*this);
-    slime.init(*this);
+    player.setWorld(*this);
+    slime.setWorld(*this);
     slime.setPosition({7, 7});
 
     entities.push_back(&player);

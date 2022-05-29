@@ -7,6 +7,8 @@
 
 class World;
 
+using Path = std::vector<sf::Vector2i>;
+
 class AStar
 {
 private:
@@ -28,13 +30,12 @@ private:
     using PathHashMap = std::unordered_map<sf::Vector2i, sf::Vector2i, VectorHash>;
 public:
     AStar() = default;
-    void setWorld(World& world);
+    void setWorld(World* world);
 
-    using Path = std::vector<sf::Vector2i>;
-
+    Path findPath(sf::Vector2i start, sf::Vector2i end);
+private:
     int distance(sf::Vector2i curr, sf::Vector2i end);
     sf::Vector2i getLowestScore(TileHashSet& openSet, ScoreHashMap& fScore);
     Path reconstructPath(PathHashMap cameFrom, sf::Vector2i current);
-    Path aStar(sf::Vector2i start, sf::Vector2i end);
 };
 

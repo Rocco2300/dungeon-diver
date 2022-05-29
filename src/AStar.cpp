@@ -1,11 +1,12 @@
 #include "AStar.h"
 
+#include <iostream>
 #include "World.h"
 #include "Constants.h"
 
-void AStar::setWorld(World& world)
+void AStar::setWorld(World* world)
 {
-    this->world = &world;
+    this->world = world;
 }
 
 int AStar::distance(sf::Vector2i curr, sf::Vector2i end)
@@ -32,7 +33,7 @@ sf::Vector2i AStar::getLowestScore(TileHashSet& openSet, ScoreHashMap& fScore)
     return *minIt;
 }
 
-AStar::Path AStar::reconstructPath(PathHashMap cameFrom, sf::Vector2i current)
+Path AStar::reconstructPath(PathHashMap cameFrom, sf::Vector2i current)
 {
     Path totalPath;
     // totalPath.push_back(current);
@@ -47,8 +48,10 @@ AStar::Path AStar::reconstructPath(PathHashMap cameFrom, sf::Vector2i current)
     return totalPath;
 }
 
-AStar::Path AStar::aStar(sf::Vector2i start, sf::Vector2i end)
+Path AStar::findPath(sf::Vector2i start, sf::Vector2i end)
 {
+    std::cout << world << std::endl;
+
     TileHashSet openSet;
     openSet.insert(start);
 

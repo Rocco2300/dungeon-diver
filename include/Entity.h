@@ -29,7 +29,7 @@ protected:
     bool dead;
 public:
     Entity();   
-    void init(World& world);
+    virtual void setWorld(World& world);
 
     int getHp();
     bool isDead();

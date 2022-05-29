@@ -6,95 +6,71 @@
 
 Enemy::Enemy()
 {
+    hp = 1;
+
+    moveTime = sf::seconds(.5f);
+
+    sprite.create("img/slime.png", {8, 8});
 }
 
-int Enemy::distance(sf::Vector2i curr, sf::Vector2i end)
+void Enemy::setWorld(World& world)
 {
-    int a = curr.x - end.x;
-    int b = curr.y - end.y;
+    this->world = &world;
+    aStar.setWorld(this->world);
+}
+
+void Enemy::update(sf::Time dt)
+{
+    if (!world->isPlayerTurn())
+        moveTime -= dt;
+
+    if (!world->isPlayerTurn() && moveTime.asSeconds() <= 0)
+    {
+        Path path;
+        auto playerPos = world->getPlayerPos();
+
+        if (playerLos())
+        {
+            std::cout << world << std::endl;
+
+            path = aStar.findPath(this->pos, playerPos);
+
+            // @Debugging
+            // for (int i = 0; i < path.size(); i++)
+            // {
+            //     world->map(path[i]).setDebug(true);
+            //     world->map(path[i]).setDebugRect(sf::Color::Green, 120);
+            // }
+        }
+
+        if (!path.empty() && distToPlayer() > 1)
+        {
+            auto nextPos = path.front();
+            auto dirOff = sf::Vector2i(nextPos - this->pos);
+            path.erase(path.begin());
+
+            move(dirOff);
+        }
+        else if (distToPlayer() == 1)
+        {
+            auto dirOff = sf::Vector2i(playerPos - this->pos);
+
+            bump(dirOff);
+        }
+
+        moveTime = sf::seconds(.5f);
+
+        world->endTurn(this);
+    }
+
+    Entity::update(dt);
+}
+
+int Enemy::distToPlayer()
+{
+    int a = pos.x - world->getPlayerPos().x;
+    int b = pos.y - world->getPlayerPos().y;
     return std::abs(a) + std::abs(b);
-}
-
-sf::Vector2i Enemy::getLowestScore(TileHashSet& openSet, ScoreHashMap& fScore)
-{
-    int min = 2'000'000'000;
-    auto minIt = openSet.begin();
-
-    for (auto it = openSet.begin(); it != openSet.end(); ++it)
-    {
-        if (fScore[*it] < min)
-        {
-            min = fScore[*it];
-            minIt = it;
-        }
-    }
-
-    return *minIt;
-}
-
-Enemy::Path Enemy::reconstructPath(PathHashMap cameFrom, sf::Vector2i current)
-{
-    Path totalPath;
-    // totalPath.push_back(current);
-
-    while (cameFrom.find(current) != cameFrom.end())
-    {
-        current = cameFrom[current];
-        totalPath.push_back(current);
-    }
-
-    // totalPath.erase(totalPath.begin());
-    return totalPath;
-}
-
-Enemy::Path Enemy::aStar(sf::Vector2i start, sf::Vector2i end)
-{
-    TileHashSet openSet;
-    openSet.insert(start);
-
-    PathHashMap cameFrom;
-
-    ScoreHashMap fScore;
-    ScoreHashMap gScore;
-
-    gScore[start] = 0;
-    fScore[start] = distance(this->pos, world->getPlayerPos());
-
-    while (!openSet.empty())
-    {
-        auto current = getLowestScore(openSet, fScore);
-
-        if (current == end)
-            return reconstructPath(cameFrom, current);
-
-        openSet.erase(current);
-
-        // Go through all the neighbours
-        for (int i = 0; i < 4; i++)
-        {
-            auto neighbour = sf::Vector2i(current.x + dirX[i], current.y + dirY[i]);
-
-            // if is wall
-            if (world->isWall(nullptr, neighbour))
-                continue; 
-
-            auto tentGScore = gScore[current] + 1;
-            auto found = gScore.find(neighbour) != gScore.end();
-            if ((found && tentGScore < gScore[neighbour]) || !found)
-            {
-                cameFrom[neighbour] = current;
-                gScore[neighbour] = tentGScore;
-                fScore[neighbour] = tentGScore + distance(neighbour, world->getPlayerPos());
-
-                if (openSet.find(neighbour) == openSet.end())
-                {
-                    openSet.insert(neighbour);
-                }
-            }
-        }
-    }
-
-    return Path();
 }
 
 bool Enemy::playerLos()

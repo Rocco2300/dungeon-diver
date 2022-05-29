@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Slime.h"
+#include "Enemy.h"
 #include "Player.h"
 #include "Map.h"
 
@@ -11,7 +11,7 @@ private:
 
     std::vector<Entity*> entities;
     Player player;
-    Slime slime;
+    Enemy slime;
 
     bool playerTurn;
 

@@ -5,11 +5,9 @@
 
 class World;
 
-
-
 class Enemy : public Entity
 {
-protected:
+private:
     AStar aStar;
 
     sf::Time moveTime;
@@ -17,10 +15,11 @@ protected:
 public:
     Enemy();
 
-    virtual ~Enemy() = default;
+    void setWorld(World& world);
 
-protected:
-
+    void update(sf::Time dt);
+private:
+    int distToPlayer();
     bool playerLos();
 };
 
