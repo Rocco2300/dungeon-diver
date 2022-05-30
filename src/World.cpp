@@ -1,13 +1,23 @@
 #include "World.h"
 
+#include "CSV.h"
+
 #include <iostream>
 
-World::World()
+enum class Label
 {
-}
+    Name = 0,
+    Path,
+    HP,
+    DMG,
+    None = -1
+};
 
 void World::create(Tileset& tileset)
 {
+    CSV<Label> csv("csv/Enemies.csv");
+    csv.print();
+
     this->playerTurn = true;
     this->tileset = &tileset;
 

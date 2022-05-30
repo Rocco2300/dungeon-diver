@@ -20,7 +20,7 @@ public:
     Map map;
 
 public:
-    World();
+    World() = default;
     void create(Tileset& tileset);
 
     bool isWall(Entity* caller, sf::Vector2i pos);
