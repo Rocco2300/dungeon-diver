@@ -4,19 +4,10 @@
 
 #include <iostream>
 
-enum class Label
-{
-    Name = 0,
-    Path,
-    HP,
-    DMG,
-    None = -1
-};
-
 void World::create(Tileset& tileset)
 {
-    CSV<Label> csv("csv/Enemies.csv");
-    csv.print();
+    // CSV<Label> csv("csv/Enemies.csv");
+    // csv.print();
 
     this->playerTurn = true;
     this->tileset = &tileset;
@@ -89,6 +80,11 @@ bool World::isPlayerTurn()
 sf::Vector2i World::getPlayerPos()
 {
     return player.getPosition();
+}
+
+std::vector<Entity*>& World::getEntities()
+{
+    return entities;
 }
 
 void World::endTurn(Entity* entity)

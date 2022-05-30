@@ -27,6 +27,7 @@ public:
     bool isOccupied(Entity* caller, sf::Vector2i pos);
     bool isPlayerTurn();
     sf::Vector2i getPlayerPos();
+    std::vector<Entity*>& getEntities();
 
     void endTurn(Entity* entity);
 
