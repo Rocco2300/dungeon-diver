@@ -17,6 +17,7 @@ private:
 public:
     CSV() = default;
     CSV(const char* path);
+    void load(const char* path);
 
     bool readLine(std::ifstream& in, std::stringstream& ss);
     std::unordered_map<T, std::string> buildRow(std::stringstream& ss);
@@ -26,6 +27,12 @@ public:
 
 template<typename T>
 CSV<T>::CSV(const char* path)
+{
+    load(path);
+}
+
+template <typename T>
+void CSV<T>::load(const char* path)
 {
     std::ifstream in(path);
     std::stringstream ss;
