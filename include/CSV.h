@@ -34,44 +34,11 @@ CSV<T>::CSV(const char* path)
     readLine(in, ss);
     ss.str("");
 
-    std::cout << ss.str() << std::endl;
-
     while (readLine(in, ss))
     {
-        std::cout << ss.str() << std::endl;
-
         std::unordered_map<T, std::string> row = buildRow(ss);
         data.push_back(row);
     }
-    // std::unordered_map<T, std::string> header;
-    // std::unordered_map<T, std::string> entry;
-
-    // readLine(in, header);
-
-    // bool first = true;
-    // // char line[256];
-    // std::string line;
-    // std::stringstream ss;
-    // while (std::getline(in, line))
-    // {
-    //     if (first)
-    //     {
-    //         first = false;
-    //         continue;   
-    //     }
-
-    //     int cnt = 0;
-    //     ss << line;
-    //     std::string token;
-    //     std::unordered_map<T, std::string> entry;
-    //     while (std::getline(ss, token, ','))
-    //     {
-    //         entry[(T)cnt] = token;
-    //         cnt++;
-    //     }
-
-    //     data.push_back(entry);
-    // }
 
     in.close();
 }
