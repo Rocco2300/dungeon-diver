@@ -23,6 +23,7 @@ public:
     std::unordered_map<T, std::string> buildRow(std::stringstream& ss);
 
     void print();
+    std::string operator()(int index, T label);
 };
 
 template<typename T>
@@ -94,4 +95,13 @@ void CSV<T>::print()
 
         std::cout << "\n";
     }
+}
+
+template <typename T>
+std::string CSV<T>::operator()(int index, T label)
+{
+    assert(index >= 0 && index < data.size());
+    assert(data[index].find(label) != data[index].end());
+    
+    return data[index][label];
 }
