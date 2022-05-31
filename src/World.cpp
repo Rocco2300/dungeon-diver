@@ -118,7 +118,7 @@ void World::update(sf::Time dt)
         playerTurn = true;
 
     player.update(dt);
-    for (int i = 0; i < entities.size(); i++)
+    for (size_t i = 0; i < entities.size(); i++)
     {
         auto enemy = dynamic_cast<Enemy*>(entities[i]);
         if (enemy)
@@ -135,7 +135,7 @@ void World::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     target.draw(map, states);
 
-    for (int i = 0; i < entities.size(); i++)
+    for (size_t i = 0; i < entities.size(); i++)
     {
         target.draw(*entities[i], states);
     }
