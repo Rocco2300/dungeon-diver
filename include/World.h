@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Enemy.h"
+#include "Spawner.h"
 #include "Player.h"
 #include "Map.h"
 
@@ -9,9 +9,9 @@ class World : public sf::Drawable
 private:
     Tileset* tileset;
 
+    Spawner spawner;
     std::vector<Entity*> entities;
     Player player;
-    Enemy slime;
 
     bool playerTurn;
 

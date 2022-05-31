@@ -33,6 +33,21 @@ bool Entity::isDead()
     return dead;
 }
 
+void Entity::setHP(int hp)
+{
+    this->hp = hp;
+}
+
+void Entity::setDamage(int damage)
+{
+    this->damage = damage;
+}
+
+void Entity::setSprite(const char* path, sf::Vector2i size)
+{
+    sprite.create(path, size);
+}
+
 void Entity::takeDamage(int damageAmount)
 {
     hp -= damageAmount;

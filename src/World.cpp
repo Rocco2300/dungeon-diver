@@ -17,13 +17,11 @@ void World::create(Tileset& tileset)
     map.loadMap("map.txt");
 
     player.setWorld(*this);
-    slime.setWorld(*this);
-    slime.setHP(2);
-    slime.setSprite("img/slime.png", {8, 8});
-    slime.setPosition({7, 7});
 
     entities.push_back(&player);
-    entities.push_back(&slime);
+    spawner.init(*this);
+    spawner.spawnEnemy({7, 10});
+    // entities.push_back(&slime);
 
     moveTime = sf::seconds(.3f);
 }
@@ -64,7 +62,10 @@ bool World::isOccupied(Entity* caller, sf::Vector2i pos)
             entities[i]->takeDamage(1);
 
             if (entities[i]->isDead())
+            {
+                delete entities[i];
                 entities.erase(entities.begin() + i);
+            }
 
             return true;
         }
@@ -110,19 +111,34 @@ void World::keyPressed(sf::Keyboard::Key key)
 {
     player.onKeyPressed(key);
 }
+
 void World::update(sf::Time dt)
 {
     if (entities.size() < 2)
         playerTurn = true;
 
     player.update(dt);
-    if (!slime.isDead())
-        slime.update(dt);
+    for (int i = 0; i < entities.size(); i++)
+    {
+        auto enemy = dynamic_cast<Enemy*>(entities[i]);
+        if (enemy)
+        {
+            enemy->update(dt);
+        }
+    }
+    // player.update(dt);
+    // if (!slime.isDead())
+    //     slime.update(dt);
 }
 
 void World::draw(sf::RenderTarget& target, sf::RenderStates states) const 
 {
     target.draw(map, states);
-    target.draw(slime, states);
-    target.draw(player, states);
+
+    for (int i = 0; i < entities.size(); i++)
+    {
+        target.draw(*entities[i], states);
+    }
+    // target.draw(slime, states);
+    // target.draw(player, states);
 }

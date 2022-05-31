@@ -26,6 +26,7 @@ protected:
     sf::Vector2f off;
 
     int hp;
+    int damage;
     bool dead;
 public:
     Entity();   
@@ -34,6 +35,9 @@ public:
     int getHp();
     bool isDead();
 
+    void setHP(int hp);
+    void setDamage(int damage);
+    void setSprite(const char* path, sf::Vector2i size);
     void takeDamage(int damageAmount);
     void setPosition(sf::Vector2i pos);
 

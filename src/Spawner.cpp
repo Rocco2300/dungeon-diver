@@ -12,6 +12,13 @@ void Spawner::init(World& world)
 
 void Spawner::spawnEnemy(sf::Vector2i pos)
 {
-    Enemy* enemy = new Enemy();
+    Entity* enemy = new Enemy();
 
+    enemy->setWorld(*world);
+    enemy->setHP(stoi(csv(0, Label::HP)));
+    enemy->setDamage(stoi(csv(0, Label::DMG)));
+    enemy->setSprite(csv(0, Label::Path).c_str(), {8, 8});
+    enemy->setPosition(pos);
+
+    entities->push_back(enemy);
 }

@@ -16,8 +16,6 @@ public:
     Enemy();
 
     void setWorld(World& world);
-    void setHP(int hp);
-    void setSprite(const char* path, sf::Vector2i size);
 
     void update(sf::Time dt);
 private:
