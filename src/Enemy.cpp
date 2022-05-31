@@ -30,20 +30,20 @@ void Enemy::update(sf::Time dt)
             path = aStar.findPath(this->pos, playerPos);
 
             // @Debugging
-            for (int i = 0; i < path.size(); i++)
-            {
-                world->map(path[i]).setDebug(true);
-                world->map(path[i]).setDebugRect(sf::Color::Green, 120);
-            }
+            // world->map(path[path.size()-1]).setDebug(true);
+            // world->map(path[path.size()-1]).setDebugRect(sf::Color::Red, 120);
+            // for (int i = 0; i < path.size()-1; i++)
+            // {
+            //     world->map(path[i]).setDebug(true);
+            //     world->map(path[i]).setDebugRect(sf::Color::Green, 120);
+            // }
         }
 
         if (!path.empty() && distToPlayer() > 1)
         {
             auto nextPos = path.back();
             auto dirOff = sf::Vector2i(nextPos - this->pos);
-            // path.erase(path.begin());
             path.pop_back();
-            // path.erase();
 
             move(dirOff);
         }

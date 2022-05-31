@@ -43,6 +43,7 @@ Path AStar::reconstructPath(PathHashMap cameFrom, sf::Vector2i current)
         totalPath.push_back(current);
     }
 
+    totalPath.pop_back();
     return totalPath;
 }
 
