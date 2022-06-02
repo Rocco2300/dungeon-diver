@@ -10,8 +10,7 @@ void World::create(Tileset& tileset)
     // csv.print();
 
     MapGenerator gen;
-    auto a = gen.getRandomRoom();
-    gen.placeRoom(a);
+    gen.generateRooms();
     gen.printWallsArray();
 
     this->playerTurn = true;

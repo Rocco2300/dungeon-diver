@@ -14,6 +14,15 @@ MapGenerator::MapGenerator()
     }
 }
 
+void MapGenerator::generateRooms()
+{
+    for (int i = 0; i < 3; i++)
+    {
+        auto room = getRandomRoom();
+        placeRoom(room);
+    }
+}
+
 sf::Vector2i MapGenerator::getRandomRoom()
 {
     sf::Vector2i res;
