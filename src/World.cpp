@@ -1,6 +1,6 @@
 #include "World.h"
 
-#include "CSV.h"
+#include "MapGenerator.h"
 
 #include <iostream>
 
@@ -8,6 +8,11 @@ void World::create(Tileset& tileset)
 {
     // CSV<Label> csv("csv/Enemies.csv");
     // csv.print();
+
+    MapGenerator gen;
+    auto a = gen.getRandomRoom();
+    gen.placeRoom(a);
+    gen.printWallsArray();
 
     this->playerTurn = true;
     this->tileset = &tileset;
