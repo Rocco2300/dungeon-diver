@@ -34,9 +34,9 @@ sf::Vector2i MapGenerator::getRandomRoom()
 
 bool MapGenerator::canPlaceRoom(sf::Vector2i pos, sf::Vector2i room)
 {
-    for (int y = 0; y < room.y; y++)
+    for (int y = -1; y < room.y + 1; y++)
     {
-        for (int x = 0; x < room.x; x++)
+        for (int x = -1; x < room.x + 1; x++)
         {
             if (walls[index(pos.x + x, pos.y + y)] == 0)
             {
@@ -50,12 +50,12 @@ bool MapGenerator::canPlaceRoom(sf::Vector2i pos, sf::Vector2i room)
 
 bool MapGenerator::placeRoom(sf::Vector2i room)
 {
-    sf::Vector2i randPos(rand() % (16 - room.x), rand() % (16 - room.y));
+    sf::Vector2i randPos(rand() % (14 - room.x) + 1, rand() % (14 - room.y) + 1);
 
     while (!canPlaceRoom(randPos, room))
     {
-        randPos.x = rand() % (16 - room.x);
-        randPos.y = rand() % (16 - room.y);
+        randPos.x = rand() % (14 - room.x) + 1;
+        randPos.y = rand() % (14 - room.y) + 1;
     }
 
     for (int y = 0; y < room.y; y++)
