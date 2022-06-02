@@ -11,8 +11,9 @@ private:
 public:
     MapGenerator();
 
+    void generateRooms();
     sf::Vector2i getRandomRoom();
-    bool checkRoomValid(sf::Vector2i pos, sf::Vector2i room);
+    bool canPlaceRoom(sf::Vector2i pos, sf::Vector2i room);
     bool placeRoom(sf::Vector2i room);
 
     void printWallsArray();
