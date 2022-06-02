@@ -23,7 +23,7 @@ sf::Vector2i MapGenerator::getRandomRoom()
     return res;
 }
 
-bool MapGenerator::checkRoomValid(sf::Vector2i pos, sf::Vector2i room)
+bool MapGenerator::canPlaceRoom(sf::Vector2i pos, sf::Vector2i room)
 {
     for (int y = 0; y < room.y; y++)
     {
@@ -43,7 +43,7 @@ bool MapGenerator::placeRoom(sf::Vector2i room)
 {
     sf::Vector2i randPos(rand() % (16 - room.x), rand() % (16 - room.y));
 
-    if (checkRoomValid(randPos, room))
+    if (canPlaceRoom(randPos, room))
     {
         for (int y = 0; y < room.y; y++)
         {
