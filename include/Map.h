@@ -17,7 +17,6 @@ private:
     Tileset* tileset;
 
     std::vector<std::unique_ptr<Tile>> tiles;
-    // std::vector<
 public:
     Map();
     void create(sf::Vector2i size);
@@ -28,6 +27,7 @@ public:
     void setSize(sf::Vector2i size);
     void setTileset(Tileset& tileset);
     void loadMap(const char* path);
+    void loadMap(std::istream& in);
 
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };

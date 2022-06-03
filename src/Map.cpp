@@ -64,6 +64,37 @@ void Map::loadMap(const char* path)
     in.close();
 }
 
+void Map::loadMap(std::istream& in)
+{
+    int x;
+    for (int i = 0; i < 16; i++)
+    {
+        std::vector<int> temp;
+        for (int j = 0; j < 16; j++)
+        {
+            in >> x;
+
+            std::unique_ptr<Tile> tile;
+            if (x == 7 || x == 8)
+                tile = std::make_unique<PotTile>();
+            else if (x == 3 || x == 5)
+                tile = std::make_unique<ChestTile>();
+            else
+                tile = std::make_unique<Tile>();
+            
+            tile->setTileset(*tileset);
+            tile->setID(x);
+
+            if (std::find(walkableTiles, walkableTiles+2, x) != walkableTiles+2)
+                tile->setWalkable(true);
+            else 
+                tile->setWalkable(false);
+
+            tiles.push_back(std::move(tile));
+        }
+    }
+}
+
 void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     for (size_t i = 0; i < tiles.size(); i++)
