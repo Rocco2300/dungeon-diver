@@ -52,10 +52,16 @@ bool MapGenerator::placeRoom(sf::Vector2i room)
 {
     sf::Vector2i randPos(rand() % (14 - room.x) + 1, rand() % (14 - room.y) + 1);
 
+    int cnt = 0;
     while (!canPlaceRoom(randPos, room))
     {
+        if (cnt == 100)
+            return false;
+
         randPos.x = rand() % (14 - room.x) + 1;
         randPos.y = rand() % (14 - room.y) + 1;
+
+        cnt ++;
     }
 
     for (int y = 0; y < room.y; y++)
