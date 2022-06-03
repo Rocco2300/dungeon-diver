@@ -1,8 +1,10 @@
 #pragma once
 
 #include <array>
-
+#include <sstream>
 #include <SFML/Graphics.hpp>
+
+#include "Tile.h"
 
 struct Room 
 {
@@ -19,6 +21,8 @@ public:
 
     void generateRooms();
     void printWallsArray();
+
+    std::stringstream getMapAsStream();
 private:
     Room getRandomRoom();
 

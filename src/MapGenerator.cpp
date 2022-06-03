@@ -23,6 +23,18 @@ void MapGenerator::generateRooms()
     }
 }
 
+std::stringstream MapGenerator::getMapAsStream()
+{
+    std::stringstream res;
+
+    for (size_t i = 0; i < walls.size(); i++)
+    {
+        res << walls[i] + 1 << " ";
+    }
+
+    return res;
+}
+
 Room MapGenerator::getRandomRoom()
 {
     Room res;

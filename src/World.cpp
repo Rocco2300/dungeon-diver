@@ -11,6 +11,7 @@ void World::create(Tileset& tileset)
 
     MapGenerator gen;
     gen.generateRooms();
+    auto stream = gen.getMapAsStream();
     gen.printWallsArray();
 
     this->playerTurn = true;
@@ -18,7 +19,7 @@ void World::create(Tileset& tileset)
 
     map.setSize({16, 16});
     map.setTileset(*this->tileset);
-    map.loadMap("map.txt");
+    map.loadMap(stream);
 
     player.setWorld(*this);
 
