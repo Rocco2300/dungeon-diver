@@ -23,26 +23,30 @@ void MapGenerator::generateRooms()
     }
 }
 
-sf::Vector2i MapGenerator::getRandomRoom()
+Room MapGenerator::getRandomRoom()
 {
-    sf::Vector2i res;
-    res.x = rand() % 3 + 3;
-    res.y = rand() % 3 + 3;
+    Room res;
+
+    sf::Vector2i size;
+    size.x = rand() % 3 + 3;
+    size.y = rand() % 3 + 3;
+
+    res.size = size;
 
     return res;
 }
 
-bool MapGenerator::canPlaceRoom(sf::Vector2i pos, sf::Vector2i room)
+bool MapGenerator::canPlaceRoom(Room room)
 {
-    for (int y = -1; y < room.y + 1; y++)
+    for (int y = -1; y < room.size.y + 1; y++)
     {
-        for (int x = -1; x < room.x + 1; x++)
+        for (int x = -1; x < room.size.x + 1; x++)
         {
             // Consider out of bounds to be all walls
-            if (!isInBounds(pos.x + x, pos.y + y))
+            if (!isInBounds(room.pos.x + x, room.pos.y + y))
                 continue;
 
-            if (walls[index(pos.x + x, pos.y + y)] == 0)
+            if (walls[index(room.pos.x + x, room.pos.y + y)] == 0)
             {
                 return false;
             }
@@ -52,44 +56,16 @@ bool MapGenerator::canPlaceRoom(sf::Vector2i pos, sf::Vector2i room)
     return true;
 }
 
-bool MapGenerator::placeRoom(sf::Vector2i room)
+bool MapGenerator::placeRoom(Room room)
 {
-    sf::Vector2i randPos(rand() % (16 - room.x) + 1, rand() % (16 - room.y) + 1);
+    room.pos = sf::Vector2i(rand() % (16 - room.size.x) + 1, rand() % (16 - room.size.y) + 1);
 
-    int cnt = 0;
-    while (!canPlaceRoom(randPos, room))
-    {
-        if (cnt == 1000)
-        {
-            std::cout << "Failed to place room!" << std::endl;
-            return false;
-        }
-
-        randPos.x = rand() % (14 - room.x) + 1;
-        randPos.y = rand() % (14 - room.y) + 1;
-
-        cnt ++;
-    }
-
-    for (int y = 0; y < room.y; y++)
-    {
-        for (int x = 0; x < room.x; x++)
-        {
-            walls[index(randPos.x + x, randPos.y + y)] = 0;
-        }
-    }
+    if (!findFreeSpot(room))
+        return false;
+        
+    carveOutRoom(room);
 
     return true;
-}
-
-int MapGenerator::index(int x, int y)
-{
-    return y * 16 + x;
-}
-
-bool MapGenerator::isInBounds(int x, int y)
-{
-    return (x >= 0 && x < 16 && y >= 0 && y < 16);
 }
 
 void MapGenerator::printWallsArray()
@@ -102,5 +78,46 @@ void MapGenerator::printWallsArray()
         }
 
         std::cout << '\n';
+    }
+}
+
+int MapGenerator::index(int x, int y)
+{
+    return y * 16 + x;
+}
+
+bool MapGenerator::isInBounds(int x, int y)
+{
+    return (x >= 0 && x < 16 && y >= 0 && y < 16);
+}
+
+bool MapGenerator::findFreeSpot(Room& room)
+{
+    int cnt = 0;
+    while (!canPlaceRoom(room))
+    {
+        if (cnt == 1000)
+        {
+            std::cout << "Failed to place room!" << std::endl;
+            return false;
+        }
+
+        room.pos.x = rand() % (14 - room.size.x) + 1;
+        room.pos.y = rand() % (14 - room.size.y) + 1;
+
+        cnt ++;
+    }
+
+    return true;
+}
+
+void MapGenerator::carveOutRoom(Room room)
+{
+    for (int y = 0; y < room.size.y; y++)
+    {
+        for (int x = 0; x < room.size.x; x++)
+        {
+            walls[index(room.pos.x + x, room.pos.y + y)] = 0;
+        }
     }
 }

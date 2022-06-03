@@ -4,6 +4,12 @@
 
 #include <SFML/Graphics.hpp>
 
+struct Room 
+{
+    sf::Vector2i pos;
+    sf::Vector2i size;
+};
+
 class MapGenerator
 {
 private:
@@ -12,13 +18,15 @@ public:
     MapGenerator();
 
     void generateRooms();
-    sf::Vector2i getRandomRoom();
-    bool canPlaceRoom(sf::Vector2i pos, sf::Vector2i room);
-    bool placeRoom(sf::Vector2i room);
+    Room getRandomRoom();
+    bool canPlaceRoom(Room room);
+    bool placeRoom(Room room);
 
     void printWallsArray();
 private:
     int index(int x, int y);
     bool isInBounds(int x, int y);
+    bool findFreeSpot(Room& room);
+    void carveOutRoom(Room room);
 };
 
