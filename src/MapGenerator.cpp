@@ -16,7 +16,7 @@ MapGenerator::MapGenerator()
 
 void MapGenerator::generateRooms()
 {
-    for (int i = 0; i < 6; i++)
+    for (int i = 0; i < 8; i++)
     {
         auto room = getRandomRoom();
         placeRoom(room);
@@ -56,13 +56,20 @@ bool MapGenerator::canPlaceRoom(Room room)
     return true;
 }
 
-bool MapGenerator::placeRoom(Room room)
+bool MapGenerator::placeRoom(Room& room)
 {
-    room.pos = sf::Vector2i(rand() % (16 - room.size.x) + 1, rand() % (16 - room.size.y) + 1);
+    room.pos = sf::Vector2i(rand() % (16 - room.size.x), rand() % (16 - room.size.y));
 
-    if (!findFreeSpot(room))
-        return false;
-        
+    int cnt = 0;
+    while (!findFreeSpot(room))
+    {
+        if (cnt == 3)
+            return false;
+
+        shrinkRoom(room);
+        cnt ++;
+    }
+
     carveOutRoom(room);
 
     return true;
@@ -96,14 +103,14 @@ bool MapGenerator::findFreeSpot(Room& room)
     int cnt = 0;
     while (!canPlaceRoom(room))
     {
-        if (cnt == 1000)
+        if (cnt == 100)
         {
             std::cout << "Failed to place room!" << std::endl;
             return false;
         }
 
-        room.pos.x = rand() % (14 - room.size.x) + 1;
-        room.pos.y = rand() % (14 - room.size.y) + 1;
+        room.pos.x = rand() % (16 - room.size.x);
+        room.pos.y = rand() % (16 - room.size.y);
 
         cnt ++;
     }
@@ -120,4 +127,10 @@ void MapGenerator::carveOutRoom(Room room)
             walls[index(room.pos.x + x, room.pos.y + y)] = 0;
         }
     }
+}
+
+void MapGenerator::shrinkRoom(Room& room)
+{
+    room.size.x = (room.size.x > 3) ? room.size.x - 1 : 3;
+    room.size.y = (room.size.y > 3) ? room.size.y - 1 : 3;
 }

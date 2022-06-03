@@ -18,15 +18,17 @@ public:
     MapGenerator();
 
     void generateRooms();
-    Room getRandomRoom();
-    bool canPlaceRoom(Room room);
-    bool placeRoom(Room room);
-
     void printWallsArray();
 private:
-    int index(int x, int y);
-    bool isInBounds(int x, int y);
+    Room getRandomRoom();
+
     bool findFreeSpot(Room& room);
+    bool canPlaceRoom(Room room);
+    bool placeRoom(Room& room);
+    bool isInBounds(int x, int y);
+
+    int index(int x, int y);
     void carveOutRoom(Room room);
+    void shrinkRoom(Room& room);
 };
 
