@@ -19,5 +19,6 @@ public:
     void printWallsArray();
 private:
     int index(int x, int y);
+    bool isInBounds(int x, int y);
 };
 

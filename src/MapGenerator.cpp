@@ -16,7 +16,7 @@ MapGenerator::MapGenerator()
 
 void MapGenerator::generateRooms()
 {
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i < 6; i++)
     {
         auto room = getRandomRoom();
         placeRoom(room);
@@ -38,6 +38,10 @@ bool MapGenerator::canPlaceRoom(sf::Vector2i pos, sf::Vector2i room)
     {
         for (int x = -1; x < room.x + 1; x++)
         {
+            // Consider out of bounds to be all walls
+            if (!isInBounds(pos.x + x, pos.y + y))
+                continue;
+
             if (walls[index(pos.x + x, pos.y + y)] == 0)
             {
                 return false;
@@ -50,13 +54,16 @@ bool MapGenerator::canPlaceRoom(sf::Vector2i pos, sf::Vector2i room)
 
 bool MapGenerator::placeRoom(sf::Vector2i room)
 {
-    sf::Vector2i randPos(rand() % (14 - room.x) + 1, rand() % (14 - room.y) + 1);
+    sf::Vector2i randPos(rand() % (16 - room.x) + 1, rand() % (16 - room.y) + 1);
 
     int cnt = 0;
     while (!canPlaceRoom(randPos, room))
     {
-        if (cnt == 100)
+        if (cnt == 1000)
+        {
+            std::cout << "Failed to place room!" << std::endl;
             return false;
+        }
 
         randPos.x = rand() % (14 - room.x) + 1;
         randPos.y = rand() % (14 - room.y) + 1;
@@ -78,6 +85,11 @@ bool MapGenerator::placeRoom(sf::Vector2i room)
 int MapGenerator::index(int x, int y)
 {
     return y * 16 + x;
+}
+
+bool MapGenerator::isInBounds(int x, int y)
+{
+    return (x >= 0 && x < 16 && y >= 0 && y < 16);
 }
 
 void MapGenerator::printWallsArray()
