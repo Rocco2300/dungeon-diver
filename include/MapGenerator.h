@@ -43,6 +43,8 @@ private:
 
     int index(int x, int y);
     void carveOutRoom(Room room);
+    void updateSignature(int x, int y);
+    void updateNeighbouringSignatures(int x, int y);
     void shrinkRoom(Room& room);
 };
 

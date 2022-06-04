@@ -3,6 +3,8 @@
 #include <iostream>
 #include <random>
 
+#include "Constants.h"
+
 MapGenerator::MapGenerator()
 {
     for (int y = 0; y < 16; y++)
@@ -140,6 +142,34 @@ void MapGenerator::carveOutRoom(Room room)
         {
             walls[index(room.pos.x + x, room.pos.y + y)].isWall = false;
         }
+    }
+}
+
+void MapGenerator::updateSignature(int x, int y)
+{
+    for (int i = 0; i < 4; i++)
+    {
+        if (isInBounds(dirX[i] + x, dirY[i] + y))
+        {
+            walls[index(x, y)].signature |= (int)walls[index(dirX[i] + x, dirY[i] + y)].isWall << i;
+        }
+
+        if (isInBounds(diagX[i], diagY[i]))
+        {
+            walls[index(x, y)].signature |= (int)walls[index(diagX[i] + x, diagY[i] + y)].isWall << (i + 4);
+        }
+    }
+}
+
+void MapGenerator::updateNeighbouringSignatures(int x, int y)
+{
+    for (int i = 0; i < 4; i++)
+    {
+        if (isInBounds(dirX[i] + x, dirY[i] + y))
+            updateSignature(dirX[i] + x, dirY[i] + y);
+        
+        if (isInBounds(diagX[i] + x, diagY[i] + y))
+            updateSignature(diagX[i] + x, diagY[i] + y);
     }
 }
 
