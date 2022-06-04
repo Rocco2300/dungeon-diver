@@ -9,7 +9,8 @@ MapGenerator::MapGenerator()
     {
         for (int x = 0; x < 16; x++)
         {
-            walls[index(x, y)] = 1;
+            Cell cell;
+            walls[index(x, y)] = cell;
         }
     }
 }
@@ -29,7 +30,8 @@ std::stringstream MapGenerator::getMapAsStream()
 
     for (size_t i = 0; i < walls.size(); i++)
     {
-        res << walls[i] + 1 << " ";
+        int tile = (walls[i].isWall) ? 2 : 1;
+        res << tile << " ";
     }
 
     return res;
@@ -58,7 +60,7 @@ bool MapGenerator::canPlaceRoom(Room room)
             if (!isInBounds(room.pos.x + x, room.pos.y + y))
                 continue;
 
-            if (walls[index(room.pos.x + x, room.pos.y + y)] == 0)
+            if (!walls[index(room.pos.x + x, room.pos.y + y)].isWall)
             {
                 return false;
             }
@@ -93,7 +95,7 @@ void MapGenerator::printWallsArray()
     {
         for (int j = 0; j < 16; j++)
         {
-            std::cout << walls[index(j, i)] << " ";
+            std::cout << walls[index(j, i)].isWall << " ";
         }
 
         std::cout << '\n';
@@ -136,7 +138,7 @@ void MapGenerator::carveOutRoom(Room room)
     {
         for (int x = 0; x < room.size.x; x++)
         {
-            walls[index(room.pos.x + x, room.pos.y + y)] = 0;
+            walls[index(room.pos.x + x, room.pos.y + y)].isWall = false;
         }
     }
 }

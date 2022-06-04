@@ -6,6 +6,16 @@
 
 #include "Tile.h"
 
+#include <cstdint>
+
+struct Cell
+{
+    bool isWall;
+    uint8_t signature;
+
+    Cell() : isWall{true}, signature{255} { }
+};
+
 struct Room 
 {
     sf::Vector2i pos;
@@ -15,7 +25,7 @@ struct Room
 class MapGenerator
 {
 private:
-    std::array<int, 16*16> walls;
+    std::array<Cell, 16*16> walls;
 public:
     MapGenerator();
 
