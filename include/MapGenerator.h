@@ -13,7 +13,7 @@ struct Cell
     bool isWall;
     uint8_t signature;
 
-    Cell() : isWall{true}, signature{255} { }
+    Cell() : isWall{true}, signature{0} { }
 };
 
 struct Room 
@@ -31,6 +31,7 @@ public:
 
     void generateRooms();
     void printWallsArray();
+    void printSignatures();
 
     std::stringstream getMapAsStream();
 private:

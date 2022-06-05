@@ -24,6 +24,15 @@ void MapGenerator::generateRooms()
         auto room = getRandomRoom();
         placeRoom(room);
     }
+
+    for (int i = 0; i < 16; i++)
+    {
+        for (int j = 0; j < 16; j++)
+        {
+            updateSignature(j, i);
+            updateNeighbouringSignatures(j, i);
+        }
+    }
 }
 
 std::stringstream MapGenerator::getMapAsStream()
@@ -104,6 +113,19 @@ void MapGenerator::printWallsArray()
     }
 }
 
+void MapGenerator::printSignatures()
+{
+    for (int i = 0; i < 16; i++)
+    {
+        for (int j = 0; j < 16; j++)
+        {
+            std::cout << (int)walls[index(j, i)].signature << " ";
+        }
+
+        std::cout << '\n';
+    }
+}
+
 int MapGenerator::index(int x, int y)
 {
     return y * 16 + x;
@@ -150,14 +172,15 @@ void MapGenerator::updateSignature(int x, int y)
     for (int i = 0; i < 4; i++)
     {
         if (isInBounds(dirX[i] + x, dirY[i] + y))
-        {
             walls[index(x, y)].signature |= (int)walls[index(dirX[i] + x, dirY[i] + y)].isWall << i;
-        }
+        else 
+            walls[index(x, y)].signature |= 1 << i;
 
-        if (isInBounds(diagX[i], diagY[i]))
-        {
+
+        if (isInBounds(diagX[i] + x, diagY[i] + y))
             walls[index(x, y)].signature |= (int)walls[index(diagX[i] + x, diagY[i] + y)].isWall << (i + 4);
-        }
+        else 
+            walls[index(x, y)].signature |= 1 << (i + 4);
     }
 }
 

@@ -13,6 +13,7 @@ void World::create(Tileset& tileset)
     gen.generateRooms();
     auto stream = gen.getMapAsStream();
     gen.printWallsArray();
+    gen.printSignatures();
 
     this->playerTurn = true;
     this->tileset = &tileset;
