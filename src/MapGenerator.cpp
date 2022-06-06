@@ -13,8 +13,7 @@ MapGenerator::MapGenerator()
     {
         for (int x = 0; x < 16; x++)
         {
-            Cell cell;
-            walls[index(x, y)] = cell;
+            walls[index(x, y)] = true;
         }
     }
 }
@@ -33,22 +32,22 @@ void MapGenerator::generateRooms()
         placeRoom(room);
     }
 
-    updateMapSignatures();
+    // updateMapSignatures();
 }
 
-void MapGenerator::updateMapSignatures()
-{
-    std::cout << "here\n";
+// void MapGenerator::updateMapSignatures()
+// {
+//     std::cout << "here\n";
 
-    for (int i = 0; i < 16; i++)
-    {
-        for (int j = 0; j < 16; j++)
-        {
-            updateSignature(j, i);
-            updateNeighbouringSignatures(j, i);
-        }
-    }
-}
+//     for (int i = 0; i < 16; i++)
+//     {
+//         for (int j = 0; j < 16; j++)
+//         {
+//             updateSignature(j, i);
+//             updateNeighbouringSignatures(j, i);
+//         }
+//     }
+// }
 
 void MapGenerator::carveMaze()
 {
@@ -58,7 +57,7 @@ void MapGenerator::carveMaze()
     {
         for (int x = 0; x < 16; x++)
         {
-            if (walls[index(x, y)].isWall && walls[index(x, y)].signature == 255)
+            if (walls[index(x, y)] && getSignature(x, y) == 255)
             {
                 candidates.push_back({x, y});
             }
@@ -73,21 +72,34 @@ void MapGenerator::carveMaze()
     }
 }
 
+uint8_t MapGenerator::getSignature(int x, int y)
+{
+    uint8_t signature = 0;
+
+    for (int i = 0; i < 4; i++)
+    {
+        if (isInBounds(dirX[i] + x, dirY[i] + y))
+            signature |= (int)walls[index(dirX[i] + x, dirY[i] + y)] << i;
+        
+        if (isInBounds(diagX[i] + x, diagY[i] + y))
+            signature |= (int)walls[index(dirX[i] + x, dirY[i] + y)] << (i + 4);
+    }
+
+    return signature;
+}
+
 void MapGenerator::carveCoridor(sf::Vector2i start)
 {
     int dir = 0; // Get a random cardinal direction
     int dx = dirX[dir], dy = dirY[dir];
 
-    walls[index(start.x, start.y)].isWall = false;
-    updateMapSignatures();
+    walls[index(start.x, start.y)] = false;
 
     while (isCarvable(start.x + dx, start.y + dy))
     {
-        std::cout << isCarvable(start.x + dx, start.y + dy) << " " << (int)walls[index(start.x + dx, start.y + dy)].signature << "\n";
+        // std::cout << isCarvable(start.x + dx, start.y + dy) << " " << (int)walls[index(start.x + dx, start.y + dy)].signature << "\n";
 
-        walls[index(start.x + dx, start.y + dy)].isWall = false;
-
-        updateMapSignatures();
+        walls[index(start.x + dx, start.y + dy)] = false;
 
         start.x += dx;
         start.y += dy;
@@ -100,7 +112,7 @@ std::stringstream MapGenerator::getMapAsStream()
 
     for (size_t i = 0; i < walls.size(); i++)
     {
-        int tile = (walls[i].isWall) ? 2 : 1;
+        int tile = (walls[i]) ? 2 : 1;
 
         // @Debugging
         int x = i % 16;
@@ -138,7 +150,7 @@ bool MapGenerator::canPlaceRoom(Room room)
             if (!isInBounds(room.pos.x + x, room.pos.y + y))
                 continue;
 
-            if (!walls[index(room.pos.x + x, room.pos.y + y)].isWall)
+            if (!walls[index(room.pos.x + x, room.pos.y + y)])
             {
                 return false;
             }
@@ -173,7 +185,7 @@ void MapGenerator::printWallsArray()
     {
         for (int j = 0; j < 16; j++)
         {
-            std::cout << walls[index(j, i)].isWall << " ";
+            std::cout << walls[index(j, i)] << " ";
         }
 
         std::cout << '\n';
@@ -186,7 +198,7 @@ void MapGenerator::printSignatures()
     {
         for (int j = 0; j < 16; j++)
         {
-            std::cout << (int)walls[index(j, i)].signature << " ";
+            std::cout << (int)getSignature(j, i) << " ";
         }
 
         std::cout << '\n';
@@ -205,12 +217,12 @@ bool MapGenerator::isInBounds(int x, int y)
 
 bool MapGenerator::isCarvable(int x, int y)
 {
-    if (!isInBounds(x, y) || !walls[index(x, y)].isWall)
+    if (!isInBounds(x, y) || !walls[index(x, y)])
         return false;
 
     for (size_t i = 0; i < mask.size(); i++)
     {   
-        auto sig = walls[index(x, y)].signature;
+        auto sig = getSignature(x, y);
 
         if ((sig | mask[i]) == (match[i] | mask[i]))
             return true;
@@ -245,39 +257,39 @@ void MapGenerator::carveOutRoom(Room room)
     {
         for (int x = 0; x < room.size.x; x++)
         {
-            walls[index(room.pos.x + x, room.pos.y + y)].isWall = false;
+            walls[index(room.pos.x + x, room.pos.y + y)] = false;
         }
     }
 }
 
-void MapGenerator::updateSignature(int x, int y)
-{
-    for (int i = 0; i < 4; i++)
-    {
-        if (isInBounds(dirX[i] + x, dirY[i] + y))
-            walls[index(x, y)].signature |= (int)walls[index(dirX[i] + x, dirY[i] + y)].isWall << i;
-        else 
-            walls[index(x, y)].signature |= 1 << i;
+// void MapGenerator::updateSignature(int x, int y)
+// {
+//     for (int i = 0; i < 4; i++)
+//     {
+//         if (isInBounds(dirX[i] + x, dirY[i] + y))
+//             walls[index(x, y)].signature |= (int)walls[index(dirX[i] + x, dirY[i] + y)].isWall << i;
+//         else 
+//             walls[index(x, y)].signature |= 1 << i;
 
 
-        if (isInBounds(diagX[i] + x, diagY[i] + y))
-            walls[index(x, y)].signature |= (int)walls[index(diagX[i] + x, diagY[i] + y)].isWall << (i + 4);
-        else 
-            walls[index(x, y)].signature |= 1 << (i + 4);
-    }
-}
+//         if (isInBounds(diagX[i] + x, diagY[i] + y))
+//             walls[index(x, y)].signature |= (int)walls[index(diagX[i] + x, diagY[i] + y)].isWall << (i + 4);
+//         else 
+//             walls[index(x, y)].signature |= 1 << (i + 4);
+//     }
+// }
 
-void MapGenerator::updateNeighbouringSignatures(int x, int y)
-{
-    for (int i = 0; i < 4; i++)
-    {
-        if (isInBounds(dirX[i] + x, dirY[i] + y))
-            updateSignature(dirX[i] + x, dirY[i] + y);
+// void MapGenerator::updateNeighbouringSignatures(int x, int y)
+// {
+//     for (int i = 0; i < 4; i++)
+//     {
+//         if (isInBounds(dirX[i] + x, dirY[i] + y))
+//             updateSignature(dirX[i] + x, dirY[i] + y);
         
-        if (isInBounds(diagX[i] + x, diagY[i] + y))
-            updateSignature(diagX[i] + x, diagY[i] + y);
-    }
-}
+//         if (isInBounds(diagX[i] + x, diagY[i] + y))
+//             updateSignature(diagX[i] + x, diagY[i] + y);
+//     }
+// }
 
 void MapGenerator::shrinkRoom(Room& room)
 {
