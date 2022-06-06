@@ -38,6 +38,8 @@ void MapGenerator::generateRooms()
 
 void MapGenerator::updateMapSignatures()
 {
+    std::cout << "here\n";
+
     for (int i = 0; i < 16; i++)
     {
         for (int j = 0; j < 16; j++)
@@ -73,13 +75,16 @@ void MapGenerator::carveMaze()
 
 void MapGenerator::carveCoridor(sf::Vector2i start)
 {
-    int dir = rand() % 4; // Get a random cardinal direction
+    int dir = 0; // Get a random cardinal direction
     int dx = dirX[dir], dy = dirY[dir];
 
     walls[index(start.x, start.y)].isWall = false;
+    updateMapSignatures();
 
     while (isCarvable(start.x + dx, start.y + dy))
     {
+        std::cout << isCarvable(start.x + dx, start.y + dy) << " " << (int)walls[index(start.x + dx, start.y + dy)].signature << "\n";
+
         walls[index(start.x + dx, start.y + dy)].isWall = false;
 
         updateMapSignatures();
