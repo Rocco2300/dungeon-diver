@@ -7,6 +7,8 @@
 
 MapGenerator::MapGenerator()
 {
+    walls.resize(16*16);
+
     for (int y = 0; y < 16; y++)
     {
         for (int x = 0; x < 16; x++)
@@ -19,7 +21,7 @@ MapGenerator::MapGenerator()
 
 void MapGenerator::generateRooms()
 {
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < 5; i++)
     {
         auto room = getRandomRoom();
         placeRoom(room);
@@ -42,6 +44,12 @@ std::stringstream MapGenerator::getMapAsStream()
     for (size_t i = 0; i < walls.size(); i++)
     {
         int tile = (walls[i].isWall) ? 2 : 1;
+
+        // @Debugging
+        int x = i % 16;
+        int y = i / 16;
+        tile = (isCarvable(x, y)) ? 11 : tile;
+        
         res << tile << " ";
     }
 
@@ -52,9 +60,14 @@ Room MapGenerator::getRandomRoom()
 {
     Room res;
 
+    // 3 - 5
     sf::Vector2i size;
-    size.x = rand() % 3 + 3;
-    size.y = rand() % 3 + 3;
+    // size.x = rand() % 3 + 3;
+    // size.y = rand() % 3 + 3;
+
+    // 3 - 8
+    size.x = rand() % 6 + 3;
+    size.y = rand() % 6 + 3;
 
     res.size = size;
 
@@ -134,6 +147,19 @@ int MapGenerator::index(int x, int y)
 bool MapGenerator::isInBounds(int x, int y)
 {
     return (x >= 0 && x < 16 && y >= 0 && y < 16);
+}
+
+bool MapGenerator::isCarvable(int x, int y)
+{
+    for (size_t i = 0; i < mask.size(); i++)
+    {   
+        auto sig = walls[index(x, y)].signature;
+
+        if ((sig | mask[i]) == (match[i] | mask[i]))
+            return true;
+    }
+
+    return false;
 }
 
 bool MapGenerator::findFreeSpot(Room& room)

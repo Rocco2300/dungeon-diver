@@ -1,6 +1,7 @@
 #pragma once
 
 #include <array>
+#include <vector>
 #include <sstream>
 #include <SFML/Graphics.hpp>
 
@@ -25,7 +26,10 @@ struct Room
 class MapGenerator
 {
 private:
-    std::array<Cell, 16*16> walls;
+    std::array<uint8_t, 5> mask  = {0         , 0b00110000, 0b01100000, 0b11000000, 0b10010000};
+    std::array<uint8_t, 5> match = {0b11111111, 0b11111110, 0b11111101, 0b11111011, 0b11110111};
+
+    std::vector<Cell> walls;
 public:
     MapGenerator();
 
@@ -41,6 +45,7 @@ private:
     bool canPlaceRoom(Room room);
     bool placeRoom(Room& room);
     bool isInBounds(int x, int y);
+    bool isCarvable(int x, int y);
 
     int index(int x, int y);
     void carveOutRoom(Room room);
