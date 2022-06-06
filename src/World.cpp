@@ -10,7 +10,7 @@ void World::create(Tileset& tileset)
     // csv.print();
 
     MapGenerator gen;
-    gen.generateRooms();
+    gen.generateMap();
     auto stream = gen.getMapAsStream();
     gen.printWallsArray();
     gen.printSignatures();

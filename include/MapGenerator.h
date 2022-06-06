@@ -33,7 +33,7 @@ private:
 public:
     MapGenerator();
 
-    void generateRooms();
+    void generateMap();
     void printWallsArray();
     void printSignatures();
 
@@ -41,16 +41,23 @@ public:
 private:
     Room getRandomRoom();
 
-    bool findFreeSpot(Room& room);
-    bool canPlaceRoom(Room room);
-    bool placeRoom(Room& room);
+    int index(int x, int y);
     bool isInBounds(int x, int y);
     bool isCarvable(int x, int y);
 
-    int index(int x, int y);
+    // Room Generation
+    void generateRooms();
     void carveOutRoom(Room room);
+    void shrinkRoom(Room& room);
+
+    bool findFreeSpot(Room& room);
+    bool canPlaceRoom(Room room);
+    bool placeRoom(Room& room);
+    
+    void updateMapSignatures();
     void updateSignature(int x, int y);
     void updateNeighbouringSignatures(int x, int y);
-    void shrinkRoom(Room& room);
+    void carveMaze();
+    void carveCoridor(sf::Vector2i start);
 };
 

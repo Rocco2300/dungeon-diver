@@ -19,6 +19,12 @@ MapGenerator::MapGenerator()
     }
 }
 
+void MapGenerator::generateMap()
+{
+    generateRooms();
+    carveMaze();
+}
+
 void MapGenerator::generateRooms()
 {
     for (int i = 0; i < 5; i++)
@@ -27,6 +33,11 @@ void MapGenerator::generateRooms()
         placeRoom(room);
     }
 
+    updateMapSignatures();
+}
+
+void MapGenerator::updateMapSignatures()
+{
     for (int i = 0; i < 16; i++)
     {
         for (int j = 0; j < 16; j++)
@@ -34,6 +45,47 @@ void MapGenerator::generateRooms()
             updateSignature(j, i);
             updateNeighbouringSignatures(j, i);
         }
+    }
+}
+
+void MapGenerator::carveMaze()
+{
+    std::vector<sf::Vector2i> candidates;
+
+    for (int y = 0; y < 16; y++)
+    {
+        for (int x = 0; x < 16; x++)
+        {
+            if (walls[index(x, y)].isWall && walls[index(x, y)].signature == 255)
+            {
+                candidates.push_back({x, y});
+            }
+        }
+    }
+
+    if (!candidates.empty())
+    {
+        int idx = rand() % candidates.size();
+
+        carveCoridor(candidates[idx]);
+    }
+}
+
+void MapGenerator::carveCoridor(sf::Vector2i start)
+{
+    int dir = rand() % 4; // Get a random cardinal direction
+    int dx = dirX[dir], dy = dirY[dir];
+
+    walls[index(start.x, start.y)].isWall = false;
+
+    while (isCarvable(start.x + dx, start.y + dy))
+    {
+        walls[index(start.x + dx, start.y + dy)].isWall = false;
+
+        updateMapSignatures();
+
+        start.x += dx;
+        start.y += dy;
     }
 }
 
@@ -60,14 +112,11 @@ Room MapGenerator::getRandomRoom()
 {
     Room res;
 
-    // 3 - 5
     sf::Vector2i size;
-    // size.x = rand() % 3 + 3;
-    // size.y = rand() % 3 + 3;
 
-    // 3 - 8
-    size.x = rand() % 6 + 3;
-    size.y = rand() % 6 + 3;
+    // 3 - 7
+    size.x = rand() % 5 + 3;
+    size.y = rand() % 5 + 3;
 
     res.size = size;
 
@@ -151,6 +200,9 @@ bool MapGenerator::isInBounds(int x, int y)
 
 bool MapGenerator::isCarvable(int x, int y)
 {
+    if (!isInBounds(x, y) || !walls[index(x, y)].isWall)
+        return false;
+
     for (size_t i = 0; i < mask.size(); i++)
     {   
         auto sig = walls[index(x, y)].signature;
