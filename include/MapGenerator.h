@@ -46,6 +46,7 @@ private:
     int  index(int x, int y);
     bool isInBounds(int x, int y);
     bool isCarvable(int x, int y);
+    bool compSignatures(uint8_t sig, uint8_t mask, uint8_t match);
 
     // Room Generation
     void generateRooms();
@@ -63,6 +64,7 @@ private:
     void carveCoridor(sf::Vector2i start);
     void fillAreas();
     void floodFill(int x, int y, int area);
+    void carveDoors();
     
     uint8_t getSignature(int x, int y);
 };

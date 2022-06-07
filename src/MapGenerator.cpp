@@ -34,7 +34,7 @@ void MapGenerator::generateMap()
 
 void MapGenerator::generateRooms()
 {
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < 4; i++)
     {
         auto room = getRandomRoom();
         placeRoom(room);
@@ -286,7 +286,7 @@ void MapGenerator::printSignatures()
     {
         for (int j = 0; j < 16; j++)
         {
-            std::cout << (int)getSignature(j, i) << " ";
+            std::cout << std::setw(3) << (int)getSignature(j, i) << " ";
         }
 
         std::cout << '\n';
@@ -312,11 +312,16 @@ bool MapGenerator::isCarvable(int x, int y)
     {   
         auto sig = getSignature(x, y);
 
-        if ((sig | mask[i]) == (match[i] | mask[i]))
+        if (compSignatures(sig, mask[i], match[i]))
             return true;
     }
 
     return false;
+}
+
+bool MapGenerator::compSignatures(uint8_t sig, uint8_t mask, uint8_t match)
+{
+    return (sig | mask) == (match | mask);
 }
 
 bool MapGenerator::findFreeSpot(Room& room)
