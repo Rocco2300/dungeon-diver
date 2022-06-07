@@ -30,6 +30,7 @@ void MapGenerator::generateMap()
     generateRooms();
     carveMaze();
     fillAreas();
+    carveDoors();
 }
 
 void MapGenerator::generateRooms()
@@ -181,6 +182,43 @@ void MapGenerator::floodFill(int x, int y, int area)
     }
 }
 
+void MapGenerator::carveDoors()
+{
+    for (int y = 0; y < 16; y++)
+    {
+        for (int x = 0; x < 16; x++)
+        {
+            if (!walls[index(x, y)])
+                continue;
+
+            auto sig = getSignature(x, y);
+
+            if (compSignatures(sig, 0b1111'0000, 0b1111'0101))
+            {
+                int a1 = areas[index(x - 1, y)];
+                int a2 = areas[index(x + 1, y)];
+
+                if (a1 != a2)
+                {
+                    walls[index(x, y)] = false;
+                    floodFill(x, y, a1);
+                }
+            }
+            else if (compSignatures(sig, 0b1111'0000, 0b1111'1010))
+            {
+                int a1 = areas[index(x, y - 1)];
+                int a2 = areas[index(x, y + 1)];
+
+                if (a1 != a2)
+                {
+                    walls[index(x, y)] = false;
+                    floodFill(x, y, a1);
+                }
+            }
+        }
+    }
+}
+
 std::stringstream MapGenerator::getMapAsStream()
 {
     std::stringstream res;
@@ -190,10 +228,10 @@ std::stringstream MapGenerator::getMapAsStream()
         int tile = (walls[i]) ? 2 : 1;
 
         // @Debugging
-        int x = i % 16;
-        int y = i / 16;
-        tile = (isCarvable(x, y)) ? 11 : tile;
-        
+        // int x = i % 16;
+        // int y = i / 16;
+        // tile = (isCarvable(x, y)) ? 11 : tile;
+
         res << tile << " ";
     }
 
@@ -321,7 +359,7 @@ bool MapGenerator::isCarvable(int x, int y)
 
 bool MapGenerator::compSignatures(uint8_t sig, uint8_t mask, uint8_t match)
 {
-    return (sig | mask) == (match | mask);
+    return ((sig | mask) == (match | mask));
 }
 
 bool MapGenerator::findFreeSpot(Room& room)

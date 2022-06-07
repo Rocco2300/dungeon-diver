@@ -12,7 +12,7 @@ void World::create(Tileset& tileset)
     MapGenerator gen;
     gen.generateMap();
     auto stream = gen.getMapAsStream();
-    // gen.printAreasArray();
+    gen.printAreasArray();
     // gen.printWallsArray();
     // gen.printSignatures();
 
