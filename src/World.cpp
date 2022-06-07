@@ -12,8 +12,9 @@ void World::create(Tileset& tileset)
     MapGenerator gen;
     gen.generateMap();
     auto stream = gen.getMapAsStream();
-    gen.printWallsArray();
-    gen.printSignatures();
+    gen.printAreasArray();
+    // gen.printWallsArray();
+    // gen.printSignatures();
 
     this->playerTurn = true;
     this->tileset = &tileset;

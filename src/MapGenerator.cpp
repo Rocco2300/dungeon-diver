@@ -1,6 +1,7 @@
 #include "MapGenerator.h"
 
 #include <iostream>
+#include <iomanip>
 #include <random>
 
 #include "Constants.h"
@@ -16,12 +17,19 @@ MapGenerator::MapGenerator()
             walls[index(x, y)] = true;
         }
     }
+
+    areas.resize(16 * 16);
+    for (size_t i = 0; i < areas.size(); i++)
+    {
+        areas[i] = -1;
+    }
 }
 
 void MapGenerator::generateMap()
 {
     generateRooms();
     carveMaze();
+    fillAreas();
 }
 
 void MapGenerator::generateRooms()
@@ -53,17 +61,17 @@ void MapGenerator::carveMaze()
 {
     std::vector<sf::Vector2i> candidates;
 
-    // @Optimize
-    do
+    do 
     {
         candidates.clear();
-        
+
         for (int y = 0; y < 16; y++)
         {
             for (int x = 0; x < 16; x++)
             {
                 if (walls[index(x, y)] && getSignature(x, y) == 255)
                 {
+                    // carveStarts.insert({x, y});
                     candidates.push_back({x, y});
                 }
             }
@@ -101,22 +109,22 @@ uint8_t MapGenerator::getSignature(int x, int y)
 
 void MapGenerator::carveCoridor(sf::Vector2i start)
 {
+    int step = 0;
     int dir = rand() % 4; // Get a random cardinal direction
 
     do
     {   
-        std::cout << start.x << " " << start.y << "\n";
         walls[index(start.x, start.y)] = false;
 
-        if (!isCarvable(start.x + dirX[dir], start.y + dirY[dir]))
+        if (!isCarvable(start.x + dirX[dir], start.y + dirY[dir]) || (rand() % 2 == 1 && step >= 2))
         {
+            step = 0;
             std::vector<int> dirs;
 
             for (int i = 0; i < 4; i++)
             {
                 if (isCarvable(start.x + dirX[i], start.y + dirY[i]))
                 {
-                    std::cout << i << "\n";
                     dirs.push_back(i);
                 }
             }
@@ -135,8 +143,42 @@ void MapGenerator::carveCoridor(sf::Vector2i start)
             start.x += dirX[dir];
             start.y += dirY[dir];
         }
+        step++;
 
     } while (dir != -1);
+}
+
+void MapGenerator::fillAreas()
+{
+    int area = 0;
+
+    for (int y = 0; y < 16; y++)
+    {
+        for (int x = 0; x < 16; x++)
+        {
+            if (!walls[index(x, y)] && areas[index(x, y)] == -1)
+            {
+                floodFill(x, y, area);
+                area ++;
+            }
+        }
+    }
+}
+
+void MapGenerator::floodFill(int x, int y, int area)
+{
+    if (!isInBounds(x, y))
+        return;
+
+    if (walls[index(x, y)] || areas[index(x, y)] == area)
+        return;
+
+    areas[index(x, y)] = area;
+
+    for (int i = 0; i < 4; i++)
+    {
+        floodFill(x + dirX[i], y + dirY[i], area);
+    }
 }
 
 std::stringstream MapGenerator::getMapAsStream()
@@ -225,6 +267,19 @@ void MapGenerator::printWallsArray()
     }
 }
 
+void MapGenerator::printAreasArray()
+{
+    for (int i = 0; i < 16; i++)
+    {
+        for (int j = 0; j < 16; j++)
+        {
+            std::cout << std::setw(2) << areas[index(j, i)] << " ";
+        }
+
+        std::cout << '\n';
+    }
+}
+
 void MapGenerator::printSignatures()
 {
     for (int i = 0; i < 16; i++)
@@ -270,10 +325,7 @@ bool MapGenerator::findFreeSpot(Room& room)
     while (!canPlaceRoom(room))
     {
         if (cnt == 100)
-        {
-            std::cout << "Failed to place room!" << std::endl;
             return false;
-        }
 
         room.pos.x = rand() % (16 - room.size.x);
         room.pos.y = rand() % (16 - room.size.y);
