@@ -91,43 +91,49 @@ uint8_t MapGenerator::getSignature(int x, int y)
 void MapGenerator::carveCoridor(sf::Vector2i start)
 {
     int dir = rand() % 4; // Get a random cardinal direction
-    int dx = dirX[dir], dy = dirY[dir];
 
-    walls[index(start.x, start.y)] = false;
+    do
+    {   
+        std::cout << start.x << " " << start.y << "\n";
+        walls[index(start.x, start.y)] = false;
 
-    // do 
+        if (!isCarvable(start.x + dirX[dir], start.y + dirY[dir]))
+        {
+            std::vector<int> dirs;
+
+            for (int i = 0; i < 4; i++)
+            {
+                if (isCarvable(start.x + dirX[i], start.y + dirY[i]))
+                {
+                    std::cout << i << "\n";
+                    dirs.push_back(i);
+                }
+            }
+
+            if (!dirs.empty())
+            {
+                int idx = rand() % dirs.size();
+                dir = dirs[idx];
+            }
+            else
+                dir = -1;
+        }
+
+        if (dir != -1)
+        {
+            start.x += dirX[dir];
+            start.y += dirY[dir];
+        }
+
+    } while (dir != -1);
+
+    // while (isCarvable(start.x + dx, start.y + dy))
     // {
-    //     // if (!isCarvable(start.x + dx, start.y + dy))
-    //     // {
-    //     //     std::vector<sf::Vector2i> neighbours;
-
-    //     //     for (int i = 0; i < 4; i++)
-    //     //     {
-    //     //         int _dx = dirX[i];
-    //     //         int _dy = dirY[i];
-    //     //         if (isCarvable(start.x + _dx, start.y + _dy))
-    //     //             neighbours.push_back({_dx, _dy});
-    //     //     }
-
-    //     //     int r = rand() % neighbours.size();
-    //     //     dx = neighbours[r].x;
-    //     //     dy = neighbours[r].y;
-    //     // }
-
     //     walls[index(start.x + dx, start.y + dy)] = false;
 
     //     start.x += dx;
     //     start.y += dy;
-        
-    // } while (isCarvable(start.x + dx, start.y + dy));
-
-    while (isCarvable(start.x + dx, start.y + dy))
-    {
-        walls[index(start.x + dx, start.y + dy)] = false;
-
-        start.x += dx;
-        start.y += dy;
-    }
+    // }
 }
 
 std::stringstream MapGenerator::getMapAsStream()
