@@ -9,13 +9,13 @@
 
 #include <cstdint>
 
-struct Cell
-{
-    bool isWall;
-    uint8_t signature;
+// struct Cell
+// {
+//     bool isWall;
+//     uint8_t signature;
 
-    Cell() : isWall{true}, signature{0} { }
-};
+//     Cell() : isWall{true}, signature{0} { }
+// };
 
 struct Room 
 {

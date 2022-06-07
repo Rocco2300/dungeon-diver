@@ -82,7 +82,7 @@ uint8_t MapGenerator::getSignature(int x, int y)
             signature |= (int)walls[index(dirX[i] + x, dirY[i] + y)] << i;
         
         if (isInBounds(diagX[i] + x, diagY[i] + y))
-            signature |= (int)walls[index(dirX[i] + x, dirY[i] + y)] << (i + 4);
+            signature |= (int)walls[index(diagX[i] + x, diagY[i] + y)] << (i + 4);
     }
 
     return signature;
@@ -90,15 +90,39 @@ uint8_t MapGenerator::getSignature(int x, int y)
 
 void MapGenerator::carveCoridor(sf::Vector2i start)
 {
-    int dir = 0; // Get a random cardinal direction
+    int dir = rand() % 4; // Get a random cardinal direction
     int dx = dirX[dir], dy = dirY[dir];
 
     walls[index(start.x, start.y)] = false;
 
+    // do 
+    // {
+    //     // if (!isCarvable(start.x + dx, start.y + dy))
+    //     // {
+    //     //     std::vector<sf::Vector2i> neighbours;
+
+    //     //     for (int i = 0; i < 4; i++)
+    //     //     {
+    //     //         int _dx = dirX[i];
+    //     //         int _dy = dirY[i];
+    //     //         if (isCarvable(start.x + _dx, start.y + _dy))
+    //     //             neighbours.push_back({_dx, _dy});
+    //     //     }
+
+    //     //     int r = rand() % neighbours.size();
+    //     //     dx = neighbours[r].x;
+    //     //     dy = neighbours[r].y;
+    //     // }
+
+    //     walls[index(start.x + dx, start.y + dy)] = false;
+
+    //     start.x += dx;
+    //     start.y += dy;
+        
+    // } while (isCarvable(start.x + dx, start.y + dy));
+
     while (isCarvable(start.x + dx, start.y + dy))
     {
-        // std::cout << isCarvable(start.x + dx, start.y + dy) << " " << (int)walls[index(start.x + dx, start.y + dy)].signature << "\n";
-
         walls[index(start.x + dx, start.y + dy)] = false;
 
         start.x += dx;
