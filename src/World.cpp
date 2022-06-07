@@ -25,9 +25,8 @@ void World::create(Tileset& tileset)
     player.setWorld(*this);
 
     entities.push_back(&player);
-    spawner.init(*this);
-    spawner.spawnEnemy({7, 10});
-    // entities.push_back(&slime);
+    // spawner.init(*this);
+    // spawner.spawnEnemy({7, 10});
 
     moveTime = sf::seconds(.3f);
 }

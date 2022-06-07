@@ -53,23 +53,30 @@ void MapGenerator::carveMaze()
 {
     std::vector<sf::Vector2i> candidates;
 
-    for (int y = 0; y < 16; y++)
+    // @Optimize
+    do
     {
-        for (int x = 0; x < 16; x++)
+        candidates.clear();
+        
+        for (int y = 0; y < 16; y++)
         {
-            if (walls[index(x, y)] && getSignature(x, y) == 255)
+            for (int x = 0; x < 16; x++)
             {
-                candidates.push_back({x, y});
+                if (walls[index(x, y)] && getSignature(x, y) == 255)
+                {
+                    candidates.push_back({x, y});
+                }
             }
         }
-    }
 
-    if (!candidates.empty())
-    {
-        int idx = rand() % candidates.size();
+        if (!candidates.empty())
+        {
+            int idx = rand() % candidates.size();
 
-        carveCoridor(candidates[idx]);
-    }
+            carveCoridor(candidates[idx]);
+        }
+
+    } while (!candidates.empty());
 }
 
 uint8_t MapGenerator::getSignature(int x, int y)
@@ -130,14 +137,6 @@ void MapGenerator::carveCoridor(sf::Vector2i start)
         }
 
     } while (dir != -1);
-
-    // while (isCarvable(start.x + dx, start.y + dy))
-    // {
-    //     walls[index(start.x + dx, start.y + dy)] = false;
-
-    //     start.x += dx;
-    //     start.y += dy;
-    // }
 }
 
 std::stringstream MapGenerator::getMapAsStream()
