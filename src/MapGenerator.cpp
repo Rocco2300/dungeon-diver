@@ -80,9 +80,13 @@ uint8_t MapGenerator::getSignature(int x, int y)
     {
         if (isInBounds(dirX[i] + x, dirY[i] + y))
             signature |= (int)walls[index(dirX[i] + x, dirY[i] + y)] << i;
+        else 
+            signature |= 1 << i;
         
         if (isInBounds(diagX[i] + x, diagY[i] + y))
             signature |= (int)walls[index(diagX[i] + x, diagY[i] + y)] << (i + 4);
+        else 
+            signature |= 1 << (i + 4);
     }
 
     return signature;
