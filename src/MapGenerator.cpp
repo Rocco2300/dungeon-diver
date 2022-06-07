@@ -184,6 +184,12 @@ void MapGenerator::floodFill(int x, int y, int area)
 
 void MapGenerator::carveDoors()
 {
+    std::vector<sf::Vector2i> possibleDoors;
+
+    do
+    {
+    possibleDoors.clear();
+    
     for (int y = 0; y < 16; y++)
     {
         for (int x = 0; x < 16; x++)
@@ -200,8 +206,9 @@ void MapGenerator::carveDoors()
 
                 if (a1 != a2)
                 {
-                    walls[index(x, y)] = false;
-                    floodFill(x, y, a1);
+                    // walls[index(x, y)] = false;
+                    // floodFill(x, y, a1);
+                    possibleDoors.push_back({x, y});
                 }
             }
             else if (compSignatures(sig, 0b1111'0000, 0b1111'1010))
@@ -211,12 +218,24 @@ void MapGenerator::carveDoors()
 
                 if (a1 != a2)
                 {
-                    walls[index(x, y)] = false;
-                    floodFill(x, y, a1);
+                    // walls[index(x, y)] = false;
+                    // floodFill(x, y, a1);
+                    possibleDoors.push_back({x, y});
+
                 }
             }
         }
     }
+
+    if (!possibleDoors.empty())
+    {
+        auto idx = rand() % possibleDoors.size();
+        auto tile = possibleDoors[idx];
+        walls[index(tile.x, tile.y)] = false;
+        floodFill(tile.x, tile.y, 99);
+    }
+
+    } while (!possibleDoors.empty());
 }
 
 std::stringstream MapGenerator::getMapAsStream()
