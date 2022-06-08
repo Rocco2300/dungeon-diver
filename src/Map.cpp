@@ -1,5 +1,6 @@
 #include "Map.h"
 
+#include <iostream>
 #include <algorithm>
 #include <fstream>
 
@@ -52,10 +53,16 @@ void Map::loadMap(const char* path)
             tile->setTileset(*tileset);
             tile->setID(x);
 
-            if (std::find(walkableTiles, walkableTiles+2, x) != walkableTiles+2)
+            if (std::find(walkableTiles.begin(), walkableTiles.end(), x) != walkableTiles.end())
+            {
+                if (x == 10) std::cout << "muie\n";
+
                 tile->setWalkable(true);
+            }
             else 
+            {
                 tile->setWalkable(false);
+            }
 
             tiles.push_back(std::move(tile));
         }
@@ -85,7 +92,7 @@ void Map::loadMap(std::istream& in)
             tile->setTileset(*tileset);
             tile->setID(x);
 
-            if (std::find(walkableTiles, walkableTiles+2, x) != walkableTiles+2)
+            if (std::find(walkableTiles.begin(), walkableTiles.end(), x) != walkableTiles.end())
                 tile->setWalkable(true);
             else 
                 tile->setWalkable(false);

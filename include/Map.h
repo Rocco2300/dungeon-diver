@@ -5,12 +5,13 @@
 #include "ChestTile.h"
 
 #include <memory>
+#include <array>
 
 class Map : public sf::Drawable
 {
 private:
-    const int interactableTiles[4] = {3, 5, 7, 8};
-    const int walkableTiles[2] = {0, 1};
+    const std::array<int, 4> walkableTiles = {0, 1, 9, 10};
+    // const int walkableTiles[4] = {0, 1, 9, 10};
 
     sf::Vector2i size;
 
