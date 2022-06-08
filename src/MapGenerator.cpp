@@ -32,6 +32,7 @@ void MapGenerator::generateMap()
     carveMaze();
     fillAreas();
     carveDoors();
+    carveShortcuts();
 }
 
 void MapGenerator::printWallsArray()
@@ -82,9 +83,9 @@ std::stringstream MapGenerator::getMapAsStream()
         int tile = (walls[i]) ? 2 : 1;
 
         // @Debugging
-        // int x = i % 16;
-        // int y = i / 16;
-        // tile = (isCarvable(x, y)) ? 11 : tile;
+        int x = i % 16;
+        int y = i / 16;
+        tile = (areas[index(x, y)] == -2) ? 10 : tile;
 
         res << tile << " ";
     }
@@ -408,12 +409,42 @@ void MapGenerator::carveDoor(std::vector<sf::Vector2i> possibleDoors)
     floodFill(tile.x, tile.y, area);
 }
 
-bool MapGenerator::isValidDoor(int x, int y)
+void MapGenerator::carveShortcuts()
+{
+    std::vector<sf::Vector2i> possibleShortcuts;
+
+    do
+    {
+        possibleShortcuts.clear();
+
+        possibleShortcuts = getPossibleShortcuts();
+
+        carveShortcut(possibleShortcuts);
+
+    } while (!possibleShortcuts.empty());
+    
+}
+
+void MapGenerator::carveShortcut(std::vector<sf::Vector2i> possibleShortcuts)
+{
+    if (possibleShortcuts.empty())
+        return;
+
+    auto idx = rand() % possibleShortcuts.size();
+    auto tile = possibleShortcuts[idx];
+    areas[index(tile.x, tile.y)] = -2;
+    walls[index(tile.x, tile.y)] = false;
+}
+
+bool MapGenerator::isValidDoor(int x, int y, bool sep)
 {
     auto sig = getSignature(x, y);
 
     if (compSignatures(sig, 0b1111'0000, 0b1111'0101))
     {
+        if (!sep)
+            return true;
+
         int a1 = areas[index(x - 1, y)];
         int a2 = areas[index(x + 1, y)];
 
@@ -422,6 +453,9 @@ bool MapGenerator::isValidDoor(int x, int y)
     }
     else if (compSignatures(sig, 0b1111'0000, 0b1111'1010))
     {
+        if (!sep)
+            return true;
+    
         int a1 = areas[index(x, y - 1)];
         int a2 = areas[index(x, y + 1)];
 
@@ -443,7 +477,7 @@ std::vector<sf::Vector2i> MapGenerator::getPossibleDoors()
             if (!walls[index(x, y)])
                 continue;
 
-           if (isValidDoor(x, y))
+            if (isValidDoor(x, y, true))
                 result.push_back({x, y});
         }
     }
@@ -451,4 +485,45 @@ std::vector<sf::Vector2i> MapGenerator::getPossibleDoors()
     return result;
 }
 
+std::vector<sf::Vector2i> MapGenerator::getPossibleShortcuts()
+{
+    std::vector<sf::Vector2i> result;
 
+    for (int y = 0; y < 16; y++)
+    {
+        for (int x = 0; x < 16; x++)
+        {
+            if (!isValidDoor(x, y, false))
+                continue;
+
+            sf::Vector2i a;
+            sf::Vector2i b;
+            AStar aStar(walls);
+            Path path;
+
+            if (areas[index(x + 1, y)] != -1)
+            {
+                a = sf::Vector2i(x + 1, y);
+                b = sf::Vector2i(x - 1, y);
+
+                path = aStar.findPath(a, b);
+            }
+            else if (areas[index(x, y + 1)] != -1)
+            {
+                a = sf::Vector2i(x, y + 1);
+                b = sf::Vector2i(x, y - 1);
+
+                path = aStar.findPath(a, b);
+            }
+
+
+            if (path.size() >= 20)
+                result.push_back({x, y});
+
+            // if (isValidDoor(x, y, false))
+            //     result.push_back({x, y});
+        }
+    }
+
+    return result;
+}
