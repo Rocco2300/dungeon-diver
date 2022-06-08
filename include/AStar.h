@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 #include <unordered_map>
 #include <unordered_set>
 #include "SFML/Graphics.hpp"
@@ -13,6 +14,7 @@ class AStar
 {
 private:
     World* world;
+    std::vector<bool>* colMap;
 
     struct VectorHash
     {
@@ -29,13 +31,20 @@ private:
     using TileHashSet = std::unordered_set<sf::Vector2i, VectorHash>; 
     using PathHashMap = std::unordered_map<sf::Vector2i, sf::Vector2i, VectorHash>;
 public:
-    AStar() = default;
+    AStar();
+    AStar(World* world);
+    AStar(std::vector<bool>& colMap);
+    
     void setWorld(World* world);
+    void setColMap(std::vector<bool>& colMap);
 
     Path findPath(sf::Vector2i start, sf::Vector2i end);
 private:
     int distance(sf::Vector2i curr, sf::Vector2i end);
-    sf::Vector2i getLowestScore(TileHashSet& openSet, ScoreHashMap& fScore);
     Path reconstructPath(PathHashMap cameFrom, sf::Vector2i current);
+    sf::Vector2i getLowestScore(TileHashSet& openSet, ScoreHashMap& fScore);
+
+    Path colMapFindPath(sf::Vector2i start, sf::Vector2i end);
+    Path worldMapFindPath(sf::Vector2i start, sf::Vector2i end);
 };
 
