@@ -190,59 +190,73 @@ void MapGenerator::carveDoors()
     {
         possibleDoors.clear();
         
-        for (int y = 0; y < 16; y++)
-        {
-            for (int x = 0; x < 16; x++)
-            {
-                if (!walls[index(x, y)])
-                    continue;
+        possibleDoors = getPossibleDoors();
 
-                auto sig = getSignature(x, y);
-
-                if (compSignatures(sig, 0b1111'0000, 0b1111'0101))
-                {
-                    int a1 = areas[index(x - 1, y)];
-                    int a2 = areas[index(x + 1, y)];
-
-                    if (a1 != a2)
-                    {
-                        // walls[index(x, y)] = false;
-                        // floodFill(x, y, a1);
-                        possibleDoors.push_back({x, y});
-                    }
-                }
-                else if (compSignatures(sig, 0b1111'0000, 0b1111'1010))
-                {
-                    int a1 = areas[index(x, y - 1)];
-                    int a2 = areas[index(x, y + 1)];
-
-                    if (a1 != a2)
-                    {
-                        // walls[index(x, y)] = false;
-                        // floodFill(x, y, a1);
-                        possibleDoors.push_back({x, y});
-
-                    }
-                }
-            }
-        }
-
-        if (!possibleDoors.empty())
-        {
-            auto idx = rand() % possibleDoors.size();
-            auto tile = possibleDoors[idx];
-            walls[index(tile.x, tile.y)] = false;
-
-            int area;
-            if (areas[index(tile.x + 1, tile.y)] != -1)
-                area = areas[index(tile.x + 1, tile.y)];
-            else if (areas[index(tile.x, tile.y + 1)] != 1)
-                area = areas[index(tile.x, tile.y + 1)];
-
-            floodFill(tile.x, tile.y, area);
-        }
+        carveDoor(possibleDoors);
 
     } while (!possibleDoors.empty());
+}
+
+void MapGenerator::carveDoor(std::vector<sf::Vector2i> possibleDoors)
+{
+    if (possibleDoors.empty())
+        return;
+
+    auto idx = rand() % possibleDoors.size();
+    auto tile = possibleDoors[idx];
+    walls[index(tile.x, tile.y)] = false;
+
+    // Merge two areas together
+    int area;
+    if (areas[index(tile.x + 1, tile.y)] != -1)
+        area = areas[index(tile.x + 1, tile.y)];
+    else if (areas[index(tile.x, tile.y + 1)] != 1)
+        area = areas[index(tile.x, tile.y + 1)];
+
+    floodFill(tile.x, tile.y, area);
+}
+
+std::vector<sf::Vector2i> MapGenerator::getPossibleDoors()
+{
+    std::vector<sf::Vector2i> result;
+
+    for (int y = 0; y < 16; y++)
+    {
+        for (int x = 0; x < 16; x++)
+        {
+            if (!walls[index(x, y)])
+                continue;
+
+           if (isValidDoor(x, y))
+                result.push_back({x, y});
+        }
+    }
+
+    return result;
+}
+
+bool MapGenerator::isValidDoor(int x, int y)
+{
+    auto sig = getSignature(x, y);
+
+    if (compSignatures(sig, 0b1111'0000, 0b1111'0101))
+    {
+        int a1 = areas[index(x - 1, y)];
+        int a2 = areas[index(x + 1, y)];
+
+        if (a1 != a2)
+            return true;
+    }
+    else if (compSignatures(sig, 0b1111'0000, 0b1111'1010))
+    {
+        int a1 = areas[index(x, y - 1)];
+        int a2 = areas[index(x, y + 1)];
+
+        if (a1 != a2)
+            return true;
+    }
+
+    return false;
 }
 
 std::stringstream MapGenerator::getMapAsStream()
