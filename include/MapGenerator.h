@@ -69,12 +69,13 @@ private:
 
     // Break out doors
     void fillAreas();
-    void floodFill(int x, int y, int area);
     void carveDoors();
-    void carveDoor(std::vector<sf::Vector2i> possibleDoors);
     void carveShortcuts();
+    void floodFill(int x, int y, int area);
+    void carveDoor(std::vector<sf::Vector2i> possibleDoors);
     void carveShortcut(std::vector<sf::Vector2i> possibleShortcuts);
 
+    int                       getPathLength(int x, int y);
     bool                      isValidDoor(int x, int y, bool sep);
     std::vector<sf::Vector2i> getPossibleDoors();
     std::vector<sf::Vector2i> getPossibleShortcuts();
