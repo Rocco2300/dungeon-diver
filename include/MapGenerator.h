@@ -41,11 +41,11 @@ public:
 
     std::stringstream getMapAsStream();
 private:
+    // Helpers
     int     index(int x, int y);
     bool    isInBounds(int x, int y);
     bool    isCarvable(int x, int y);
     bool    compSignatures(uint8_t sig, uint8_t mask, uint8_t match);
-    Room    getRandomRoom();
     uint8_t getSignature(int x, int y);
 
     // Room Generation
@@ -53,24 +53,26 @@ private:
     void carveOutRoom(Room room);
     void shrinkRoom(Room& room);
 
+    Room getRandomRoom();
     bool findFreeSpot(Room& room);
     bool canPlaceRoom(Room room);
     bool placeRoom(Room& room);
     
-    
-    // void updateMapSignatures();
-    // void updateSignature(int x, int y);
-    // void updateNeighbouringSignatures(int x, int y);
     // Maze Generation
     void carveMaze();
     void carveCoridor(sf::Vector2i start);
+
+    int                       getRandomDirection(std::vector<int> dirs);
+    std::vector<int>          getCarvableDirs(sf::Vector2i pos);
+    std::vector<sf::Vector2i> findPossibleStarts();
 
     // Break out doors
     void fillAreas();
     void floodFill(int x, int y, int area);
     void carveDoors();
     void carveDoor(std::vector<sf::Vector2i> possibleDoors);
-    bool isValidDoor(int x, int y);
+
+    bool                      isValidDoor(int x, int y);
     std::vector<sf::Vector2i> getPossibleDoors();
 };
 
