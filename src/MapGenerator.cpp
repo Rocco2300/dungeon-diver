@@ -33,6 +33,7 @@ void MapGenerator::generateMap()
     fillAreas();
     carveDoors();
     carveShortcuts();
+    fillDeadEnds();
 }
 
 void MapGenerator::printWallsArray()
@@ -269,6 +270,21 @@ void MapGenerator::carveMaze()
     } while (!starts.empty());
 }
 
+void MapGenerator::fillDeadEnds()
+{
+    std::vector<sf::Vector2i> deadEnds;
+
+    do
+    {   
+        deadEnds.clear();
+
+        deadEnds = findDeadEnds();
+
+        fillInWalls(deadEnds);
+
+    } while (!deadEnds.empty());
+}
+
 void MapGenerator::carveCoridor(sf::Vector2i start)
 {
     int step = 0;
@@ -293,6 +309,14 @@ void MapGenerator::carveCoridor(sf::Vector2i start)
         step++;
 
     } while (dir != -1);
+}
+
+void MapGenerator::fillInWalls(std::vector<sf::Vector2i> deadEnds)
+{
+    for (int i = 0; i < deadEnds.size(); i++)
+    {
+        walls[index(deadEnds[i].x, deadEnds[i].y)] = 1;
+    }
 }
 
 int MapGenerator::getRandomDirection(std::vector<int> dirs)
@@ -335,15 +359,28 @@ std::vector<sf::Vector2i> MapGenerator::findPossibleStarts()
         for (int x = 0; x < 16; x++)
         {
             if (walls[index(x, y)] && getSignature(x, y) == 255)
-            {
                 result.push_back({x, y});
-            }
         }
     }
 
     return result;
 }
 
+std::vector<sf::Vector2i> MapGenerator::findDeadEnds()
+{
+    std::vector<sf::Vector2i> result;
+
+    for (int y = 0; y < 16; y++)
+    {
+        for (int x = 0; x < 16; x++)
+        {
+            if (!walls[index(x, y)] && isCarvable(x, y))
+                result.push_back({x, y});
+        }
+    }
+
+    return result;
+}
 
 // Door Generation
 void MapGenerator::fillAreas()

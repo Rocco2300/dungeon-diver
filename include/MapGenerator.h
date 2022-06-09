@@ -61,11 +61,14 @@ private:
     
     // Maze Generation
     void carveMaze();
+    void fillDeadEnds();
     void carveCoridor(sf::Vector2i start);
+    void fillInWalls(std::vector<sf::Vector2i> deadEnds);
 
     int                       getRandomDirection(std::vector<int> dirs);
     std::vector<int>          getCarvableDirs(sf::Vector2i pos);
     std::vector<sf::Vector2i> findPossibleStarts();
+    std::vector<sf::Vector2i> findDeadEnds();
 
     // Door Generation
     void fillAreas();
