@@ -3,6 +3,7 @@
 #include "Tile.h"
 #include "PotTile.h"
 #include "ChestTile.h"
+#include "DoorTile.h"
 
 #include <memory>
 #include <array>
@@ -31,4 +32,6 @@ public:
     void loadMap(std::istream& in);
 
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+private:
+    void _loadMap(std::istream& in);
 };

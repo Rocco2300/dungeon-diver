@@ -34,72 +34,14 @@ void Map::loadMap(const char* path)
 {
     std::ifstream in(path);
 
-    int x;
-    for (int i = 0; i < 16; i++)
-    {
-        std::vector<int> temp;
-        for (int j = 0; j < 16; j++)
-        {
-            in >> x;
-
-            std::unique_ptr<Tile> tile;
-            if (x == 7 || x == 8)
-                tile = std::make_unique<PotTile>();
-            else if (x == 3 || x == 5)
-                tile = std::make_unique<ChestTile>();
-            else
-                tile = std::make_unique<Tile>();
-            
-            tile->setTileset(*tileset);
-            tile->setID(x);
-
-            if (std::find(walkableTiles.begin(), walkableTiles.end(), x) != walkableTiles.end())
-            {
-                if (x == 10) std::cout << "muie\n";
-
-                tile->setWalkable(true);
-            }
-            else 
-            {
-                tile->setWalkable(false);
-            }
-
-            tiles.push_back(std::move(tile));
-        }
-    }
+    _loadMap(in);
 
     in.close();
 }
 
 void Map::loadMap(std::istream& in)
 {
-    int x;
-    for (int i = 0; i < 16; i++)
-    {
-        std::vector<int> temp;
-        for (int j = 0; j < 16; j++)
-        {
-            in >> x;
-
-            std::unique_ptr<Tile> tile;
-            if (x == 7 || x == 8)
-                tile = std::make_unique<PotTile>();
-            else if (x == 3 || x == 5)
-                tile = std::make_unique<ChestTile>();
-            else
-                tile = std::make_unique<Tile>();
-            
-            tile->setTileset(*tileset);
-            tile->setID(x);
-
-            if (std::find(walkableTiles.begin(), walkableTiles.end(), x) != walkableTiles.end())
-                tile->setWalkable(true);
-            else 
-                tile->setWalkable(false);
-
-            tiles.push_back(std::move(tile));
-        }
-    }
+    _loadMap(in);
 }
 
 void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -117,4 +59,43 @@ void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
         target.draw(*tiles[i].get(), states);
     }
 
+}
+
+void Map::_loadMap(std::istream& in)
+{
+    int id;
+    for (int i = 0; i < 16; i++)
+    {
+        std::vector<int> temp;
+        for (int j = 0; j < 16; j++)
+        {
+            in >> id;
+
+            std::unique_ptr<Tile> tile;
+            if (id == 7 || id == 8)
+                tile = std::make_unique<PotTile>();
+            else if (id == 3 || id == 5)
+                tile = std::make_unique<ChestTile>();
+            else if (id == 11)
+                tile = std::make_unique<DoorTile>();
+            else
+                tile = std::make_unique<Tile>();
+            
+            tile->setTileset(*tileset);
+            tile->setID(id);
+
+            if (std::find(walkableTiles.begin(), walkableTiles.end(), id) != walkableTiles.end())
+            {
+                if (id == 10) std::cout << "muie\n";
+
+                tile->setWalkable(true);
+            }
+            else 
+            {
+                tile->setWalkable(false);
+            }
+
+            tiles.push_back(std::move(tile));
+        }
+    }
 }
