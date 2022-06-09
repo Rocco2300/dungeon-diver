@@ -15,7 +15,7 @@ MapGenerator::MapGenerator()
     {
         for (int x = 0; x < 16; x++)
         {
-            walls[index(x, y)] = true;
+            walls[index(x, y)] = 1;
         }
     }
 
@@ -41,7 +41,7 @@ void MapGenerator::printWallsArray()
     {
         for (int j = 0; j < 16; j++)
         {
-            std::cout << walls[index(j, i)] << " ";
+            std::cout << std::setw(2) << walls[index(j, i)] << " ";
         }
 
         std::cout << '\n';
@@ -80,12 +80,15 @@ std::stringstream MapGenerator::getMapAsStream()
 
     for (size_t i = 0; i < walls.size(); i++)
     {
-        int tile = (walls[i]) ? 2 : 1;
+        int tile;
+        if (walls[i] == 0) tile = 1;
+        else if (walls[i] == 1) tile = 2;
+        else tile = walls[i];
 
         // @Debugging
-        int x = i % 16;
-        int y = i / 16;
-        tile = (areas[index(x, y)] == -2) ? 10 : tile;
+        // int x = i % 16;
+        // int y = i / 16;
+        // tile = (areas[index(x, y)] == -2) ? 10 : tile;
 
         res << tile << " ";
     }
@@ -106,7 +109,7 @@ bool MapGenerator::isInBounds(int x, int y)
 
 bool MapGenerator::isCarvable(int x, int y)
 {
-    if (!isInBounds(x, y) || !walls[index(x, y)])
+    if (!isInBounds(x, y))
         return false;
 
     for (size_t i = 0; i < mask.size(); i++)
@@ -180,9 +183,9 @@ Room MapGenerator::getRandomRoom()
 
     sf::Vector2i size;
 
-    // 3 - 6
-    size.x = rand() % 4 + 3;
-    size.y = rand() % 4 + 3;
+    // 3 - 8
+    size.x = rand() % 6 + 3;
+    size.y = rand() % 6 + 3;
 
     res.size = size;
 
@@ -313,7 +316,8 @@ std::vector<int> MapGenerator::getCarvableDirs(sf::Vector2i pos)
 
     for (int i = 0; i < 4; i++)
     {
-        if (isCarvable(pos.x + dirX[i], pos.y + dirY[i]))
+        int idx = index(pos.x + dirX[i], pos.y + dirY[i]);
+        if (isCarvable(pos.x + dirX[i], pos.y + dirY[i]) && walls[idx])
         {
             result.push_back(i);
         }
@@ -432,7 +436,7 @@ void MapGenerator::carveShortcut(std::vector<sf::Vector2i> possibleShortcuts)
 
     auto idx = rand() % possibleShortcuts.size();
     auto tile = possibleShortcuts[idx];
-    areas[index(tile.x, tile.y)] = -2;
+    // areas[index(tile.x, tile.y)] = -2;
     walls[index(tile.x, tile.y)] = false;
 }
 

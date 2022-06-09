@@ -14,7 +14,7 @@ class AStar
 {
 private:
     World* world;
-    std::vector<bool>* colMap;
+    std::vector<int>* colMap;
 
     struct VectorHash
     {
@@ -33,10 +33,10 @@ private:
 public:
     AStar();
     AStar(World* world);
-    AStar(std::vector<bool>& colMap);
-    
+    AStar(std::vector<int>& colMap);
+
     void setWorld(World* world);
-    void setColMap(std::vector<bool>& colMap);
+    void setColMap(std::vector<int>& colMap);
 
     Path findPath(sf::Vector2i start, sf::Vector2i end);
 private:
