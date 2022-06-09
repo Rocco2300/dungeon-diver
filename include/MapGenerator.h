@@ -63,7 +63,7 @@ private:
     void carveMaze();
     void fillDeadEnds();
     void carveCoridor(sf::Vector2i start);
-    void fillInWalls(std::vector<sf::Vector2i> deadEnds);
+    void fillInWalls(const std::vector<sf::Vector2i>& deadEnds);
 
     int                       getRandomDirection(std::vector<int> dirs);
     std::vector<int>          getCarvableDirs(sf::Vector2i pos);
@@ -75,8 +75,8 @@ private:
     void carveDoors();
     void carveShortcuts();
     void floodFill(int x, int y, int area);
-    void carveDoor(std::vector<sf::Vector2i> possibleDoors);
-    void carveShortcut(std::vector<sf::Vector2i> possibleShortcuts);
+    void carveDoor(const std::vector<sf::Vector2i>& possibleDoors);
+    void carveShortcut(const std::vector<sf::Vector2i>& possibleShortcuts);
 
     int                       getPathLength(int x, int y);
     bool                      isValidDoor(int x, int y, bool sep);

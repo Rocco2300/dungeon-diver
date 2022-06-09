@@ -311,9 +311,9 @@ void MapGenerator::carveCoridor(sf::Vector2i start)
     } while (dir != -1);
 }
 
-void MapGenerator::fillInWalls(std::vector<sf::Vector2i> deadEnds)
+void MapGenerator::fillInWalls(const std::vector<sf::Vector2i>& deadEnds)
 {
-    for (int i = 0; i < deadEnds.size(); i++)
+    for (size_t i = 0; i < deadEnds.size(); i++)
     {
         walls[index(deadEnds[i].x, deadEnds[i].y)] = 1;
     }
@@ -447,7 +447,7 @@ void MapGenerator::floodFill(int x, int y, int area)
     }
 }
 
-void MapGenerator::carveDoor(std::vector<sf::Vector2i> possibleDoors)
+void MapGenerator::carveDoor(const std::vector<sf::Vector2i>& possibleDoors)
 {
     if (possibleDoors.empty())
         return;
@@ -466,7 +466,7 @@ void MapGenerator::carveDoor(std::vector<sf::Vector2i> possibleDoors)
     floodFill(tile.x, tile.y, area);
 }
 
-void MapGenerator::carveShortcut(std::vector<sf::Vector2i> possibleShortcuts)
+void MapGenerator::carveShortcut(const std::vector<sf::Vector2i>& possibleShortcuts)
 {
     if (possibleShortcuts.empty())
         return;
