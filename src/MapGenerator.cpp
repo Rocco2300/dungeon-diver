@@ -87,9 +87,9 @@ std::stringstream MapGenerator::getMapAsStream()
         else tile = walls[i];
 
         // @Debugging
-        // int x = i % 16;
-        // int y = i / 16;
-        // tile = (areas[index(x, y)] == -2) ? 10 : tile;
+        int x = i % 16;
+        int y = i / 16;
+        tile = (areas[index(x, y)] == -2) ? 12 : tile;
 
         res << tile << " ";
     }
@@ -316,6 +316,7 @@ void MapGenerator::fillInWalls(const std::vector<sf::Vector2i>& deadEnds)
     for (size_t i = 0; i < deadEnds.size(); i++)
     {
         walls[index(deadEnds[i].x, deadEnds[i].y)] = 1;
+        areas[index(deadEnds[i].x, deadEnds[i].y)] = -2;
     }
 }
 

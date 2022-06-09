@@ -1,7 +1,5 @@
 #include "World.h"
 
-#include "MapGenerator.h"
-
 #include <iostream>
 
 void World::create(Tileset& tileset)
@@ -9,12 +7,8 @@ void World::create(Tileset& tileset)
     // CSV<Label> csv("csv/Enemies.csv");
     // csv.print();
 
-    MapGenerator gen;
     gen.generateMap();
     auto stream = gen.getMapAsStream();
-    gen.printAreasArray();
-    // gen.printWallsArray();
-    // gen.printSignatures();
 
     this->playerTurn = true;
     this->tileset = &tileset;
@@ -115,6 +109,21 @@ void World::endTurn(Entity* entity)
 
 void World::keyPressed(sf::Keyboard::Key key)
 {
+    switch (key)
+    {
+    case sf::Keyboard::Comma:
+        gen.printAreasArray();
+        break;
+    case sf::Keyboard::Period:
+        gen.printWallsArray();
+        break;
+    case sf::Keyboard::Slash:
+        gen.printSignatures();
+        break;
+    default:
+        break;
+    }
+
     player.onKeyPressed(key);
 }
 

@@ -4,12 +4,15 @@
 #include "Player.h"
 #include "Map.h"
 
+#include "MapGenerator.h"
+
 class World : public sf::Drawable
 {
 private:
     Tileset* tileset;
 
     Spawner spawner;
+    MapGenerator gen;
     std::vector<Entity*> entities;
     Player player;
 
