@@ -420,7 +420,7 @@ void MapGenerator::carveDoor(std::vector<sf::Vector2i> possibleDoors)
     walls[index(tile.x, tile.y)] = false;
 
     // Merge two areas together
-    int area;
+    int area{};
     if (areas[index(tile.x + 1, tile.y)] != -1)
         area = areas[index(tile.x + 1, tile.y)];
     else if (areas[index(tile.x, tile.y + 1)] != 1)
