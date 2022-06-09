@@ -8,7 +8,7 @@ class ChestTile : public Tile, public InteractableTile
 private:
     
 public:
-    ChestTile();
+    ChestTile() = default;
 
     void onInteract();
 };

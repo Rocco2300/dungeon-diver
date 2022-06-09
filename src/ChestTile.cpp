@@ -1,9 +1,5 @@
 #include "ChestTile.h"
 
-ChestTile::ChestTile()
-{
-}
-
 void ChestTile::onInteract()
 {
     if (!interactable)

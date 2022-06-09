@@ -8,7 +8,7 @@ class PotTile : public Tile, public InteractableTile
 private:
     
 public:
-    PotTile();
+    PotTile() = default;
 
     void onInteract();
 };

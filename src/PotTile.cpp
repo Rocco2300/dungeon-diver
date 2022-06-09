@@ -1,9 +1,5 @@
 #include "PotTile.h"
 
-PotTile::PotTile()
-{
-}
-
 void PotTile::onInteract()
 {
     if (!interactable)
