@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <iomanip>
 #include <random>
+#include <map>
 
 #include "Constants.h"
 
@@ -204,50 +205,6 @@ Room MapGenerator::getRandomRoom()
     return res;
 }
 
-sf::Vector2i MapGenerator::findIsolatedRoom()
-{
-    // We have to find if there is a room with a different area flag
-
-    // Map to hold number of rooms with a certain area flag
-    std::unordered_map<int, int> zoneRoomMap;
-    std::unordered_map<sf::Vector2i, int, VectorHash> roomFlagMap;
-
-    for (size_t i = 0; i < rooms.size(); i++)
-    {
-        auto pos = rooms[i].pos;
-        auto flag = areas[index(pos.x, pos.y)];
-
-        zoneRoomMap[flag]++;
-        roomFlagMap[pos] = flag;
-    }
-    
-    return findIsolatedRoomOrigin(zoneRoomMap, roomFlagMap);
-}
-
-sf::Vector2i MapGenerator::findIsolatedRoomOrigin(std::unordered_map<int, int> zoneRoomMap,
-    std::unordered_map<sf::Vector2i, int, VectorHash> roomFlagMap)
-{
-    sf::Vector2i roomPos(-1, -1);
-    for (auto& [flag, count] : zoneRoomMap)
-    {
-        if (count == 1)
-        {
-            auto result = std::find_if(
-                roomFlagMap.begin(),
-                roomFlagMap.end(),
-                [=](const auto& mo) { return mo.second == flag; }
-            );
-
-            if (result != roomFlagMap.end())
-                roomPos = result->first;
-
-            break;
-        }
-    }
-
-    return roomPos;
-}
-
 bool MapGenerator::findFreeSpot(Room& room)
 {
     int cnt = 0;
@@ -302,6 +259,55 @@ bool MapGenerator::placeRoom(Room& room)
     carveOutRoom(room);
 
     return true;
+}
+
+sf::Vector2i MapGenerator::findIsolatedRoom()
+{
+    // We have to find if there is a room with a different area flag
+
+    // Map to hold number of rooms with a certain area flag
+    std::map<int, int> zoneRoomMap;
+    // std::unordered_map<sf::Vector2i, int, VectorHash> roomFlagMap;
+
+    for (size_t i = 0; i < rooms.size(); i++)
+    {
+        auto pos = rooms[i].pos;
+        auto flag = areas[index(pos.x, pos.y)];
+
+        zoneRoomMap[flag]++;
+        // roomFlagMap[pos] = flag;
+    }
+    
+    return findIsolatedRoomOrigin(zoneRoomMap);
+    // return findIsolatedRoomOrigin(zoneRoomMap, roomFlagMap);
+}
+
+sf::Vector2i MapGenerator::findIsolatedRoomOrigin(std::map<int, int>& zoneRoomMap)
+{
+    int isolatedFlag = -1;
+    for (auto& [flag, count] : zoneRoomMap)
+    {
+        if (count == 1)
+        {
+            isolatedFlag = flag;
+            std::cout << "Found\n";
+            break;
+        }
+    }
+
+    if (isolatedFlag != -1)
+    {
+        for (int y = 0; y < 16; y++)
+        {
+            for (int x = 0; x < 16; x++)
+            {
+                if (areas[index(x, y)] == isolatedFlag)
+                    return {x, y};
+            }
+        }
+    }
+
+    return {-1, -1};
 }
 
 // Maze Generation
