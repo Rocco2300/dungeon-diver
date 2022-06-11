@@ -11,23 +11,10 @@
 MapGenerator::MapGenerator()
 {
     walls.resize(16*16);
-
     std::fill(walls.begin(), walls.end(), 1);
-    // for (int y = 0; y < 16; y++)
-    // {
-    //     for (int x = 0; x < 16; x++)
-    //     {
-    //         walls[index(x, y)] = 1;
-    //     }
-    // }
 
     areas.resize(16 * 16);
     std::fill(areas.begin(), areas.end(), -1);
-
-    // for (size_t i = 0; i < areas.size(); i++)
-    // {
-    //     areas[i] = -1;
-    // }
 
     roomMap.resize(16 * 16);
 }
@@ -169,10 +156,13 @@ void MapGenerator::generateRooms()
 
 void MapGenerator::carveOutRoom(Room room)
 {
+    rooms.push_back(room);
+
     for (int y = 0; y < room.size.y; y++)
     {
         for (int x = 0; x < room.size.x; x++)
         {
+            roomMap[index(room.pos.x + x, room.pos.y + y)] = rooms.size();
             walls[index(room.pos.x + x, room.pos.y + y)] = false;
         }
     }

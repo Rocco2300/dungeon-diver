@@ -41,6 +41,7 @@ public:
     void printWallsArray();
     void printAreasArray();
     void printSignatures();
+    void printRoomMap();
 
     std::stringstream getMapAsStream();
 private:
