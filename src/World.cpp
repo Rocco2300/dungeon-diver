@@ -120,6 +120,9 @@ void World::keyPressed(sf::Keyboard::Key key)
     case sf::Keyboard::Slash:
         gen.printSignatures();
         break;
+    case sf::Keyboard::SemiColon:
+        gen.printRoomMap();
+        break;
     default:
         break;
     }

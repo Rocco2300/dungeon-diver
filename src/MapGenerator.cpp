@@ -68,6 +68,19 @@ void MapGenerator::printSignatures()
     }
 }
 
+void MapGenerator::printRoomMap()
+{
+    for (int y = 0; y < 16; y++)
+    {
+        for (int x = 0; x < 16; x++)
+        {
+            std::cout << roomMap[index(x, y)] << " ";
+        }
+
+        std::cout << '\n';
+    }
+}
+
 std::stringstream MapGenerator::getMapAsStream()
 {
     std::stringstream res;
