@@ -212,7 +212,7 @@ sf::Vector2i MapGenerator::findIsolatedRoom()
     std::unordered_map<int, int> zoneRoomMap;
     std::unordered_map<sf::Vector2i, int, VectorHash> roomFlagMap;
 
-    for (int i = 0; i < rooms.size(); i++)
+    for (size_t i = 0; i < rooms.size(); i++)
     {
         auto pos = rooms[i].pos;
         auto flag = areas[index(pos.x, pos.y)];
@@ -220,28 +220,31 @@ sf::Vector2i MapGenerator::findIsolatedRoom()
         zoneRoomMap[flag]++;
         roomFlagMap[pos] = flag;
     }
+    
+    return findIsolatedRoomOrigin(zoneRoomMap, roomFlagMap);
+}
 
+sf::Vector2i MapGenerator::findIsolatedRoomOrigin(std::unordered_map<int, int> zoneRoomMap,
+    std::unordered_map<sf::Vector2i, int, VectorHash> roomFlagMap)
+{
     sf::Vector2i roomPos(-1, -1);
-    if (zoneRoomMap.size() != 1)
+    for (auto& [flag, count] : zoneRoomMap)
     {
-        for (auto& [flag, count] : zoneRoomMap)
+        if (count == 1)
         {
-            if (count == 1)
-            {
-                auto result = std::find_if(
-                    roomFlagMap.begin(),
-                    roomFlagMap.end(),
-                    [=](const auto& mo) { return mo.second == flag; }
-                );
+            auto result = std::find_if(
+                roomFlagMap.begin(),
+                roomFlagMap.end(),
+                [=](const auto& mo) { return mo.second == flag; }
+            );
 
-                if (result != roomFlagMap.end())
-                    roomPos = result->first;
+            if (result != roomFlagMap.end())
+                roomPos = result->first;
 
-                break;
-            }
+            break;
         }
     }
-    
+
     return roomPos;
 }
 

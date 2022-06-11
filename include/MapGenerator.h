@@ -67,7 +67,10 @@ private:
     void removeIsolatedRoom(Room room);
 
     sf::Vector2i findIsolatedRoom();
-    sf::Vector2i findIsolatedRoomOrigin();
+    sf::Vector2i findIsolatedRoomOrigin(
+        std::unordered_map<int, int> zoneRoomMap,
+        std::unordered_map<sf::Vector2i, int, VectorHash> roomFlagMap
+    );
     
     // Maze Generation
     void carveMaze();
