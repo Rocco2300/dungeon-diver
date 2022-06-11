@@ -27,10 +27,8 @@ void MapGenerator::generateMap()
     fillAreas();
     carveDoors();
     removeIsolatedRooms();
-    // auto a = findIsolatedRoom();
-    // std::cout << a.x << " " << a.y << '\n';
-    // carveShortcuts();
-    // fillDeadEnds();
+    carveShortcuts();
+    fillDeadEnds();
 }
 
 void MapGenerator::printWallsArray()
@@ -262,13 +260,13 @@ bool MapGenerator::placeRoom(Room& room)
     return true;
 }
 
+// Remove the isolated rooms
 void MapGenerator::removeIsolatedRooms()
 {
     auto roomOrigin = findIsolatedRoom();
 
     if (roomOrigin.x != -1)
     {
-        std::cout << roomOrigin.x << " " << roomOrigin.y << '\n';
         fillInIsolatedRoom(roomOrigin.x, roomOrigin.y);
     }
 }
@@ -315,7 +313,6 @@ sf::Vector2i MapGenerator::findIsolatedRoomOrigin(std::map<int, int>& zoneRoomMa
         if (count == 1)
         {
             isolatedFlag = flag;
-            std::cout << "Found\n";
             break;
         }
     }
