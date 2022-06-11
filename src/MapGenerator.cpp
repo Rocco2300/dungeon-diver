@@ -25,6 +25,8 @@ void MapGenerator::generateMap()
     carveMaze();
     fillAreas();
     carveDoors();
+    auto a = findIsolatedRoom();
+    std::cout << a.x << " " << a.y << '\n';
     // carveShortcuts();
     // fillDeadEnds();
 }
@@ -200,6 +202,47 @@ Room MapGenerator::getRandomRoom()
     res.size = size;
 
     return res;
+}
+
+sf::Vector2i MapGenerator::findIsolatedRoom()
+{
+    // We have to find if there is a room with a different area flag
+
+    // Map to hold number of rooms with a certain area flag
+    std::unordered_map<int, int> zoneRoomMap;
+    std::unordered_map<sf::Vector2i, int, VectorHash> roomFlagMap;
+
+    for (int i = 0; i < rooms.size(); i++)
+    {
+        auto pos = rooms[i].pos;
+        auto flag = areas[index(pos.x, pos.y)];
+
+        zoneRoomMap[flag]++;
+        roomFlagMap[pos] = flag;
+    }
+
+    sf::Vector2i roomPos(-1, -1);
+    if (zoneRoomMap.size() != 1)
+    {
+        for (auto& [flag, count] : zoneRoomMap)
+        {
+            if (count == 1)
+            {
+                auto result = std::find_if(
+                    roomFlagMap.begin(),
+                    roomFlagMap.end(),
+                    [=](const auto& mo) { return mo.second == flag; }
+                );
+
+                if (result != roomFlagMap.end())
+                    roomPos = result->first;
+
+                break;
+            }
+        }
+    }
+    
+    return roomPos;
 }
 
 bool MapGenerator::findFreeSpot(Room& room)

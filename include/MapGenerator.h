@@ -62,6 +62,13 @@ private:
     bool canPlaceRoom(Room room);
     bool placeRoom(Room& room);
     
+    // Remove isolated rooms
+    void removeIsolatedRooms();
+    void removeIsolatedRoom(Room room);
+
+    sf::Vector2i findIsolatedRoom();
+    sf::Vector2i findIsolatedRoomOrigin();
+    
     // Maze Generation
     void carveMaze();
     void fillDeadEnds();

@@ -10,22 +10,22 @@ class World;
 
 using Path = std::vector<sf::Vector2i>;
 
+struct VectorHash
+{
+    size_t operator()(const sf::Vector2i& op) const
+    {
+        auto hash1 = std::hash<std::string>{}(std::to_string(op.x));
+        auto hash2 = std::hash<std::string>{}(std::to_string(op.y));
+
+        return hash1 ^ hash2;
+    }
+};
+
 class AStar
 {
 private:
     World* world;
     std::vector<int>* colMap;
-
-    struct VectorHash
-    {
-        size_t operator()(const sf::Vector2i& op) const
-        {
-            auto hash1 = std::hash<std::string>{}(std::to_string(op.x));
-            auto hash2 = std::hash<std::string>{}(std::to_string(op.y));
-
-            return hash1 ^ hash2;
-        }
-    };
 
     using ScoreHashMap = std::unordered_map<sf::Vector2i, int, VectorHash>;
     using TileHashSet = std::unordered_set<sf::Vector2i, VectorHash>; 
