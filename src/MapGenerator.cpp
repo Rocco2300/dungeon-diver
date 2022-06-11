@@ -26,8 +26,9 @@ void MapGenerator::generateMap()
     carveMaze();
     fillAreas();
     carveDoors();
-    auto a = findIsolatedRoom();
-    std::cout << a.x << " " << a.y << '\n';
+    removeIsolatedRooms();
+    // auto a = findIsolatedRoom();
+    // std::cout << a.x << " " << a.y << '\n';
     // carveShortcuts();
     // fillDeadEnds();
 }
@@ -259,6 +260,30 @@ bool MapGenerator::placeRoom(Room& room)
     carveOutRoom(room);
 
     return true;
+}
+
+void MapGenerator::removeIsolatedRooms()
+{
+    auto roomOrigin = findIsolatedRoom();
+
+    if (roomOrigin.x != -1)
+    {
+        std::cout << roomOrigin.x << " " << roomOrigin.y << '\n';
+        fillInIsolatedRoom(roomOrigin.x, roomOrigin.y);
+    }
+}
+
+void MapGenerator::fillInIsolatedRoom(int x, int y)
+{
+    if (!isInBounds(x, y) || walls[index(x, y)] == 1)
+        return;
+    
+    walls[index(x, y)] = 1;
+
+    for (int i = 0; i < 4; i++)
+    {
+        fillInIsolatedRoom(x + dirX[i], y + dirY[i]);
+    }
 }
 
 sf::Vector2i MapGenerator::findIsolatedRoom()
