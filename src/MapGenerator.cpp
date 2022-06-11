@@ -1,6 +1,7 @@
 #include "MapGenerator.h"
 
 #include <iostream>
+#include <algorithm>
 #include <iomanip>
 #include <random>
 
@@ -11,19 +12,24 @@ MapGenerator::MapGenerator()
 {
     walls.resize(16*16);
 
-    for (int y = 0; y < 16; y++)
-    {
-        for (int x = 0; x < 16; x++)
-        {
-            walls[index(x, y)] = 1;
-        }
-    }
+    std::fill(walls.begin(), walls.end(), 1);
+    // for (int y = 0; y < 16; y++)
+    // {
+    //     for (int x = 0; x < 16; x++)
+    //     {
+    //         walls[index(x, y)] = 1;
+    //     }
+    // }
 
     areas.resize(16 * 16);
-    for (size_t i = 0; i < areas.size(); i++)
-    {
-        areas[i] = -1;
-    }
+    std::fill(areas.begin(), areas.end(), -1);
+
+    // for (size_t i = 0; i < areas.size(); i++)
+    // {
+    //     areas[i] = -1;
+    // }
+
+    roomMap.resize(16 * 16);
 }
 
 void MapGenerator::generateMap()
@@ -32,8 +38,8 @@ void MapGenerator::generateMap()
     carveMaze();
     fillAreas();
     carveDoors();
-    carveShortcuts();
-    fillDeadEnds();
+    // carveShortcuts();
+    // fillDeadEnds();
 }
 
 void MapGenerator::printWallsArray()

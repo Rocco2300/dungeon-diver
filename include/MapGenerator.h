@@ -30,8 +30,10 @@ private:
     std::array<uint8_t, 5> mask  = {0         , 0b00110000, 0b01100000, 0b11000000, 0b10010000};
     std::array<uint8_t, 5> match = {0b11111111, 0b11111110, 0b11111101, 0b11111011, 0b11110111};
 
-    std::vector<int> areas;
-    std::vector<int> walls;
+    std::vector<int>  areas;
+    std::vector<int>  walls;
+    std::vector<int>  roomMap;
+    std::vector<Room> rooms; 
 public:
     MapGenerator();
 
