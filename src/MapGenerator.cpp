@@ -5,12 +5,16 @@
 #include <iomanip>
 #include <random>
 #include <map>
+#include <chrono>
 
 #include "Constants.h"
 
 // Publics
 MapGenerator::MapGenerator()
 {
+    maxWidth = 8;
+    maxHeight = 8;
+
     walls.resize(16*16);
     std::fill(walls.begin(), walls.end(), 1);
 
@@ -183,27 +187,6 @@ void MapGenerator::carveOutRoom(Room room)
     }
 }
 
-void MapGenerator::shrinkRoom(Room& room)
-{
-    room.size.x = (room.size.x > 3) ? room.size.x - 1 : 3;
-    room.size.y = (room.size.y > 3) ? room.size.y - 1 : 3;
-}
-
-Room MapGenerator::getRandomRoom()
-{
-    Room res;
-
-    sf::Vector2i size;
-
-    // 3 - 8
-    size.x = rand() % 6 + 3;
-    size.y = rand() % 6 + 3;
-
-    res.size = size;
-
-    return res;
-}
-
 bool MapGenerator::findFreeSpot(Room& room)
 {
     int cnt = 0;
@@ -251,13 +234,25 @@ bool MapGenerator::placeRoom(Room& room)
         if (cnt == 3)
             return false;
 
-        shrinkRoom(room);
+        maxWidth--;
+        maxHeight--;
+        room = getRandomRoom();
         cnt ++;
     }
 
     carveOutRoom(room);
 
     return true;
+}
+
+Room MapGenerator::getRandomRoom()
+{
+    Room res;
+
+    res.size.x = rand() % (maxWidth  - 2) + 3;
+    res.size.y = rand() % (maxHeight - 2) + 3;
+
+    return res;
 }
 
 // Remove the isolated rooms
@@ -399,7 +394,7 @@ void MapGenerator::fillInWalls(const std::vector<sf::Vector2i>& deadEnds)
     for (size_t i = 0; i < deadEnds.size(); i++)
     {
         walls[index(deadEnds[i].x, deadEnds[i].y)] = 1;
-        areas[index(deadEnds[i].x, deadEnds[i].y)] = -2;
+        // areas[index(deadEnds[i].x, deadEnds[i].y)] = -2;
     }
 }
 

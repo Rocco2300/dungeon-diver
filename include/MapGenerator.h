@@ -27,6 +27,10 @@ struct Room
 class MapGenerator
 {
 private:
+    // Max room size
+    int maxWidth;
+    int maxHeight;
+
     std::array<uint8_t, 5> mask  = {0         , 0b00110000, 0b01100000, 0b11000000, 0b10010000};
     std::array<uint8_t, 5> match = {0b11111111, 0b11111110, 0b11111101, 0b11111011, 0b11110111};
 
@@ -55,14 +59,14 @@ private:
     // Room Generation
     void generateRooms();
     void carveOutRoom(Room room);
-    void shrinkRoom(Room& room);
 
-    Room getRandomRoom();
     bool findFreeSpot(Room& room);
     bool canPlaceRoom(Room room);
     bool placeRoom(Room& room);
+    Room getRandomRoom();
     
     // Remove isolated rooms
+    // Change behaviour
     void removeIsolatedRooms();
     void fillInIsolatedRoom(int x, int y);
 
