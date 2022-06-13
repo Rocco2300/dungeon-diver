@@ -21,6 +21,7 @@ void MapGenerator::generateMap()
     solveIsolatedRooms();
     carveShortcuts();
     fillDeadEnds();
+    placeDoors();
 }
 
 void MapGenerator::printWallsArray()
@@ -100,8 +101,8 @@ std::stringstream MapGenerator::getMapAsStream()
 // Allocation
 void MapGenerator::init()
 {
-    maxWidth = 8;
-    maxHeight = 8;
+    maxWidth = 7;
+    maxHeight = 7;
 
     walls.resize(16*16);
     std::fill(walls.begin(), walls.end(), 1);
@@ -204,8 +205,6 @@ void MapGenerator::solveIsolatedRooms()
     // shouldn't overflow
     if (hasIsolatedRoom())
     {
-        std::cout << "Found isolated room, regenerating\n";
-
         clearMaps();
         init();
 
@@ -464,6 +463,26 @@ void MapGenerator::fillAreas()
     }
 }
 
+void MapGenerator::placeDoors()
+{
+    std::vector<sf::Vector2i> possibleDoors;
+
+    do
+    {
+        possibleDoors.clear();
+
+        possibleDoors = getPossibleDoors();
+
+        if (possibleDoors.size() > 0)
+        {
+            auto idx = rand() % possibleDoors.size();
+            walls[index(possibleDoors[idx].x, possibleDoors[idx].y)] = 11;
+        }
+
+    } while (!possibleDoors.empty());
+    
+}
+
 void MapGenerator::carveDoors()
 {
     std::vector<sf::Vector2i> possibleDoors;
@@ -472,7 +491,7 @@ void MapGenerator::carveDoors()
     {
         possibleDoors.clear();
         
-        possibleDoors = getPossibleDoors();
+        possibleDoors = getPossibleDoorways();
 
         carveDoor(possibleDoors);
 
@@ -595,7 +614,7 @@ bool MapGenerator::isValidDoor(int x, int y, bool sep)
     return false;
 }
 
-std::vector<sf::Vector2i> MapGenerator::getPossibleDoors()
+std::vector<sf::Vector2i> MapGenerator::getPossibleDoorways()
 {
     std::vector<sf::Vector2i> result;
 
@@ -633,4 +652,34 @@ std::vector<sf::Vector2i> MapGenerator::getPossibleShortcuts()
     }
 
     return result;
+}
+
+std::vector<sf::Vector2i> MapGenerator::getPossibleDoors()
+{
+    std::vector<sf::Vector2i> res;
+    
+    for (int y = 0; y < 16; y++)
+    {
+        for (int x = 0; x < 16; x++)
+        {
+            if (walls[index(x, y)])
+                continue;
+
+            if (!isValidDoor(x, y, false))
+                continue;
+
+            if (isInBounds(x + 1, y) && areas[index(x + 1, y)] != -1)
+            {
+                if (roomMap[index(x + 1, y)] != 0 || roomMap[index(x - 1, y)] != 0)
+                    res.push_back({x, y});
+            }
+            else if (isInBounds(x, y + 1) && areas[index(x, y + 1)] != -1)
+            {
+                if (roomMap[index(x, y + 1)] != 0 || roomMap[index(x, y - 1)] != 0)
+                    res.push_back({x, y});
+            }
+        }
+    }
+
+    return res;
 }

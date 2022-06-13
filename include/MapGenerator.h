@@ -84,6 +84,7 @@ private:
 
     // Door Generation
     void fillAreas();
+    void placeDoors();
     void carveDoors();
     void carveShortcuts();
     void floodFill(int x, int y, int area);
@@ -92,7 +93,8 @@ private:
 
     int                       getPathLength(int x, int y);
     bool                      isValidDoor(int x, int y, bool sep);
-    std::vector<sf::Vector2i> getPossibleDoors();
+    std::vector<sf::Vector2i> getPossibleDoorways();
     std::vector<sf::Vector2i> getPossibleShortcuts();
+    std::vector<sf::Vector2i> getPossibleDoors();
 };
 
