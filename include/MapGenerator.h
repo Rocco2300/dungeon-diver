@@ -71,14 +71,6 @@ private:
     bool hasIsolatedRoom();
     Room getRandomRoom();
     
-    // Remove isolated rooms
-    // Change behaviour
-    void removeIsolatedRooms();
-    void fillInIsolatedRoom(int x, int y);
-
-    sf::Vector2i findIsolatedRoom();
-    sf::Vector2i findIsolatedRoomOrigin(std::map<int, int>& zoneRoomMap);
-    
     // Maze Generation
     void carveMaze();
     void fillDeadEnds();

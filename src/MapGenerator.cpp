@@ -302,79 +302,14 @@ Room MapGenerator::getRandomRoom()
 {
     Room res;
 
+    // Clamp values so we don't divide by 0
+    maxWidth  = (maxWidth >= 3) ? maxWidth : 3;
+    maxHeight = (maxHeight >= 3) ? maxHeight : 3;
+
     res.size.x = rand() % (maxWidth  - 2) + 3;
     res.size.y = rand() % (maxHeight - 2) + 3;
 
     return res;
-}
-
-// Remove the isolated rooms
-void MapGenerator::removeIsolatedRooms()
-{
-    auto roomOrigin = findIsolatedRoom();
-
-    if (roomOrigin.x != -1)
-    {
-        fillInIsolatedRoom(roomOrigin.x, roomOrigin.y);
-    }
-}
-
-void MapGenerator::fillInIsolatedRoom(int x, int y)
-{
-    if (!isInBounds(x, y) || walls[index(x, y)] == 1)
-        return;
-    
-    walls[index(x, y)] = 1;
-
-    for (int i = 0; i < 4; i++)
-    {
-        fillInIsolatedRoom(x + dirX[i], y + dirY[i]);
-    }
-}
-
-sf::Vector2i MapGenerator::findIsolatedRoom()
-{
-    // We have to find if there is a room with a different area flag
-
-    // Map to hold number of rooms with a certain area flag
-    std::map<int, int> zoneRoomMap;
-
-    for (size_t i = 0; i < rooms.size(); i++)
-    {
-        auto pos = rooms[i].pos;
-        auto flag = areas[index(pos.x, pos.y)];
-
-        zoneRoomMap[flag]++;
-    }
-    
-    return findIsolatedRoomOrigin(zoneRoomMap);
-}
-
-sf::Vector2i MapGenerator::findIsolatedRoomOrigin(std::map<int, int>& zoneRoomMap)
-{
-    int isolatedFlag = -1;
-    for (auto& [flag, count] : zoneRoomMap)
-    {
-        if (count == 1)
-        {
-            isolatedFlag = flag;
-            break;
-        }
-    }
-
-    if (isolatedFlag != -1)
-    {
-        for (int y = 0; y < 16; y++)
-        {
-            for (int x = 0; x < 16; x++)
-            {
-                if (areas[index(x, y)] == isolatedFlag)
-                    return {x, y};
-            }
-        }
-    }
-
-    return {-1, -1};
 }
 
 // Maze Generation
