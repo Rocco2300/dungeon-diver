@@ -63,6 +63,8 @@ void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 void Map::_loadMap(std::istream& in)
 {
+    tiles.clear();
+
     int id;
     for (int i = 0; i < 16; i++)
     {

@@ -11,13 +11,14 @@
 
 void MapGenerator::generateMap()
 {   
+    clearMaps();
     init();
 
     generateRooms();
     carveMaze();
     fillAreas();
     carveDoors();
-    removeIsolatedRooms();
+    solveIsolatedRooms();
     carveShortcuts();
     fillDeadEnds();
 }
@@ -199,9 +200,21 @@ void MapGenerator::carveOutRoom(Room room)
 
 void MapGenerator::solveIsolatedRooms()
 {
+    // The case is so rare recursive
+    // shouldn't overflow
     if (hasIsolatedRoom())
     {
+        std::cout << "Found isolated room, regenerating\n";
 
+        clearMaps();
+        init();
+
+        generateRooms();
+        carveMaze();
+        fillAreas();
+        carveDoors();
+
+        solveIsolatedRooms();
     }
 }
 

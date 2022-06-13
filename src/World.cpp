@@ -109,6 +109,8 @@ void World::endTurn(Entity* entity)
 
 void World::keyPressed(sf::Keyboard::Key key)
 {
+    std::stringstream stream;
+    
     switch (key)
     {
     case sf::Keyboard::Comma:
@@ -122,6 +124,11 @@ void World::keyPressed(sf::Keyboard::Key key)
         break;
     case sf::Keyboard::SemiColon:
         gen.printRoomMap();
+        break;
+    case sf::Keyboard::G:
+        gen.generateMap();
+        stream = gen.getMapAsStream();
+        map.loadMap(stream);
         break;
     default:
         break;
