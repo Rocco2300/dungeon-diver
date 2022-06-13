@@ -9,23 +9,10 @@
 
 #include "Constants.h"
 
-// Publics
-MapGenerator::MapGenerator()
-{
-    maxWidth = 8;
-    maxHeight = 8;
-
-    walls.resize(16*16);
-    std::fill(walls.begin(), walls.end(), 1);
-
-    areas.resize(16 * 16);
-    std::fill(areas.begin(), areas.end(), -1);
-
-    roomMap.resize(16 * 16);
-}
-
 void MapGenerator::generateMap()
-{
+{   
+    init();
+
     generateRooms();
     carveMaze();
     fillAreas();
@@ -99,14 +86,37 @@ std::stringstream MapGenerator::getMapAsStream()
         else tile = walls[i];
 
         // @Debugging
-        int x = i % 16;
-        int y = i / 16;
-        tile = (areas[index(x, y)] == -2) ? 12 : tile;
+        // int x = i % 16;
+        // int y = i / 16;
+        // tile = (areas[index(x, y)] == -2) ? 12 : tile;
 
         res << tile << " ";
     }
 
     return res;
+}
+
+// Allocation
+void MapGenerator::init()
+{
+    maxWidth = 8;
+    maxHeight = 8;
+
+    walls.resize(16*16);
+    std::fill(walls.begin(), walls.end(), 1);
+
+    areas.resize(16 * 16);
+    std::fill(areas.begin(), areas.end(), -1);
+
+    roomMap.resize(16 * 16);
+}
+
+void MapGenerator::clearMaps()
+{
+    walls.clear();
+    areas.clear();
+    roomMap.clear();
+    rooms.clear();
 }
 
 // Helpers
@@ -187,6 +197,14 @@ void MapGenerator::carveOutRoom(Room room)
     }
 }
 
+void MapGenerator::solveIsolatedRooms()
+{
+    if (hasIsolatedRoom())
+    {
+
+    }
+}
+
 bool MapGenerator::findFreeSpot(Room& room)
 {
     int cnt = 0;
@@ -245,6 +263,28 @@ bool MapGenerator::placeRoom(Room& room)
     return true;
 }
 
+bool MapGenerator::hasIsolatedRoom()
+{
+    // We have to find if there is a room with a different area flag
+    // Map to hold number of rooms with a certain area flag
+    std::map<int, int> zoneRoomMap;
+
+    for (size_t i = 0; i < rooms.size(); i++)
+    {
+        auto pos = rooms[i].pos;
+        auto flag = areas[index(pos.x, pos.y)];
+
+        zoneRoomMap[flag]++;
+    }
+
+    // If there is more than one flag on the map
+    // one room hasn't been expanded, thus is isolated
+    if (zoneRoomMap.size() != 1)
+        return true;
+
+    return false;
+}
+
 Room MapGenerator::getRandomRoom()
 {
     Room res;
@@ -285,7 +325,6 @@ sf::Vector2i MapGenerator::findIsolatedRoom()
 
     // Map to hold number of rooms with a certain area flag
     std::map<int, int> zoneRoomMap;
-    // std::unordered_map<sf::Vector2i, int, VectorHash> roomFlagMap;
 
     for (size_t i = 0; i < rooms.size(); i++)
     {
@@ -293,11 +332,9 @@ sf::Vector2i MapGenerator::findIsolatedRoom()
         auto flag = areas[index(pos.x, pos.y)];
 
         zoneRoomMap[flag]++;
-        // roomFlagMap[pos] = flag;
     }
     
     return findIsolatedRoomOrigin(zoneRoomMap);
-    // return findIsolatedRoomOrigin(zoneRoomMap, roomFlagMap);
 }
 
 sf::Vector2i MapGenerator::findIsolatedRoomOrigin(std::map<int, int>& zoneRoomMap)

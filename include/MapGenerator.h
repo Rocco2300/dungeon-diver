@@ -39,7 +39,7 @@ private:
     std::vector<int>  roomMap;
     std::vector<Room> rooms; 
 public:
-    MapGenerator();
+    MapGenerator() = default;
 
     void generateMap();
     void printWallsArray();
@@ -49,6 +49,10 @@ public:
 
     std::stringstream getMapAsStream();
 private:
+    // Allocation
+    void init();
+    void clearMaps();
+
     // Helpers
     int     index(int x, int y);
     bool    isInBounds(int x, int y);
@@ -59,10 +63,12 @@ private:
     // Room Generation
     void generateRooms();
     void carveOutRoom(Room room);
+    void solveIsolatedRooms();
 
     bool findFreeSpot(Room& room);
     bool canPlaceRoom(Room room);
     bool placeRoom(Room& room);
+    bool hasIsolatedRoom();
     Room getRandomRoom();
     
     // Remove isolated rooms
