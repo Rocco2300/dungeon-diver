@@ -10,14 +10,6 @@
 
 #include <cstdint>
 
-// struct Cell
-// {
-//     bool isWall;
-//     uint8_t signature;
-
-//     Cell() : isWall{true}, signature{0} { }
-// };
-
 struct Room 
 {
     sf::Vector2i pos;

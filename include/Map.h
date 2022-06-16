@@ -1,9 +1,6 @@
 #pragma once
 
-#include "Tile.h"
-#include "PotTile.h"
-#include "ChestTile.h"
-#include "DoorTile.h"
+#include "InteractableTile.h"
 
 #include <memory>
 #include <array>

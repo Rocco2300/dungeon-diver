@@ -78,6 +78,8 @@ void Map::_loadMap(std::istream& in)
                 tile = std::make_unique<PotTile>();
             else if (id == 3 || id == 5)
                 tile = std::make_unique<ChestTile>();
+            else if (id == 10)
+                tile = std::make_unique<ExitStairsTile>();
             else if (id == 11)
                 tile = std::make_unique<DoorTile>();
             else
