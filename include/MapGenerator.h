@@ -96,5 +96,11 @@ private:
     std::vector<sf::Vector2i> getPossibleDoorways();
     std::vector<sf::Vector2i> getPossibleShortcuts();
     std::vector<sf::Vector2i> getPossibleDoors();
+
+    void placeStairs();
+    void placeEntranceStairs();
+    void placeExitStairs();
+
+    std::vector<sf::Vector2i> getPossibleEntrances();
 };
 

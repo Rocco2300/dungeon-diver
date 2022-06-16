@@ -22,6 +22,7 @@ void MapGenerator::generateMap()
     carveShortcuts();
     fillDeadEnds();
     placeDoors();
+    placeEntranceStairs();
 }
 
 void MapGenerator::printWallsArray()
@@ -101,8 +102,8 @@ std::stringstream MapGenerator::getMapAsStream()
 // Allocation
 void MapGenerator::init()
 {
-    maxWidth = 7;
-    maxHeight = 7;
+    maxWidth = 8;
+    maxHeight = 8;
 
     walls.resize(16*16);
     std::fill(walls.begin(), walls.end(), 1);
@@ -678,6 +679,32 @@ std::vector<sf::Vector2i> MapGenerator::getPossibleDoors()
                 if (roomMap[index(x, y + 1)] != 0 || roomMap[index(x, y - 1)] != 0)
                     res.push_back({x, y});
             }
+        }
+    }
+
+    return res;
+}
+
+void MapGenerator::placeEntranceStairs()
+{
+    auto walkableTiles = getPossibleEntrances();
+
+    auto idx = rand() % walkableTiles.size();
+    auto pos = walkableTiles[idx];
+
+    walls[index(pos.x, pos.y)] = 9;
+}
+
+std::vector<sf::Vector2i> MapGenerator::getPossibleEntrances()
+{
+    std::vector<sf::Vector2i> res;
+
+    for (int y = 0; y < 16; y++)
+    {
+        for (int x = 0; x < 16; x++)
+        {
+            if (walls[index(x, y)] == 0 && getSignature(x, y) != 0 && roomMap[index(x, y)] != 0)
+                res.push_back({x, y});
         }
     }
 
