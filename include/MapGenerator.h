@@ -101,6 +101,7 @@ private:
     void placeEntranceStairs();
     void placeExitStairs();
 
+    bool isValidEntrance(int x, int y);
     std::vector<sf::Vector2i> getPossibleEntrances();
 };
 

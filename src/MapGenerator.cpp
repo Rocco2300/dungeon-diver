@@ -695,6 +695,28 @@ void MapGenerator::placeEntranceStairs()
     walls[index(pos.x, pos.y)] = 9;
 }
 
+bool MapGenerator::isValidEntrance(int x, int y)
+{
+    bool res = walls[index(x, y)] == 0 && getSignature(x, y) != 0 && roomMap[index(x, y)] != 0;
+
+    for (int i = 0; i < 4; i++)
+    {
+        if (!isInBounds(x + dirX[i], y + dirY[i]))
+            continue;
+
+        if (walls[index(x + dirX[i], y + dirY[i])] == 11)
+            return false;
+
+        if (!isInBounds(x + diagX[i], y + diagY[i]))
+            continue;
+        
+        if (walls[index(x + diagX[i], y + diagY[i])] == 11)
+            return false;
+    }
+
+    return res;
+}
+
 std::vector<sf::Vector2i> MapGenerator::getPossibleEntrances()
 {
     std::vector<sf::Vector2i> res;
@@ -703,7 +725,7 @@ std::vector<sf::Vector2i> MapGenerator::getPossibleEntrances()
     {
         for (int x = 0; x < 16; x++)
         {
-            if (walls[index(x, y)] == 0 && getSignature(x, y) != 0 && roomMap[index(x, y)] != 0)
+            if (isValidEntrance(x, y))
                 res.push_back({x, y});
         }
     }
