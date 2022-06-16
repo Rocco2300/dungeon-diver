@@ -17,6 +17,7 @@ private:
     Player player;
 
     bool playerTurn;
+    bool nextLevel;
 
     sf::Time moveTime;
 public:

@@ -7,6 +7,8 @@ void World::create(Tileset& tileset)
     // CSV<Label> csv("csv/Enemies.csv");
     // csv.print();
 
+    nextLevel = false;
+
     gen.generateMap();
     auto stream    = gen.getMapAsStream();
     auto playerPos = gen.getEntrance();
@@ -40,10 +42,14 @@ bool World::isWall(Entity* caller, sf::Vector2i pos)
     if (caller == &player)
     {
         auto t = dynamic_cast<InteractableTile*>(&map(posI));
+        auto exitTile = dynamic_cast<ExitStairsTile*>(&map(posI));
 
-        if (t != nullptr)
+        if (t)
         {
             t->onInteract();
+
+            if (exitTile)
+                nextLevel = true;
         }
     }
 
@@ -156,9 +162,16 @@ void World::update(sf::Time dt)
             enemy->update(dt);
         }
     }
-    // player.update(dt);
-    // if (!slime.isDead())
-    //     slime.update(dt);
+
+    if (nextLevel)
+    {
+        gen.generateMap();
+        auto stream = gen.getMapAsStream();
+        auto pos = gen.getEntrance();
+        player.setPosition(pos);
+        map.loadMap(stream);
+        nextLevel = false;
+    }
 }
 
 void World::draw(sf::RenderTarget& target, sf::RenderStates states) const 
@@ -169,6 +182,4 @@ void World::draw(sf::RenderTarget& target, sf::RenderStates states) const
     {
         target.draw(*entities[i], states);
     }
-    // target.draw(slime, states);
-    // target.draw(player, states);
 }
