@@ -42,6 +42,8 @@ private:
 public:
     MapGenerator() = default;
 
+    sf::Vector2i getEntrance();
+
     void generateMap();
     void printWallsArray();
     void printAreasArray();

@@ -9,6 +9,11 @@
 
 #include "Constants.h"
 
+sf::Vector2i MapGenerator::getEntrance()
+{
+    return entrance;
+}
+
 void MapGenerator::generateMap()
 {   
     clearMaps();
@@ -22,8 +27,7 @@ void MapGenerator::generateMap()
     carveShortcuts();
     fillDeadEnds();
     placeDoors();
-    placeEntranceStairs();
-    placeExitStairs();
+    placeStairs();
 }
 
 void MapGenerator::printWallsArray()
@@ -684,6 +688,12 @@ std::vector<sf::Vector2i> MapGenerator::getPossibleDoors()
     }
 
     return res;
+}
+
+void MapGenerator::placeStairs()
+{
+    placeEntranceStairs();
+    placeExitStairs();
 }
 
 void MapGenerator::placeEntranceStairs()

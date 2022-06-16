@@ -8,7 +8,8 @@ void World::create(Tileset& tileset)
     // csv.print();
 
     gen.generateMap();
-    auto stream = gen.getMapAsStream();
+    auto stream    = gen.getMapAsStream();
+    auto playerPos = gen.getEntrance();
 
     this->playerTurn = true;
     this->tileset = &tileset;
@@ -18,6 +19,7 @@ void World::create(Tileset& tileset)
     map.loadMap(stream);
 
     player.setWorld(*this);
+    player.setPosition(playerPos);
 
     entities.push_back(&player);
     // spawner.init(*this);
@@ -109,6 +111,7 @@ void World::endTurn(Entity* entity)
 
 void World::keyPressed(sf::Keyboard::Key key)
 {
+    sf::Vector2i pos;
     std::stringstream stream;
     
     switch (key)
@@ -128,6 +131,8 @@ void World::keyPressed(sf::Keyboard::Key key)
     case sf::Keyboard::G:
         gen.generateMap();
         stream = gen.getMapAsStream();
+        pos = gen.getEntrance();
+        player.setPosition(pos);
         map.loadMap(stream);
         break;
     default:
