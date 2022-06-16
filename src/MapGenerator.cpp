@@ -23,6 +23,7 @@ void MapGenerator::generateMap()
     fillDeadEnds();
     placeDoors();
     placeEntranceStairs();
+    placeExitStairs();
 }
 
 void MapGenerator::printWallsArray()
@@ -687,15 +688,34 @@ std::vector<sf::Vector2i> MapGenerator::getPossibleDoors()
 
 void MapGenerator::placeEntranceStairs()
 {
-    auto walkableTiles = getPossibleEntrances();
+    auto possibleEntrances = getPossibleEntrances();
 
-    auto idx = rand() % walkableTiles.size();
-    auto pos = walkableTiles[idx];
+    auto idx = rand() % possibleEntrances.size();
+    auto pos = possibleEntrances[idx];
 
     walls[index(pos.x, pos.y)] = 9;
+    entrance = pos;
 }
 
-bool MapGenerator::isValidEntrance(int x, int y)
+void MapGenerator::placeExitStairs()
+{
+    auto distMap = getDistanceMap();
+
+    int m = 0;
+    sf::Vector2i pos;
+    for (int i = 0; i < distMap.size(); i++)
+    {
+        if (distMap[i] > m)
+        {
+            m = distMap[i];
+            pos = sf::Vector2i(i % 16, i / 16);
+        }
+    }
+
+    walls[index(pos.x, pos.y)] = 10;
+}
+
+bool MapGenerator::isValidStairsPos(int x, int y)
 {
     bool res = walls[index(x, y)] == 0 && getSignature(x, y) != 0 && roomMap[index(x, y)] != 0;
 
@@ -725,8 +745,32 @@ std::vector<sf::Vector2i> MapGenerator::getPossibleEntrances()
     {
         for (int x = 0; x < 16; x++)
         {
-            if (isValidEntrance(x, y))
+            if (isValidStairsPos(x, y))
                 res.push_back({x, y});
+        }
+    }
+
+    return res;
+}
+
+// Get distance map to valid stairs tiles
+std::vector<int> MapGenerator::getDistanceMap()
+{
+    std::vector<int> res;
+    res.resize(16 * 16);
+
+    AStar aStar;
+    aStar.setColMap(walls);
+
+    for (int y = 0; y < 16; y++)
+    {
+        for (int x = 0; x < 16; x++)
+        {
+            if (!isValidStairsPos(x, y))
+                continue;
+
+            auto dist = aStar.findPath(entrance, {x, y}).size();
+            res[index(x, y)] = dist;
         }
     }
 

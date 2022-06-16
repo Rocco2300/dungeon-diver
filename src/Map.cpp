@@ -87,15 +87,9 @@ void Map::_loadMap(std::istream& in)
             tile->setID(id);
 
             if (std::find(walkableTiles.begin(), walkableTiles.end(), id) != walkableTiles.end())
-            {
-                if (id == 10) std::cout << "muie\n";
-
                 tile->setWalkable(true);
-            }
             else 
-            {
                 tile->setWalkable(false);
-            }
 
             tiles.push_back(std::move(tile));
         }

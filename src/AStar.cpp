@@ -113,7 +113,7 @@ Path AStar::colMapFindPath(sf::Vector2i start, sf::Vector2i end)
 
             // if is wall
             bool inBounds = (neighbour.x >= 0 && neighbour.x < 16 && neighbour.y >= 0 && neighbour.y < 16);
-            if (((inBounds && colMap->at(neighbour.y * 16 + neighbour.x)) || !inBounds))
+            if (((inBounds && colMap->at(neighbour.y * 16 + neighbour.x) == 1) || !inBounds))
                 continue; 
 
             auto tentGScore = gScore[current] + 1;
