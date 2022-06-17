@@ -35,7 +35,7 @@ void World::create(Tileset& tileset)
             openTiles.push_back({x, y});
     }
 
-    for (int i = 0; i < 1; i++)
+    for (int i = 0; i < 3; i++)
     {
         auto idx = rand() % openTiles.size();
         spawner.spawnEnemy({openTiles[idx].x, openTiles[idx].y});
@@ -113,13 +113,13 @@ std::vector<Entity*>& World::getEntities()
 
 void World::endTurn(Entity* entity)
 {
-    static int enemies = 0;
+    static unsigned int enemies = 0;
 
     if (entity == &player)
     {
         bool allIdle = true;
 
-        for (int i = 0; i < entities.size(); i++)
+        for (size_t i = 0; i < entities.size(); i++)
         {
             auto enemy = dynamic_cast<Enemy*>(entities[i]);
 

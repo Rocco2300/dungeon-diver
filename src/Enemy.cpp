@@ -105,7 +105,7 @@ bool Enemy::playerLos()
     int i = 1;
     while (i <= step)
     {   
-        if (world->isWall(nullptr, {x, y}))
+        if (world->isWall(nullptr, {static_cast<int>(x), static_cast<int>(y)}))
             res = false;
 
         x += dx;

@@ -713,7 +713,7 @@ void MapGenerator::placeExitStairs()
 
     int m = 0;
     sf::Vector2i pos;
-    for (int i = 0; i < distMap.size(); i++)
+    for (size_t i = 0; i < distMap.size(); i++)
     {
         if (distMap[i] > m)
         {
