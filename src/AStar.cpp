@@ -61,6 +61,8 @@ Path AStar::reconstructPath(PathHashMap cameFrom, sf::Vector2i current)
 {
     Path totalPath;
 
+    totalPath.push_back(current);
+
     while (cameFrom.find(current) != cameFrom.end())
     {
         current = cameFrom[current];

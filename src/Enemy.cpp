@@ -23,10 +23,8 @@ void Enemy::setWorld(World& world)
 
 void Enemy::update(sf::Time dt)
 {
-    if (playerLos())    
+    if (playerLos())
         state = AIState::Chase;
-    else 
-        state = AIState::Idle;
 
     if (!world->isPlayerTurn())
         moveTime -= dt;
@@ -34,7 +32,9 @@ void Enemy::update(sf::Time dt)
     if (!world->isPlayerTurn() && moveTime.asSeconds() <= 0)
     {
         Path path;
-        auto playerPos = world->getPlayerPos();
+
+        if (playerLos())
+            playerPos = world->getPlayerPos();
 
         if (state == AIState::Chase)
         {
@@ -49,6 +49,9 @@ void Enemy::update(sf::Time dt)
             //     world->map(path[i]).setDebugRect(sf::Color::Green, 120);
             // }
         }
+
+        if (path.empty() && !playerLos())
+            state = AIState::Idle;
 
         if (!path.empty() && distToPlayer() > 1)
         {
@@ -82,8 +85,6 @@ int Enemy::distToPlayer()
 
 bool Enemy::playerLos()
 {
-    bool res = true;
-
     auto playerPos = world->getPlayerPos();
     // std::cout << playerPos.x << " " << playerPos.y << '\n';
 
@@ -105,13 +106,16 @@ bool Enemy::playerLos()
     int i = 1;
     while (i <= step)
     {   
+        world->map((int)x, (int)y).setDebug(true);
+        world->map((int)x, (int)y).setDebugRect(sf::Color::Green, 150);
+
         if (world->isWall(nullptr, {static_cast<int>(x), static_cast<int>(y)}))
-            res = false;
+            return false;
 
         x += dx;
         y += dy;
         i ++;
     }
 
-    return res;
+    return true;
 }

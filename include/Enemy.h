@@ -17,6 +17,7 @@ private:
     AStar aStar;
     AIState state;
 
+    sf::Vector2i playerPos;
     sf::Time moveTime;
 
 public:
@@ -26,6 +27,8 @@ public:
 
     void setWorld(World& world);
 
+    void updateState();
+    void followPlayer();
     void update(sf::Time dt);
 private:
     int distToPlayer();
