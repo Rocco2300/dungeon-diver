@@ -6,7 +6,13 @@
 
 Enemy::Enemy()
 {
+    state = AIState::Idle;
     moveTime = sf::seconds(.5f);
+}
+
+AIState Enemy::getState()
+{
+    return state;
 }
 
 void Enemy::setWorld(World& world)
@@ -17,6 +23,11 @@ void Enemy::setWorld(World& world)
 
 void Enemy::update(sf::Time dt)
 {
+    if (playerLos())    
+        state = AIState::Chase;
+    else 
+        state = AIState::Idle;
+
     if (!world->isPlayerTurn())
         moveTime -= dt;
 
@@ -25,9 +36,9 @@ void Enemy::update(sf::Time dt)
         Path path;
         auto playerPos = world->getPlayerPos();
 
-        if (playerLos())
+        if (state == AIState::Chase)
         {
-            path = aStar.findPath(this->pos, playerPos);
+            path  = aStar.findPath(this->pos, playerPos);
 
             // @Debugging
             // world->map(path[path.size()-1]).setDebug(true);
@@ -71,7 +82,10 @@ int Enemy::distToPlayer()
 
 bool Enemy::playerLos()
 {
+    bool res = true;
+
     auto playerPos = world->getPlayerPos();
+    // std::cout << playerPos.x << " " << playerPos.y << '\n';
 
     float dx = playerPos.x - pos.x;
     float dy = playerPos.y - pos.y;
@@ -85,19 +99,19 @@ bool Enemy::playerLos()
     dx /= step;
     dy /= step;
 
-    int x = pos.x;
-    int y = pos.y;
+    float x = pos.x;
+    float y = pos.y;
 
     int i = 1;
     while (i <= step)
     {   
         if (world->isWall(nullptr, {x, y}))
-            return false;
+            res = false;
 
         x += dx;
         y += dy;
         i ++;
     }
 
-    return true;
+    return res;
 }

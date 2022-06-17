@@ -35,7 +35,7 @@ void World::create(Tileset& tileset)
             openTiles.push_back({x, y});
     }
 
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i < 1; i++)
     {
         auto idx = rand() % openTiles.size();
         spawner.spawnEnemy({openTiles[idx].x, openTiles[idx].y});
@@ -117,7 +117,21 @@ void World::endTurn(Entity* entity)
 
     if (entity == &player)
     {
-        playerTurn = false;
+        bool allIdle = true;
+
+        for (int i = 0; i < entities.size(); i++)
+        {
+            auto enemy = dynamic_cast<Enemy*>(entities[i]);
+
+            if (enemy && enemy->getState() != AIState::Idle)
+            {
+                allIdle = false;
+                break;
+            }
+        }
+
+        if (!allIdle)
+            playerTurn = false;
 
         // @Debugging
         // for (int i = 0; i < 16; i++)

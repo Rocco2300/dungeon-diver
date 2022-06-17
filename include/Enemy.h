@@ -5,15 +5,24 @@
 
 class World;
 
+enum class AIState
+{
+    Idle,
+    Chase
+};
+
 class Enemy : public Entity
 {
 private:
     AStar aStar;
+    AIState state;
 
     sf::Time moveTime;
 
 public:
     Enemy();
+
+    AIState getState();
 
     void setWorld(World& world);
 
