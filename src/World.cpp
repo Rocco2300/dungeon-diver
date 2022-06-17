@@ -24,8 +24,23 @@ void World::create(Tileset& tileset)
     player.setPosition(playerPos);
 
     entities.push_back(&player);
-    // spawner.init(*this);
+    spawner.init(*this);
     // spawner.spawnEnemy({7, 10});
+
+    std::vector<sf::Vector2i> openTiles;
+    for (int y = 0; y < 16; y++)
+    {
+        for (int x = 0; x < 16; x++)
+        if (map(x, y).isWalkable())
+            openTiles.push_back({x, y});
+    }
+
+    for (int i = 0; i < 3; i++)
+    {
+        auto idx = rand() % openTiles.size();
+        spawner.spawnEnemy({openTiles[idx].x, openTiles[idx].y});
+        openTiles.erase(openTiles.begin() + idx);
+    }
 
     moveTime = sf::seconds(.3f);
 }
@@ -98,21 +113,31 @@ std::vector<Entity*>& World::getEntities()
 
 void World::endTurn(Entity* entity)
 {
+    static int enemies = 0;
+
     if (entity == &player)
     {
         playerTurn = false;
 
         // @Debugging
-        for (int i = 0; i < 16; i++)
-        {
-            for (int j = 0; j < 16; j++)
-            {
-                map(i, j).setDebug(false);
-            }
-        }
+        // for (int i = 0; i < 16; i++)
+        // {
+        //     for (int j = 0; j < 16; j++)
+        //     {
+        //         map(i, j).setDebug(false);
+        //     }
+        // }
     }
     else 
-        playerTurn = true;
+    {
+        enemies++;
+
+        if (enemies == entities.size() - 1)
+        {
+            playerTurn = true;
+            enemies = 0;
+        }
+    }
 }
 
 void World::keyPressed(sf::Keyboard::Key key)
@@ -120,6 +145,7 @@ void World::keyPressed(sf::Keyboard::Key key)
     sf::Vector2i pos;
     std::stringstream stream;
     
+    // @Debugging
     switch (key)
     {
     case sf::Keyboard::Comma:
