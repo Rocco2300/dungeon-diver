@@ -42,12 +42,12 @@ bool World::isWall(Entity* caller, sf::Vector2i pos)
     if (caller == &player)
     {
         auto t = dynamic_cast<InteractableTile*>(&map(posI));
-        auto exitTile = dynamic_cast<ExitStairsTile*>(&map(posI));
 
         if (t)
         {
             t->onInteract();
 
+            auto exitTile = dynamic_cast<ExitStairsTile*>(t);
             if (exitTile)
                 nextLevel = true;
         }
@@ -163,7 +163,7 @@ void World::update(sf::Time dt)
         }
     }
 
-    if (nextLevel)
+    if (nextLevel && player.notMoving())
     {
         gen.generateMap();
         auto stream = gen.getMapAsStream();
