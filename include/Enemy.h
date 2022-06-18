@@ -8,7 +8,8 @@ class World;
 enum class AIState
 {
     Idle,
-    Chase
+    Chase,
+    Investigate
 };
 
 class Enemy : public Entity
