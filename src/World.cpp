@@ -117,30 +117,30 @@ void World::endTurn(Entity* entity)
 
     if (entity == &player)
     {
-        bool allIdle = true;
+        // bool allIdle = true;
 
-        for (size_t i = 0; i < entities.size(); i++)
-        {
-            auto enemy = dynamic_cast<Enemy*>(entities[i]);
+        // for (size_t i = 0; i < entities.size(); i++)
+        // {
+        //     auto enemy = dynamic_cast<Enemy*>(entities[i]);
 
-            if (enemy && enemy->getState() != AIState::Idle)
-            {
-                allIdle = false;
-                break;
-            }
-        }
+        //     if (enemy && enemy->getState() != AIState::Idle)
+        //     {
+        //         allIdle = false;
+        //         break;
+        //     }
+        // }
 
-        if (!allIdle)
-            playerTurn = false;
+        // if (!allIdle)
+        playerTurn = false;
 
-        // @Debugging
-        for (int i = 0; i < 16; i++)
-        {
-            for (int j = 0; j < 16; j++)
-            {
-                map(i, j).setDebug(false);
-            }
-        }
+        // DEBUG
+        // for (int i = 0; i < 16; i++)
+        // {
+        //     for (int j = 0; j < 16; j++)
+        //     {
+        //         map(i, j).setDebug(false);
+        //     }
+        // }
     }
     else 
     {

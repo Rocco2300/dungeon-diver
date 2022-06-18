@@ -23,32 +23,31 @@ void Enemy::setWorld(World& world)
 
 void Enemy::update(sf::Time dt)
 {
-    if (playerLos())
+    if (!world->isPlayerTurn() && playerLos())
         state = AIState::Chase;
+    else if (state == AIState::Idle)
+        world->endTurn(this);
 
-    if (!world->isPlayerTurn())
+    if (!world->isPlayerTurn() && state == AIState::Chase)
         moveTime -= dt;
 
-    if (!world->isPlayerTurn() && moveTime.asSeconds() <= 0)
+    if (!world->isPlayerTurn() && state == AIState::Chase && moveTime.asSeconds() <= 0)
     {
         Path path;
 
         if (playerLos())
             playerPos = world->getPlayerPos();
 
-        if (state == AIState::Chase)
-        {
-            path  = aStar.findPath(this->pos, playerPos);
+        path  = aStar.findPath(this->pos, playerPos);
 
-            // @Debugging
-            // world->map(path[path.size()-1]).setDebug(true);
-            // world->map(path[path.size()-1]).setDebugRect(sf::Color::Red, 120);
-            // for (int i = 0; i < path.size()-1; i++)
-            // {
-            //     world->map(path[i]).setDebug(true);
-            //     world->map(path[i]).setDebugRect(sf::Color::Green, 120);
-            // }
-        }
+        // DEBUG
+        // world->map(path[path.size()-1]).setDebug(true);
+        // world->map(path[path.size()-1]).setDebugRect(sf::Color::Red, 120);
+        // for (int i = 0; i < path.size()-1; i++)
+        // {
+        //     world->map(path[i]).setDebug(true);
+        //     world->map(path[i]).setDebugRect(sf::Color::Green, 120);
+        // }
 
         if (path.empty() && !playerLos())
             state = AIState::Idle;
@@ -106,8 +105,9 @@ bool Enemy::playerLos()
     int i = 1;
     while (i <= step)
     {   
-        world->map((int)x, (int)y).setDebug(true);
-        world->map((int)x, (int)y).setDebugRect(sf::Color::Green, 150);
+        // DEBUG
+        // world->map((int)x, (int)y).setDebug(true);
+        // world->map((int)x, (int)y).setDebugRect(sf::Color::Green, 150);
 
         if (world->isWall(nullptr, {static_cast<int>(x), static_cast<int>(y)}))
             return false;
