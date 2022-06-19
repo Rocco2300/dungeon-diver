@@ -35,7 +35,7 @@ void World::create(Tileset& tileset)
             openTiles.push_back({x, y});
     }
 
-    for (int i = 0; i < 1; i++)
+    for (int i = 0; i < 2; i++)
     {
         auto idx = rand() % openTiles.size();
         spawner.spawnEnemy({openTiles[idx].x, openTiles[idx].y});
@@ -113,26 +113,18 @@ std::vector<Entity*>& World::getEntities()
 
 void World::endTurn(Entity* entity)
 {
-    static unsigned int enemies = 0;
+    static std::vector<Entity*> toMove;
 
     if (entity == &player)
     {
-        // bool allIdle = true;
-
-        // for (size_t i = 0; i < entities.size(); i++)
-        // {
-        //     auto enemy = dynamic_cast<Enemy*>(entities[i]);
-
-        //     if (enemy && enemy->getState() != AIState::Idle)
-        //     {
-        //         allIdle = false;
-        //         break;
-        //     }
-        // }
-
-        // if (!allIdle)
         playerTurn = false;
 
+        toMove.clear();
+        for (int i = 0; i < entities.size(); i++)
+        {
+            if (entities[i] != &player)
+                toMove.push_back(entities[i]);
+        }
         // DEBUG
         // for (int i = 0; i < 16; i++)
         // {
@@ -144,13 +136,14 @@ void World::endTurn(Entity* entity)
     }
     else 
     {
-        enemies++;
-
-        if (enemies == entities.size() - 1)
+        auto it = std::find(toMove.begin(), toMove.end(), entity);
+        if (it != toMove.end())
         {
-            playerTurn = true;
-            enemies = 0;
+            toMove.erase(it);
         }
+
+        if (toMove.empty())
+            playerTurn = true;
     }
 }
 

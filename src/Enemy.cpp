@@ -77,9 +77,8 @@ void Enemy::chase()
         bump(dirOff);
     }
 
-    moveTime = sf::seconds(.5f);
-
     world->endTurn(this);
+    moveTime = sf::seconds(.5f);
 }
 
 void Enemy::investigate()
@@ -113,9 +112,8 @@ void Enemy::investigate()
         bump(dirOff);
     }
 
-    moveTime = sf::seconds(.5f);
-
     world->endTurn(this);
+    moveTime = sf::seconds(.5f);
 }
 
 void Enemy::update(sf::Time dt)
