@@ -21,87 +21,110 @@ void Enemy::setWorld(World& world)
     aStar.setWorld(this->world);
 }
 
+void Enemy::handleState()
+{
+    switch (state)
+    {
+    case AIState::Idle:
+        idle();
+        break;
+    case AIState::Chase:
+        if (moveTime.asSeconds() <= 0)
+            chase();
+        break; 
+    case AIState::Investigate:
+        if (moveTime.asSeconds() <= 0)
+            investigate();
+        break;
+    }
+}
+
+void Enemy::idle()
+{
+    if (playerLos())
+    {
+        state = AIState::Chase;
+        return;
+    }
+
+    world->endTurn(this);
+}
+
+void Enemy::chase()
+{
+    if (!playerLos())
+    {
+        state = AIState::Investigate;
+        return;
+    }
+
+    playerPos = world->getPlayerPos();
+
+    auto path  = aStar.findPath(this->pos, playerPos);
+    
+    if (!path.empty() && distToPlayer() > 1)
+    {
+        auto nextPos = path.back();
+        auto dirOff = sf::Vector2i(nextPos - this->pos);
+        path.pop_back();
+
+        move(dirOff);
+    }
+    else if (distToPlayer() == 1)
+    {
+        auto dirOff = sf::Vector2i(playerPos - this->pos);
+
+        bump(dirOff);
+    }
+
+    moveTime = sf::seconds(.5f);
+
+    world->endTurn(this);
+}
+
+void Enemy::investigate()
+{
+    auto path  = aStar.findPath(this->pos, playerPos);
+
+    if (playerLos())
+    {
+        state = AIState::Chase;
+        return;
+    }
+
+    if (path.empty() && !playerLos())
+    {
+        state = AIState::Idle;
+        return;
+    }
+
+    if (!path.empty() && distToPlayer() > 1)
+    {
+        auto nextPos = path.back();
+        auto dirOff = sf::Vector2i(nextPos - this->pos);
+        path.pop_back();
+
+        move(dirOff);
+    }
+    else if (distToPlayer() == 1)
+    {
+        auto dirOff = sf::Vector2i(playerPos - this->pos);
+
+        bump(dirOff);
+    }
+
+    moveTime = sf::seconds(.5f);
+
+    world->endTurn(this);
+}
+
 void Enemy::update(sf::Time dt)
 {
     if (!world->isPlayerTurn() && state != AIState::Idle)
         moveTime -= dt;
 
-    if (!world->isPlayerTurn() && state == AIState::Idle)
-    {
-        if (!world->isPlayerTurn() && playerLos())
-            state = AIState::Chase;
-    }
-
-    if (!world->isPlayerTurn() && state == AIState::Chase && moveTime.asSeconds() <= 0)
-    {
-        if (!playerLos())
-        {
-            state = AIState::Investigate;
-        }
-
-        if (playerLos())
-            playerPos = world->getPlayerPos();
-
-        auto path  = aStar.findPath(this->pos, playerPos);
-        
-        if (path.empty() && !playerLos())
-            state = AIState::Idle;
-
-        if (!path.empty() && distToPlayer() > 1)
-        {
-            auto nextPos = path.back();
-            auto dirOff = sf::Vector2i(nextPos - this->pos);
-            path.pop_back();
-
-            move(dirOff);
-        }
-        else if (distToPlayer() == 1)
-        {
-            auto dirOff = sf::Vector2i(playerPos - this->pos);
-
-            bump(dirOff);
-        }
-
-        moveTime = sf::seconds(.5f);
-
-        world->endTurn(this);
-    }
-
-    if (!world->isPlayerTurn() && state == AIState::Investigate && moveTime.asSeconds() <= 0)
-    {
-        if (playerLos())
-        {
-            state = AIState::Chase;
-            playerPos = world->getPlayerPos();
-        }
-
-        auto path  = aStar.findPath(this->pos, playerPos);
-        
-        if (path.empty() && !playerLos())
-            state = AIState::Idle;
-
-        if (!path.empty() && distToPlayer() > 1)
-        {
-            auto nextPos = path.back();
-            auto dirOff = sf::Vector2i(nextPos - this->pos);
-            path.pop_back();
-
-            move(dirOff);
-        }
-        else if (distToPlayer() == 1)
-        {
-            auto dirOff = sf::Vector2i(playerPos - this->pos);
-
-            bump(dirOff);
-        }
-
-        moveTime = sf::seconds(.5f);
-        
-        world->endTurn(this);
-    }
-
-    if (state == AIState::Idle)
-        world->endTurn(this);
+    if (!world->isPlayerTurn())
+        handleState();
 
     Entity::update(dt);
 }

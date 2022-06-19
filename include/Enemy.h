@@ -28,8 +28,11 @@ public:
 
     void setWorld(World& world);
 
-    void updateState();
-    void followPlayer();
+    void handleState();
+    void idle();
+    void chase();
+    void investigate();
+
     void update(sf::Time dt);
 private:
     int distToPlayer();
