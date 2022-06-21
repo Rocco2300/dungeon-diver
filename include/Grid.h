@@ -18,7 +18,7 @@ public:
     void alloc();
     void dealloc();
 
-    void fill(int number = 0);
+    void fill(T element);
 
     T& operator[](int index);
     T& operator()(int x, int y);
@@ -47,13 +47,13 @@ void Grid<T>::dealloc()
 }
 
 template <typename T>
-void Grid<T>::fill(int number = 0)
+void Grid<T>::fill(T element)
 {
     assert(data != nullptr);
 
     for (int i = 0; i < 16 * 16; i++)
     {
-        data[i] = number;
+        data[i] = element;
     }
 }
 
