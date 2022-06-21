@@ -42,7 +42,7 @@ void Grid<T>::alloc()
 template <typename T>
 void Grid<T>::dealloc()
 {
-    if (data)
+    if (data != nullptr)
         delete[] data;
 }
 
@@ -60,6 +60,7 @@ void Grid<T>::fill(T element)
 template <typename T>
 T& Grid<T>::operator[](int index)
 {
+    assert(data != nullptr);
     assert(index >= 0 && index < 16 * 16);
 
     return data[index];
@@ -68,6 +69,7 @@ T& Grid<T>::operator[](int index)
 template <typename T>
 T& Grid<T>::operator()(int x, int y)
 {
+    assert(data != nullptr);
     assert(x >= 0 && x < 16 * 16 && y >= 0 && y < 16 * 16);
 
     return data[y * 16 + x];

@@ -120,7 +120,7 @@ void World::endTurn(Entity* entity)
         playerTurn = false;
 
         toMove.clear();
-        for (int i = 0; i < entities.size(); i++)
+        for (size_t i = 0; i < entities.size(); i++)
         {
             if (entities[i] != &player)
                 toMove.push_back(entities[i]);
