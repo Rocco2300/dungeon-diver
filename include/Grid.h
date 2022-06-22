@@ -123,6 +123,12 @@ public:
         return data[y * 16 + x];
     }
 
+    size_t size()
+    {
+        if (data != nullptr)
+            return (16 * 16);
+        return 0;
+    }
 
     Iterator begin()
     {
