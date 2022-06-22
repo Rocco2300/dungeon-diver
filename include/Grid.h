@@ -106,6 +106,14 @@ public:
             data[i] = element;
         }
     }
+    
+    T& at(int index)
+    {
+        assert(data != nullptr);
+        assert(index >= 0 && index < 16 * 16);
+
+        return data[index];
+    }
 
     T& operator[](int index)
     {
@@ -114,6 +122,7 @@ public:
 
         return data[index];
     }
+
     
     T& operator()(int x, int y)
     {
