@@ -17,7 +17,7 @@ AStar::AStar(World* world)
     this->colMap = nullptr;
 }
 
-AStar::AStar(std::vector<int>& colMap)
+AStar::AStar(Grid<int>& colMap)
 {
     this->world  = nullptr;
     this->colMap = &colMap;
@@ -28,7 +28,7 @@ void AStar::setWorld(World* world)
     this->world = world;
 }
 
-void AStar::setColMap(std::vector<int>& colMap)
+void AStar::setColMap(Grid<int>& colMap)
 {
     this->colMap = &colMap;
 }

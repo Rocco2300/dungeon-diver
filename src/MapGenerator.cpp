@@ -16,7 +16,6 @@ sf::Vector2i MapGenerator::getEntrance()
 
 void MapGenerator::generateMap()
 {   
-    clearMaps();
     init();
 
     generateRooms();
@@ -110,20 +109,22 @@ void MapGenerator::init()
     maxWidth = 8;
     maxHeight = 8;
 
-    walls.resize(16*16);
+    walls.alloc();
     std::fill(walls.begin(), walls.end(), 1);
 
-    areas.resize(16 * 16);
+    areas.alloc();
     std::fill(areas.begin(), areas.end(), -1);
 
-    roomMap.resize(16 * 16);
+    roomMap.alloc();
+    std::fill(roomMap.begin(), roomMap.end(), 0);
 }
 
 void MapGenerator::clearMaps()
 {
-    walls.clear();
-    areas.clear();
-    roomMap.clear();
+    std::fill(walls.begin(), walls.end(), 1);
+    std::fill(areas.begin(), areas.end(), -1);
+    std::fill(roomMap.begin(), roomMap.end(), 0);
+
     rooms.clear();
 }
 

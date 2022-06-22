@@ -6,6 +6,8 @@
 #include <unordered_set>
 #include "SFML/Graphics.hpp"
 
+#include "Grid.h"
+
 class World;
 
 using Path = std::vector<sf::Vector2i>;
@@ -25,7 +27,7 @@ class AStar
 {
 private:
     World* world;
-    std::vector<int>* colMap;
+    Grid<int>* colMap;
 
     using ScoreHashMap = std::unordered_map<sf::Vector2i, int, VectorHash>;
     using TileHashSet = std::unordered_set<sf::Vector2i, VectorHash>; 
@@ -33,10 +35,10 @@ private:
 public:
     AStar();
     AStar(World* world);
-    AStar(std::vector<int>& colMap);
+    AStar(Grid<int>& colMap);
 
     void setWorld(World* world);
-    void setColMap(std::vector<int>& colMap);
+    void setColMap(Grid<int>& colMap);
 
     Path findPath(sf::Vector2i start, sf::Vector2i end);
 private:
