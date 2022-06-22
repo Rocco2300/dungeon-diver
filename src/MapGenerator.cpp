@@ -213,7 +213,6 @@ void MapGenerator::solveIsolatedRooms()
     if (hasIsolatedRoom())
     {
         clearMaps();
-        init();
 
         generateRooms();
         carveMaze();
