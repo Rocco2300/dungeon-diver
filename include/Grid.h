@@ -132,7 +132,7 @@ public:
         return data[y * 16 + x];
     }
 
-    size_t size()
+    size_t size() const
     {
         if (data != nullptr)
             return (16 * 16);
