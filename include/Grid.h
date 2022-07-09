@@ -107,7 +107,7 @@ public:
         }
     }
     
-    T& at(int index)
+    T& at(int index) const
     {
         assert(data != nullptr);
         assert(index >= 0 && index < 16 * 16);
@@ -115,7 +115,7 @@ public:
         return data[index];
     }
 
-    T& operator[](int index)
+    T& operator[](int index) const
     {
         assert(data != nullptr);
         assert(index >= 0 && index < 16 * 16);
@@ -124,7 +124,7 @@ public:
     }
 
     
-    T& operator()(int x, int y)
+    T& operator()(int x, int y) const
     {
         assert(data != nullptr);
         assert(x >= 0 && x < 16 * 16 && y >= 0 && y < 16 * 16);
@@ -139,12 +139,12 @@ public:
         return 0;
     }
 
-    Iterator begin()
+    Iterator begin() const
     {
         return Iterator(data);
     }
 
-    Iterator end()
+    Iterator end() const
     {
         return Iterator(data + (16 * 16));
     }
