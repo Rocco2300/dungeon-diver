@@ -38,6 +38,8 @@ public:
     void setHP(int hp);
     void setDamage(int damage);
     void setSprite(const char* path, sf::Vector2i size);
+    void setSprite(ResourceHolder<sf::Texture, std::string>& resourceHolder, std::string id,
+        const char* path, sf::Vector2i tileSize);
     void takeDamage(int damageAmount);
     void setPosition(sf::Vector2i pos);
 
