@@ -1,6 +1,7 @@
 #pragma once
 
 #include "InteractableTile.h"
+#include "Grid.h"
 
 #include <memory>
 #include <array>
@@ -15,7 +16,7 @@ private:
 
     Tileset* tileset;
 
-    std::vector<std::unique_ptr<Tile>> tiles;
+    Grid<std::unique_ptr<Tile>> tiles;
 public:
     Map();
     void create(sf::Vector2i size);

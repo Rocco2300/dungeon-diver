@@ -6,18 +6,17 @@
 
 Map::Map()
 {
+    tiles.alloc();
 }
 
 Tile& Map::operator()(int x, int y)
 {
-    auto idx = y * size.x + x;
-    return *tiles[idx].get();
+    return *tiles(x, y);
 }
 
 Tile& Map::operator()(sf::Vector2i pos)
 {
-    auto idx = pos.y * size.x + pos.x;
-    return *tiles[idx].get();
+    return *tiles(pos.x, pos.y);
 }
 
 void Map::setSize(sf::Vector2i size)
@@ -63,7 +62,9 @@ void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 void Map::_loadMap(std::istream& in)
 {
-    tiles.clear();
+    // tiles.clear();
+    tiles.dealloc();
+    tiles.alloc();
 
     int id;
     for (int i = 0; i < 16; i++)
@@ -93,7 +94,7 @@ void Map::_loadMap(std::istream& in)
             else 
                 tile->setWalkable(false);
 
-            tiles.push_back(std::move(tile));
+            tiles(j, i) = std::move(tile);
         }
     }
 }
