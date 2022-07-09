@@ -2,6 +2,7 @@
 
 #include <map>
 #include <memory>
+#include <cassert>
 #include <iostream>
 
 template <typename Resource, typename Identifier>
