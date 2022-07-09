@@ -106,8 +106,8 @@ public:
             data[i] = element;
         }
     }
-    
-    T& at(int index) const
+
+    T& at(int index)
     {
         assert(data != nullptr);
         assert(index >= 0 && index < 16 * 16);
@@ -115,7 +115,7 @@ public:
         return data[index];
     }
 
-    T& operator[](int index) const
+    const T& at(int index) const
     {
         assert(data != nullptr);
         assert(index >= 0 && index < 16 * 16);
@@ -123,8 +123,31 @@ public:
         return data[index];
     }
 
-    
-    T& operator()(int x, int y) const
+    T& operator[](int index)
+    {
+        assert(data != nullptr);
+        assert(index >= 0 && index < 16 * 16);
+
+        return data[index];
+    }
+
+    const T& operator[](int index) const
+    {
+        assert(data != nullptr);
+        assert(index >= 0 && index < 16 * 16);
+
+        return data[index];
+    }
+
+    T& operator()(int x, int y)
+    {
+        assert(data != nullptr);
+        assert(x >= 0 && x < 16 * 16 && y >= 0 && y < 16 * 16);
+
+        return data[y * 16 + x];
+    }
+
+    const T& operator()(int x, int y) const
     {
         assert(data != nullptr);
         assert(x >= 0 && x < 16 * 16 && y >= 0 && y < 16 * 16);
