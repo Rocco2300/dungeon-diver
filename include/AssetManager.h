@@ -7,7 +7,7 @@
 class AssetManager
 {
 private:
-    static ResourceHolder<sf::Texture, std::string> textureHolder;
+    inline static ResourceHolder<sf::Texture, std::string> textureHolder;
 public:
     AssetManager() = default;
     ~AssetManager() = default;

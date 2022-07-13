@@ -16,8 +16,6 @@ public:
     Tileset();
     Tileset(const char* path, sf::Vector2i tileSize);
     void create(const char* path, sf::Vector2i tileSize);
-    void create(ResourceHolder<sf::Texture, std::string>& resourceHolder, std::string id,
-        const char* path, sf::Vector2i tileSize);
 
     void setSpriteIndex(int index);
 

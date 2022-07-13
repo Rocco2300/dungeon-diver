@@ -48,12 +48,6 @@ void Entity::setSprite(const char* path, sf::Vector2i size)
     sprite.create(path, size);
 }
 
-void Entity::setSprite(ResourceHolder<sf::Texture, std::string>& resourceHolder, std::string id,
-    const char* path, sf::Vector2i tileSize)
-{
-    sprite.create(resourceHolder, id, path, tileSize);
-}
-
 void Entity::takeDamage(int damageAmount)
 {
     hp -= damageAmount;
