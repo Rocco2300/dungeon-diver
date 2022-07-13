@@ -3,11 +3,13 @@
 #include <iostream>
 #include <cmath>
 
+#include "AssetManager.h"
+
 Player::Player()
 {
     hp = 5;
 
-    sprite.create("img/player.png", {8, 8});
+    sprite.create(AssetManager::get("img/player.png"), {8, 8});
 }
 
 void Player::onKeyPressed(sf::Keyboard::Key key)

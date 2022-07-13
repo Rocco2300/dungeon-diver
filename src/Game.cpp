@@ -3,6 +3,8 @@
 #include <iostream>
 #include <fstream>
 
+#include "AssetManager.h"
+
 Game::Game()
 {
     srand(time(NULL));
@@ -13,10 +15,10 @@ Game::Game()
     window.setFramerateLimit(60);
     window.setKeyRepeatEnabled(false);
 
-    if (!texture.create(size, size))
+    if (!texture.create(size, size)) 
         std::cerr << "Error creating render texture!\n";
 
-    tileset.create("img/tiles.png", {8, 8});
+    tileset.create(AssetManager::get("img/tiles.png"), {8, 8});
 
     world.create(tileset);
 }

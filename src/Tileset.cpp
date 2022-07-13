@@ -9,10 +9,10 @@ Tileset::Tileset()
 
 }
 
-Tileset::Tileset(const char* path, sf::Vector2i tileSize)
+Tileset::Tileset(sf::Texture& texture, sf::Vector2i tileSize)
 {
     this->tileSize = tileSize;
-    this->texture = &AssetManager::get(path);
+    this->texture = &texture;
     
     quad.setPrimitiveType(sf::Quads);
     quad.resize(4);
@@ -28,10 +28,10 @@ Tileset::Tileset(const char* path, sf::Vector2i tileSize)
     quad[3].texCoords = sf::Vector2f(0.f, tileSize.y);
 }
 
-void Tileset::create(const char* path, sf::Vector2i tileSize)
+void Tileset::create(sf::Texture& texture, sf::Vector2i tileSize)
 {
     this->tileSize = tileSize;
-    this->texture = &AssetManager::get(path);
+    this->texture = &texture;
     
     quad.setPrimitiveType(sf::Quads);
     quad.resize(4);

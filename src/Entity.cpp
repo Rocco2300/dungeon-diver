@@ -5,6 +5,7 @@
 #include <cmath>
 
 #include "World.h"
+#include "AssetManager.h"
 
 Entity::Entity()
 {
@@ -45,7 +46,7 @@ void Entity::setDamage(int damage)
 
 void Entity::setSprite(const char* path, sf::Vector2i size)
 {
-    sprite.create(path, size);
+    sprite.create(AssetManager::get(path), size);
 }
 
 void Entity::takeDamage(int damageAmount)

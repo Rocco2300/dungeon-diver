@@ -14,8 +14,8 @@ private:
     sf::VertexArray quad;
 public:
     Tileset();
-    Tileset(const char* path, sf::Vector2i tileSize);
-    void create(const char* path, sf::Vector2i tileSize);
+    Tileset(sf::Texture& texture, sf::Vector2i tileSize);
+    void create(sf::Texture& texture, sf::Vector2i tileSize);
 
     void setSpriteIndex(int index);
 
