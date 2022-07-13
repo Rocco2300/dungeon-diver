@@ -10,7 +10,7 @@ class Tileset : public sf::Drawable
 private:
     sf::Vector2i tileSize;
 
-    sf::Texture texture;
+    sf::Texture* texture;
     sf::VertexArray quad;
 public:
     Tileset();

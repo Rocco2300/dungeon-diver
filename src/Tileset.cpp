@@ -12,9 +12,7 @@ Tileset::Tileset()
 Tileset::Tileset(const char* path, sf::Vector2i tileSize)
 {
     this->tileSize = tileSize;
-
-    if (!texture.loadFromFile(path))
-        std::cerr << "Error!\n";
+    this->texture = &AssetManager::get(path);
     
     quad.setPrimitiveType(sf::Quads);
     quad.resize(4);
@@ -33,8 +31,7 @@ Tileset::Tileset(const char* path, sf::Vector2i tileSize)
 void Tileset::create(const char* path, sf::Vector2i tileSize)
 {
     this->tileSize = tileSize;
-
-    this->texture = AssetManager::get(path);
+    this->texture = &AssetManager::get(path);
     
     quad.setPrimitiveType(sf::Quads);
     quad.resize(4);
@@ -52,7 +49,7 @@ void Tileset::create(const char* path, sf::Vector2i tileSize)
 
 void Tileset::setSpriteIndex(int index)
 {
-    int width = texture.getSize().x / tileSize.x;
+    int width = texture->getSize().x / tileSize.x;
     int x = index % width;
     int y = index / width;
     // sprite->setTextureRect({{x * tileWidth, y * tileHeight}, {tileWidth, tileHeight}});
@@ -65,7 +62,7 @@ void Tileset::setSpriteIndex(int index)
 
 void Tileset::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-    states.texture = &texture;
+    states.texture = texture;
 
     target.draw(quad, states);
 }
