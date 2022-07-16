@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+#include "SoundManager.h"
+
 void World::create(Tileset& tileset)
 {
     // CSV<Label> csv("csv/Enemies.csv");
@@ -83,6 +85,8 @@ bool World::isOccupied(Entity* caller, sf::Vector2i pos)
                 return true;
 
             entities[i]->takeDamage(1);
+
+            SoundManager::playSound("sound/hit1.wav");
 
             if (entities[i]->isDead())
             {
@@ -205,6 +209,9 @@ void World::update(sf::Time dt)
         map.loadMap(stream);
         nextLevel = false;
     }
+
+    // Remove sounds that finished playing
+    SoundManager::cleanSounds();
 }
 
 void World::draw(sf::RenderTarget& target, sf::RenderStates states) const 
