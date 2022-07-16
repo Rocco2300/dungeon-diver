@@ -1,6 +1,6 @@
 #include "AssetManager.h"
 
-sf::Texture& AssetManager::get(std::string id)
+sf::Texture& AssetManager::getTexture(std::string id)
 {
     if (textureHolder.isLoaded(id))
         return textureHolder.get(id);
@@ -9,7 +9,7 @@ sf::Texture& AssetManager::get(std::string id)
     return textureHolder.get(id);
 }
 
-void AssetManager::load(std::string id)
+void AssetManager::loadTexture(std::string id)
 {
     if (textureHolder.isLoaded(id))
         return;

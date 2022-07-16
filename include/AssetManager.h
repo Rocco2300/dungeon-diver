@@ -12,6 +12,6 @@ public:
     AssetManager() = default;
     ~AssetManager() = default;
 
-    static sf::Texture& get(std::string id);
-    static void load(std::string id);
+    static sf::Texture& getTexture(std::string id);
+    static void loadTexture(std::string id);
 };

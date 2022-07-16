@@ -18,7 +18,7 @@ Game::Game()
     if (!texture.create(size, size)) 
         std::cerr << "Error creating render texture!\n";
 
-    tileset.create(AssetManager::get("img/tiles.png"), {8, 8});
+    tileset.create(AssetManager::getTexture("img/tiles.png"), {8, 8});
 
     world.create(tileset);
 }
