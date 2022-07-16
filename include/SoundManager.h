@@ -2,6 +2,8 @@
 
 #include <vector>
 #include <memory>
+#include <string>
+
 #include <SFML/Audio.hpp>
 
 enum class SoundFX
@@ -17,5 +19,8 @@ private:
 public:
     SoundManager() = default;
     ~SoundManager() = default;
+
+    void playSound(std::string soundId);
+    void cleanSounds();
 };
 
