@@ -4,7 +4,7 @@
 
 void SoundManager::playSound(std::string soundId)
 {
-    std::unique_ptr<sf::Sound> sound;
+    std::unique_ptr<sf::Sound> sound(new sf::Sound());
     sound->setBuffer(AssetManager::getBuffer(soundId));
     sound->setLoop(false);
     sound->play();
