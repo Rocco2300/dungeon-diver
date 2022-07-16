@@ -16,3 +16,20 @@ void AssetManager::loadTexture(std::string id)
 
     textureHolder.load(id, id);
 }
+
+sf::SoundBuffer& AssetManager::getBuffer(std::string id)
+{
+    if (bufferHolder.isLoaded(id))
+        return bufferHolder.get(id);
+    
+    bufferHolder.load(id, id);
+    return bufferHolder.get(id);
+}
+
+void AssetManager::loadBuffer(std::string id)
+{
+    if (bufferHolder.isLoaded(id))
+        return;
+
+    bufferHolder.load(id, id);
+}
