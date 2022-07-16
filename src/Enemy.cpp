@@ -74,7 +74,8 @@ void Enemy::chase()
     {
         auto dirOff = sf::Vector2i(playerPos - this->pos);
 
-        bump(dirOff);
+        if (world->isOccupied(this, this->pos + dirOff))
+            bump(dirOff);
     }
 
     world->endTurn(this);
