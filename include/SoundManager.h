@@ -15,12 +15,12 @@ enum class SoundFX
 class SoundManager
 {
 private:
-    std::vector<std::unique_ptr<sf::Sound>> sounds;
+    inline static std::vector<std::unique_ptr<sf::Sound>> sounds;
 public:
     SoundManager() = default;
     ~SoundManager() = default;
 
-    void playSound(std::string soundId);
-    void cleanSounds();
+    static void playSound(std::string soundId);
+    static void cleanSounds();
 };
 
