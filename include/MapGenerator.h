@@ -49,7 +49,6 @@ private:
     void clearMaps();
 
     // Helpers
-    int     index(int x, int y);
     bool    isInBounds(int x, int y);
     bool    isCarvable(int x, int y);
     bool    compSignatures(uint8_t sig, uint8_t mask, uint8_t match);
@@ -97,7 +96,7 @@ private:
     void placeExitStairs();
 
     bool isValidStairsPos(int x, int y);
-    std::vector<int> getDistanceMap();
+    Grid<int> getDistanceMap();
     std::vector<sf::Vector2i> getPossibleEntrances();
 };
 

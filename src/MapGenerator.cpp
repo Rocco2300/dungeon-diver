@@ -31,11 +31,11 @@ void MapGenerator::generateMap()
 
 void MapGenerator::printWallsArray()
 {
-    for (int i = 0; i < 16; i++)
+    for (int y = 0; y < 16; y++)
     {
-        for (int j = 0; j < 16; j++)
+        for (int x = 0; x < 16; x++)
         {
-            std::cout << std::setw(2) << walls[index(j, i)] << " ";
+            std::cout << std::setw(2) << walls(x, y) << " ";
         }
 
         std::cout << '\n';
@@ -44,11 +44,11 @@ void MapGenerator::printWallsArray()
 
 void MapGenerator::printAreasArray()
 {
-    for (int i = 0; i < 16; i++)
+    for (int y = 0; y < 16; y++)
     {
-        for (int j = 0; j < 16; j++)
+        for (int x = 0; x < 16; x++)
         {
-            std::cout << std::setw(2) << areas[index(j, i)] << " ";
+            std::cout << std::setw(2) << areas(x, y) << " ";
         }
 
         std::cout << '\n';
@@ -57,11 +57,11 @@ void MapGenerator::printAreasArray()
 
 void MapGenerator::printSignatures()
 {
-    for (int i = 0; i < 16; i++)
+    for (int y = 0; y < 16; y++)
     {
-        for (int j = 0; j < 16; j++)
+        for (int x = 0; x < 16; x++)
         {
-            std::cout << std::setw(3) << (int)getSignature(j, i) << " ";
+            std::cout << std::setw(3) << (int)getSignature(x, y) << " ";
         }
 
         std::cout << '\n';
@@ -74,7 +74,7 @@ void MapGenerator::printRoomMap()
     {
         for (int x = 0; x < 16; x++)
         {
-            std::cout << roomMap[index(x, y)] << " ";
+            std::cout << roomMap(x, y) << " ";
         }
 
         std::cout << '\n';
@@ -129,10 +129,6 @@ void MapGenerator::clearMaps()
 }
 
 // Helpers
-int MapGenerator::index(int x, int y)
-{
-    return y * 16 + x;
-}
 
 bool MapGenerator::isInBounds(int x, int y)
 {
@@ -167,12 +163,12 @@ uint8_t MapGenerator::getSignature(int x, int y)
     for (int i = 0; i < 4; i++)
     {
         if (isInBounds(dirX[i] + x, dirY[i] + y))
-            signature |= (int)walls[index(dirX[i] + x, dirY[i] + y)] << i;
+            signature |= (int)walls(dirX[i] + x, dirY[i] + y) << i;
         else 
             signature |= 1 << i;
         
         if (isInBounds(diagX[i] + x, diagY[i] + y))
-            signature |= (int)walls[index(diagX[i] + x, diagY[i] + y)] << (i + 4);
+            signature |= (int)walls(diagX[i] + x, diagY[i] + y) << (i + 4);
         else 
             signature |= 1 << (i + 4);
     }
@@ -200,8 +196,8 @@ void MapGenerator::carveOutRoom(Room room)
     {
         for (int x = 0; x < room.size.x; x++)
         {
-            roomMap[index(room.pos.x + x, room.pos.y + y)] = rooms.size();
-            walls[index(room.pos.x + x, room.pos.y + y)] = false;
+            roomMap(room.pos.x + x, room.pos.y + y) = rooms.size();
+            walls(room.pos.x + x, room.pos.y + y) = false;
         }
     }
 }
@@ -250,7 +246,7 @@ bool MapGenerator::canPlaceRoom(Room room)
             if (!isInBounds(room.pos.x + x, room.pos.y + y))
                 continue;
 
-            if (!walls[index(room.pos.x + x, room.pos.y + y)])
+            if (!walls(room.pos.x + x, room.pos.y + y))
             {
                 return false;
             }
@@ -290,7 +286,7 @@ bool MapGenerator::hasIsolatedRoom()
     for (size_t i = 0; i < rooms.size(); i++)
     {
         auto pos = rooms[i].pos;
-        auto flag = areas[index(pos.x, pos.y)];
+        auto flag = areas(pos.x, pos.y);
 
         zoneRoomMap[flag]++;
     }
@@ -360,7 +356,7 @@ void MapGenerator::carveCoridor(sf::Vector2i start)
 
     do
     {   
-        walls[index(start.x, start.y)] = false;
+        walls(start.x, start.y) = false;
 
         if (!isCarvable(start.x + dirX[dir], start.y + dirY[dir]) || (rand() % 2 == 1 && step >= 2))
         {
@@ -383,7 +379,7 @@ void MapGenerator::fillInWalls(const std::vector<sf::Vector2i>& deadEnds)
 {
     for (size_t i = 0; i < deadEnds.size(); i++)
     {
-        walls[index(deadEnds[i].x, deadEnds[i].y)] = 1;
+        walls(deadEnds[i].x, deadEnds[i].y) = 1;
         // areas[index(deadEnds[i].x, deadEnds[i].y)] = -2;
     }
 }
@@ -409,8 +405,8 @@ std::vector<int> MapGenerator::getCarvableDirs(sf::Vector2i pos)
 
     for (int i = 0; i < 4; i++)
     {
-        int idx = index(pos.x + dirX[i], pos.y + dirY[i]);
-        if (isCarvable(pos.x + dirX[i], pos.y + dirY[i]) && walls[idx])
+        if (isCarvable(pos.x + dirX[i], pos.y + dirY[i]) && 
+            walls(pos.x + dirX[i], pos.y + dirY[i]))
         {
             result.push_back(i);
         }
@@ -427,7 +423,7 @@ std::vector<sf::Vector2i> MapGenerator::findPossibleStarts()
     {
         for (int x = 0; x < 16; x++)
         {
-            if (walls[index(x, y)] && getSignature(x, y) == 255)
+            if (walls(x, y) && getSignature(x, y) == 255)
                 result.push_back({x, y});
         }
     }
@@ -443,7 +439,7 @@ std::vector<sf::Vector2i> MapGenerator::findDeadEnds()
     {
         for (int x = 0; x < 16; x++)
         {
-            if (!walls[index(x, y)] && isCarvable(x, y))
+            if (!walls(x, y) && isCarvable(x, y))
                 result.push_back({x, y});
         }
     }
@@ -460,7 +456,7 @@ void MapGenerator::fillAreas()
     {
         for (int x = 0; x < 16; x++)
         {
-            if (!walls[index(x, y)] && areas[index(x, y)] == -1)
+            if (!walls(x, y) && areas(x, y) == -1)
             {
                 floodFill(x, y, area);
                 area ++;
@@ -482,7 +478,7 @@ void MapGenerator::placeDoors()
         if (possibleDoors.size() > 0)
         {
             auto idx = rand() % possibleDoors.size();
-            walls[index(possibleDoors[idx].x, possibleDoors[idx].y)] = 11;
+            walls(possibleDoors[idx].x, possibleDoors[idx].y) = 11;
         }
 
     } while (!possibleDoors.empty());
@@ -525,10 +521,10 @@ void MapGenerator::floodFill(int x, int y, int area)
     if (!isInBounds(x, y))
         return;
 
-    if (walls[index(x, y)] || areas[index(x, y)] == area)
+    if (walls(x, y) || areas(x, y) == area)
         return;
 
-    areas[index(x, y)] = area;
+    areas(x, y) = area;
 
     for (int i = 0; i < 4; i++)
     {
@@ -543,14 +539,14 @@ void MapGenerator::carveDoor(const std::vector<sf::Vector2i>& possibleDoors)
 
     auto idx = rand() % possibleDoors.size();
     auto tile = possibleDoors[idx];
-    walls[index(tile.x, tile.y)] = false;
+    walls(tile.x, tile.y) = false;
 
     // Merge two areas together
     int area{};
-    if (areas[index(tile.x + 1, tile.y)] != -1)
-        area = areas[index(tile.x + 1, tile.y)];
-    else if (areas[index(tile.x, tile.y + 1)] != 1)
-        area = areas[index(tile.x, tile.y + 1)];
+    if (isInBounds(tile.x + 1, tile.y) && areas(tile.x + 1, tile.y) != -1)
+        area = areas(tile.x + 1, tile.y);
+    else if (isInBounds(tile.x, tile.y + 1) && areas(tile.x, tile.y + 1) != 1)
+        area = areas(tile.x, tile.y + 1);
 
     floodFill(tile.x, tile.y, area);
 }
@@ -562,8 +558,7 @@ void MapGenerator::carveShortcut(const std::vector<sf::Vector2i>& possibleShortc
 
     auto idx = rand() % possibleShortcuts.size();
     auto tile = possibleShortcuts[idx];
-    // areas[index(tile.x, tile.y)] = -2;
-    walls[index(tile.x, tile.y)] = false;
+    walls(tile.x, tile.y) = false;
 }
 
 int MapGenerator::getPathLength(int x, int y)
@@ -572,14 +567,14 @@ int MapGenerator::getPathLength(int x, int y)
     AStar aStar(walls);
     Path path;
 
-    if (areas[index(x + 1, y)] != -1)
+    if (isInBounds(x + 1, y) && areas(x + 1, y) != -1)
     {
         a = sf::Vector2i(x + 1, y);
         b = sf::Vector2i(x - 1, y);
 
         path = aStar.findPath(a, b);
     }
-    else if (areas[index(x, y + 1)] != -1)
+    else if (isInBounds(x, y + 1) && areas(x, y + 1) != -1)
     {
         a = sf::Vector2i(x, y + 1);
         b = sf::Vector2i(x, y - 1);
@@ -599,8 +594,8 @@ bool MapGenerator::isValidDoor(int x, int y, bool sep)
         if (!sep)
             return true;
 
-        int a1 = areas[index(x - 1, y)];
-        int a2 = areas[index(x + 1, y)];
+        int a1 = (isInBounds(x - 1, y)) ? areas(x - 1, y) : -1;
+        int a2 = (isInBounds(x + 1, y)) ? areas(x + 1, y) : -1;
 
         if (a1 != a2)
             return true;
@@ -610,8 +605,8 @@ bool MapGenerator::isValidDoor(int x, int y, bool sep)
         if (!sep)
             return true;
     
-        int a1 = areas[index(x, y - 1)];
-        int a2 = areas[index(x, y + 1)];
+        int a1 = (isInBounds(x, y - 1)) ? areas(x, y - 1) : -1;
+        int a2 = (isInBounds(x, y + 1)) ? areas(x, y + 1) : -1;
 
         if (a1 != a2)
             return true;
@@ -628,7 +623,7 @@ std::vector<sf::Vector2i> MapGenerator::getPossibleDoorways()
     {
         for (int x = 0; x < 16; x++)
         {
-            if (!walls[index(x, y)])
+            if (!walls(x, y))
                 continue;
 
             if (isValidDoor(x, y, true))
@@ -668,20 +663,22 @@ std::vector<sf::Vector2i> MapGenerator::getPossibleDoors()
     {
         for (int x = 0; x < 16; x++)
         {
-            if (walls[index(x, y)])
+            if (walls(x, y))
                 continue;
 
             if (!isValidDoor(x, y, false))
                 continue;
 
-            if (isInBounds(x + 1, y) && areas[index(x + 1, y)] != -1)
+            if (isInBounds(x + 1, y) && areas(x + 1, y) != -1)
             {
-                if (roomMap[index(x + 1, y)] != 0 || roomMap[index(x - 1, y)] != 0)
+                if ((isInBounds(x + 1, y) && roomMap(x + 1, y) != 0) || 
+                    (isInBounds(x - 1, y) && roomMap(x - 1, y) != 0))
                     res.push_back({x, y});
             }
-            else if (isInBounds(x, y + 1) && areas[index(x, y + 1)] != -1)
+            else if (isInBounds(x, y + 1) && areas(x, y + 1) != -1)
             {
-                if (roomMap[index(x, y + 1)] != 0 || roomMap[index(x, y - 1)] != 0)
+                if ((isInBounds(x, y + 1) && roomMap(x, y + 1) != 0) || 
+                    (isInBounds(x, y - 1) && roomMap(x, y - 1) != 0))
                     res.push_back({x, y});
             }
         }
@@ -703,7 +700,7 @@ void MapGenerator::placeEntranceStairs()
     auto idx = rand() % possibleEntrances.size();
     auto pos = possibleEntrances[idx];
 
-    walls[index(pos.x, pos.y)] = 9;
+    walls(pos.x, pos.y) = 9;
     entrance = pos;
 }
 
@@ -722,25 +719,25 @@ void MapGenerator::placeExitStairs()
         }
     }
 
-    walls[index(pos.x, pos.y)] = 10;
+    walls(pos.x, pos.y) = 10;
 }
 
 bool MapGenerator::isValidStairsPos(int x, int y)
 {
-    bool res = walls[index(x, y)] == 0 && getSignature(x, y) != 0 && roomMap[index(x, y)] != 0;
+    bool res = walls(x, y) == 0 && getSignature(x, y) != 0 && roomMap(x, y) != 0;
 
     for (int i = 0; i < 4; i++)
     {
         if (!isInBounds(x + dirX[i], y + dirY[i]))
             continue;
 
-        if (walls[index(x + dirX[i], y + dirY[i])] == 11)
+        if (walls(x + dirX[i], y + dirY[i]) == 11)
             return false;
 
         if (!isInBounds(x + diagX[i], y + diagY[i]))
             continue;
         
-        if (walls[index(x + diagX[i], y + diagY[i])] == 11)
+        if (walls(x + diagX[i], y + diagY[i]) == 11)
             return false;
     }
 
@@ -764,10 +761,10 @@ std::vector<sf::Vector2i> MapGenerator::getPossibleEntrances()
 }
 
 // Get distance map to valid stairs tiles
-std::vector<int> MapGenerator::getDistanceMap()
+Grid<int> MapGenerator::getDistanceMap()
 {
-    std::vector<int> res;
-    res.resize(16 * 16);
+    Grid<int> res;
+    res.alloc();
 
     AStar aStar;
     aStar.setColMap(walls);
@@ -780,7 +777,7 @@ std::vector<int> MapGenerator::getDistanceMap()
                 continue;
 
             auto dist = aStar.findPath(entrance, {x, y}).size();
-            res[index(x, y)] = dist;
+            res(x, y) = dist;
         }
     }
 
