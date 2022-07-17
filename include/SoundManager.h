@@ -6,11 +6,7 @@
 
 #include <SFML/Audio.hpp>
 
-enum class SoundFX
-{
-    Hit,
-    Move
-};
+#include "AssetManager.h"
 
 class SoundManager
 {
@@ -20,7 +16,7 @@ public:
     SoundManager() = default;
     ~SoundManager() = default;
 
-    static void playSound(std::string soundId);
+    static void playSound(SoundFX soundId);
     static void cleanSounds();
 };
 

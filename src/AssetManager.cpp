@@ -1,5 +1,7 @@
 #include "AssetManager.h"
 
+#include <cassert>
+
 sf::Texture& AssetManager::getTexture(std::string id)
 {
     if (textureHolder.isLoaded(id))
@@ -17,19 +19,16 @@ void AssetManager::loadTexture(std::string id)
     textureHolder.load(id, id);
 }
 
-sf::SoundBuffer& AssetManager::getBuffer(std::string id)
+sf::SoundBuffer& AssetManager::getBuffer(SoundFX id)
 {
-    if (bufferHolder.isLoaded(id))
-        return bufferHolder.get(id);
-    
-    bufferHolder.load(id, id);
+    assert(bufferHolder.isLoaded(id));
     return bufferHolder.get(id);
 }
 
-void AssetManager::loadBuffer(std::string id)
+void AssetManager::loadBuffer(SoundFX id, const char* path)
 {
     if (bufferHolder.isLoaded(id))
         return;
 
-    bufferHolder.load(id, id);
+    bufferHolder.load(id, path);
 }

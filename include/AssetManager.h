@@ -5,11 +5,17 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 
+enum class SoundFX
+{
+    Hit,
+    Move
+};
+
 class AssetManager
 {
 private:
     inline static ResourceHolder<sf::Texture, std::string> textureHolder;
-    inline static ResourceHolder<sf::SoundBuffer, std::string> bufferHolder;
+    inline static ResourceHolder<sf::SoundBuffer, SoundFX> bufferHolder;
 public:
     AssetManager() = default;
     ~AssetManager() = default;
@@ -17,6 +23,6 @@ public:
     static sf::Texture& getTexture(std::string id);
     static void loadTexture(std::string id);
 
-    static sf::SoundBuffer& getBuffer(std::string id);
-    static void loadBuffer(std::string id);
+    static sf::SoundBuffer& getBuffer(SoundFX id);
+    static void loadBuffer(SoundFX id, const char* path);
 };

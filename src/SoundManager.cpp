@@ -1,8 +1,6 @@
 #include "SoundManager.h"
 
-#include "AssetManager.h"
-
-void SoundManager::playSound(std::string soundId)
+void SoundManager::playSound(SoundFX soundId)
 {
     std::unique_ptr<sf::Sound> sound(new sf::Sound());
     sound->setBuffer(AssetManager::getBuffer(soundId));
