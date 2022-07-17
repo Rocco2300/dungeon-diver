@@ -714,7 +714,7 @@ void MapGenerator::placeExitStairs()
     {
         for (int x = 0; x < 16; x++)
         {
-            if (distMap(x, y) > m && isValidStairsPos(x, y))
+            if (distMap(x, y) > m)
             {
                 m = distMap(x, y);
                 pos = sf::Vector2i(x, y);
@@ -768,6 +768,7 @@ Grid<int> MapGenerator::getDistanceMap()
 {
     Grid<int> res;
     res.alloc();
+    std::fill(res.begin(), res.end(), 0);
 
     AStar aStar;
     aStar.setColMap(walls);
