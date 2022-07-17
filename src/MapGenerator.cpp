@@ -710,15 +710,18 @@ void MapGenerator::placeExitStairs()
 
     int m = 0;
     sf::Vector2i pos;
-    for (size_t i = 0; i < distMap.size(); i++)
+    for (int y = 0; y < 16; y++)
     {
-        if (distMap[i] > m)
+        for (int x = 0; x < 16; x++)
         {
-            m = distMap[i];
-            pos = sf::Vector2i(i % 16, i / 16);
+            if (distMap(x, y) > m && isValidStairsPos(x, y))
+            {
+                m = distMap(x, y);
+                pos = sf::Vector2i(x, y);
+            }
         }
     }
-
+    
     walls(pos.x, pos.y) = 10;
 }
 
