@@ -142,7 +142,7 @@ public:
     T& operator()(int x, int y)
     {
         assert(data != nullptr);
-        assert(x >= 0 && x < 16 * 16 && y >= 0 && y < 16 * 16);
+        assert(x >= 0 && x < 16 && y >= 0 && y < 16);
 
         return data[y * 16 + x];
     }
@@ -150,7 +150,7 @@ public:
     const T& operator()(int x, int y) const
     {
         assert(data != nullptr);
-        assert(x >= 0 && x < 16 * 16 && y >= 0 && y < 16 * 16);
+        assert(x >= 0 && x < 16 && y >= 0 && y < 16);
 
         return data[y * 16 + x];
     }
