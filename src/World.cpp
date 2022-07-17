@@ -44,8 +44,6 @@ void World::create(Tileset& tileset)
         openTiles.erase(openTiles.begin() + idx);
     }
 
-    AssetManager::loadBuffer(SoundFX::Hit, "sound/hit1.wav");
-
     moveTime = sf::seconds(.3f);
 }
 
