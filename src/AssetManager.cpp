@@ -19,7 +19,7 @@ void AssetManager::loadTexture(std::string id)
     textureHolder.load(id, id);
 }
 
-sf::SoundBuffer& AssetManager::getBuffer(SoundFX id)
+sf::SoundBuffer& AssetManager::getBuffer(SoundID id)
 {
     if (bufferHolder.isLoaded(id))
         return bufferHolder.get(id);
@@ -28,7 +28,7 @@ sf::SoundBuffer& AssetManager::getBuffer(SoundFX id)
     return bufferHolder.get(id);
 }
 
-void AssetManager::loadBuffer(SoundFX id, const char* path)
+void AssetManager::loadBuffer(SoundID id, const char* path)
 {
     if (bufferHolder.isLoaded(id))
         return;

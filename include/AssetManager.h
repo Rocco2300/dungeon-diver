@@ -7,7 +7,9 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 
-enum class SoundFX
+
+
+enum class SoundID
 {
     Hit,
     Move
@@ -16,14 +18,14 @@ enum class SoundFX
 class AssetManager
 {
 private:
-    inline static std::map<SoundFX, std::string> soundPaths = 
+    inline static std::map<SoundID, std::string> soundPaths = 
     {
-        {SoundFX::Hit, "sound/hit1.wav"},
-        {SoundFX::Move, "sound/hit2.wav"}
+        {SoundID::Hit, "sound/hit1.wav"},
+        {SoundID::Move, "sound/hit2.wav"}
     };
 
     inline static ResourceHolder<sf::Texture, std::string> textureHolder;
-    inline static ResourceHolder<sf::SoundBuffer, SoundFX> bufferHolder;
+    inline static ResourceHolder<sf::SoundBuffer, SoundID> bufferHolder;
 public:
     AssetManager() = default;
     ~AssetManager() = default;
@@ -31,6 +33,6 @@ public:
     static sf::Texture& getTexture(std::string id);
     static void loadTexture(std::string id);
 
-    static sf::SoundBuffer& getBuffer(SoundFX id);
-    static void loadBuffer(SoundFX id, const char* path);
+    static sf::SoundBuffer& getBuffer(SoundID id);
+    static void loadBuffer(SoundID id, const char* path);
 };

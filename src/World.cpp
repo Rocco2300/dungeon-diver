@@ -86,7 +86,7 @@ bool World::isOccupied(Entity* caller, sf::Vector2i pos)
 
             entities[i]->takeDamage(1);
 
-            SoundManager::playSound(SoundFX::Hit);
+            SoundManager::playSound(SoundID::Hit);
 
             if (entities[i]->isDead())
             {

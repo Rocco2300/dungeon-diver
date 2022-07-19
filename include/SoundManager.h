@@ -16,7 +16,7 @@ public:
     SoundManager() = default;
     ~SoundManager() = default;
 
-    static void playSound(SoundFX soundId);
+    static void playSound(SoundID soundId);
     static void cleanSounds();
 };
 
