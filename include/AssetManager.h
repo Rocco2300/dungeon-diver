@@ -7,8 +7,6 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 
-
-
 enum class SoundID
 {
     Hit,
@@ -18,6 +16,9 @@ enum class SoundID
 class AssetManager
 {
 private:
+    inline const static std::string pathPrefix = "img/";
+    inline const static std::string pathPostfix = ".png";
+
     inline static std::map<SoundID, std::string> soundPaths = 
     {
         {SoundID::Hit, "sound/hit1.wav"},

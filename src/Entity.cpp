@@ -44,7 +44,7 @@ void Entity::setDamage(int damage)
     this->damage = damage;
 }
 
-void Entity::setSprite(const char* path, sf::Vector2i size)
+void Entity::setSprite(std::string path, sf::Vector2i size)
 {
     sprite.create(AssetManager::getTexture(path), size);
 }

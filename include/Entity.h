@@ -37,7 +37,7 @@ public:
 
     void setHP(int hp);
     void setDamage(int damage);
-    void setSprite(const char* path, sf::Vector2i size);
+    void setSprite(std::string path, sf::Vector2i size);
     void takeDamage(int damageAmount);
     void setPosition(sf::Vector2i pos);
 
