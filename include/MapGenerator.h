@@ -16,6 +16,23 @@ struct Room
     sf::Vector2i size;
 };
 
+enum class WallTile
+{
+    None = 0,
+    Empty,
+    Wall,
+    LChest,
+    LOpenChest,
+    SChest,
+    SOpenChest,
+    Vase1,
+    Vase2,
+    Entrance,
+    Exit,
+    Door,
+    Debug
+};
+
 class MapGenerator
 {
 private:
@@ -27,9 +44,9 @@ private:
     std::array<uint8_t, 5> mask  = {0         , 0b00110000, 0b01100000, 0b11000000, 0b10010000};
     std::array<uint8_t, 5> match = {0b11111111, 0b11111110, 0b11111101, 0b11111011, 0b11110111};
 
-    Grid<int>  areas;
-    Grid<int>  walls;
-    Grid<int>  roomMap;
+    Grid<int>         areas;
+    Grid<int>         roomMap;
+    Grid<WallTile>    walls;
     std::vector<Room> rooms; 
 public:
     MapGenerator() = default;
@@ -49,10 +66,12 @@ private:
     void clearMaps();
 
     // Helpers
-    bool    isInBounds(int x, int y);
-    bool    isCarvable(int x, int y);
-    bool    compSignatures(uint8_t sig, uint8_t mask, uint8_t match);
-    uint8_t getSignature(int x, int y);
+    bool      isWall(int x, int y);
+    bool      isInBounds(int x, int y);
+    bool      isCarvable(int x, int y);
+    bool      compSignatures(uint8_t sig, uint8_t mask, uint8_t match);
+    uint8_t   getSignature(int x, int y);
+    Grid<int> getColMap();
 
     // Room Generation
     void generateRooms();
