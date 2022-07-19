@@ -197,7 +197,7 @@ void MapGenerator::carveOutRoom(Room room)
         for (int x = 0; x < room.size.x; x++)
         {
             roomMap(room.pos.x + x, room.pos.y + y) = rooms.size();
-            walls(room.pos.x + x, room.pos.y + y) = false;
+            walls(room.pos.x + x, room.pos.y + y) = 0;
         }
     }
 }
@@ -356,7 +356,7 @@ void MapGenerator::carveCoridor(sf::Vector2i start)
 
     do
     {   
-        walls(start.x, start.y) = false;
+        walls(start.x, start.y) = 0;
 
         if (!isCarvable(start.x + dirX[dir], start.y + dirY[dir]) || (rand() % 2 == 1 && step >= 2))
         {
@@ -539,7 +539,7 @@ void MapGenerator::carveDoor(const std::vector<sf::Vector2i>& possibleDoors)
 
     auto idx = rand() % possibleDoors.size();
     auto tile = possibleDoors[idx];
-    walls(tile.x, tile.y) = false;
+    walls(tile.x, tile.y) = 0;
 
     // Merge two areas together
     int area{};
@@ -558,7 +558,7 @@ void MapGenerator::carveShortcut(const std::vector<sf::Vector2i>& possibleShortc
 
     auto idx = rand() % possibleShortcuts.size();
     auto tile = possibleShortcuts[idx];
-    walls(tile.x, tile.y) = false;
+    walls(tile.x, tile.y) = 0;
 }
 
 int MapGenerator::getPathLength(int x, int y)
