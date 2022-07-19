@@ -16,7 +16,7 @@ public:
     SoundManager() = default;
     ~SoundManager() = default;
 
-    static void playSound(SoundID soundId);
+    static void playSound(const std::string& soundId);
     static void cleanSounds();
 };
 

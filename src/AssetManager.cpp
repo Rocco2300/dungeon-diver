@@ -2,36 +2,50 @@
 
 #include <cassert>
 
-sf::Texture& AssetManager::getTexture(std::string id)
+sf::Texture& AssetManager::getTexture(const std::string& id)
 {
     if (textureHolder.isLoaded(id))
         return textureHolder.get(id);
     
-    textureHolder.load(id, pathPrefix + id + pathPostfix);
+    textureHolder.load(
+        id, 
+        imagePathPrefix + id + imagePathPostfix
+    );
+
     return textureHolder.get(id);
 }
 
-void AssetManager::loadTexture(std::string id)
+void AssetManager::loadTexture(const std::string& id)
 {
     if (textureHolder.isLoaded(id))
         return;
 
-    textureHolder.load(id, pathPrefix + id + pathPostfix);
+    textureHolder.load(
+        id, 
+        imagePathPrefix + id + imagePathPostfix
+    );
 }
 
-sf::SoundBuffer& AssetManager::getBuffer(SoundID id)
+sf::SoundBuffer& AssetManager::getBuffer(const std::string& id)
 {
     if (bufferHolder.isLoaded(id))
         return bufferHolder.get(id);
 
-    bufferHolder.load(id, soundPaths[id]);
+    bufferHolder.load(
+        id, 
+        soundPathPrefix + id + soundPathPostfix
+    );
+
     return bufferHolder.get(id);
 }
 
-void AssetManager::loadBuffer(SoundID id, const char* path)
+void AssetManager::loadBuffer(const std::string& id, const char* path)
 {
     if (bufferHolder.isLoaded(id))
         return;
 
-    bufferHolder.load(id, path);
+     bufferHolder.load(
+        id, 
+        soundPathPrefix + id + soundPathPostfix
+    );
 }
