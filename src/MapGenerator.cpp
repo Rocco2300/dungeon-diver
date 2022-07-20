@@ -19,14 +19,14 @@ void MapGenerator::generateMap()
     init();
 
     generateRooms();
-    carveMaze();
-    fillAreas();
-    carveDoors();
-    solveIsolatedRooms();
-    carveShortcuts();
-    fillDeadEnds();
-    placeDoors();
-    placeStairs();
+    // carveMaze();
+    // fillAreas();
+    // carveDoors();
+    // solveIsolatedRooms();
+    // carveShortcuts();
+    // fillDeadEnds();
+    // placeDoors();
+    // placeStairs();
 }
 
 void MapGenerator::printWallsArray()
@@ -134,7 +134,7 @@ bool MapGenerator::isWall(int x, int y)
     if (!isInBounds(x, y))
         return true;
 
-    return (walls(x, y) != WallTile::Empty || walls(x, y) != WallTile::None);
+    return (walls(x, y) != WallTile::Empty && walls(x, y) != WallTile::None);
 }
 
 bool MapGenerator::isInBounds(int x, int y)
