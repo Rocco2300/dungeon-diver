@@ -134,7 +134,7 @@ bool MapGenerator::isWall(int x, int y)
     if (!isInBounds(x, y))
         return true;
 
-    return (walls(x, y) != WallTile::Empty);
+    return (walls(x, y) != WallTile::Empty || walls(x, y) != WallTile::None);
 }
 
 bool MapGenerator::isInBounds(int x, int y)
