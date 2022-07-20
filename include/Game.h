@@ -2,27 +2,20 @@
 
 #include "World.h"
 
-class Game
+class Game : public sf::Drawable
 {
 private:
-    sf::RenderWindow window;
-    sf::RenderTexture texture;
-    float scale = 4.f;
-    int size = 8 * 16;
-
-    sf::Clock clock;
-    sf::Time dt;
-
-    Tileset tileset;
+    sf::RenderWindow* window;
 
     World world;
+    Tileset tileset;
 
 public:
-    Game();
-    void run();
-private:
+    Game() = default;
+    Game(sf::RenderWindow& window);
+
     void pollEvents();
     void update(sf::Time dt);
-    void draw();
+    void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
 

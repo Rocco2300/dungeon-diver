@@ -1,4 +1,4 @@
-#include "Game.h"
+#include "GameContext.h"
 
 #include <random>
 
@@ -8,7 +8,7 @@ int main()
     // Suppres false Failed to set DirectInput device axis mode: 1 error 
     sf::err().rdbuf(NULL);
 
-    Game game;
-    game.run();
+    GameContext gameContext;
+    gameContext.run();
     return 0;
 }

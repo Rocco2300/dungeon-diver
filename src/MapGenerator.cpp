@@ -19,14 +19,14 @@ void MapGenerator::generateMap()
     init();
 
     generateRooms();
-    // carveMaze();
-    // fillAreas();
-    // carveDoors();
-    // solveIsolatedRooms();
-    // carveShortcuts();
-    // fillDeadEnds();
-    // placeDoors();
-    // placeStairs();
+    carveMaze();
+    fillAreas();
+    carveDoors();
+    solveIsolatedRooms();
+    carveShortcuts();
+    fillDeadEnds();
+    placeDoors();
+    placeStairs();
 }
 
 void MapGenerator::printWallsArray()
