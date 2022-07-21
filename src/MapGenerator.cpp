@@ -170,12 +170,12 @@ uint8_t MapGenerator::getSignature(int x, int y)
     for (int i = 0; i < 4; i++)
     {
         if (isInBounds(dirX[i] + x, dirY[i] + y))
-            signature |= (int)isWall(dirX[i] + x, dirY[i] + y) << i;
+            signature |= isWall(dirX[i] + x, dirY[i] + y) << i;
         else 
             signature |= 1 << i;
         
         if (isInBounds(diagX[i] + x, diagY[i] + y))
-            signature |= (int)isWall(diagX[i] + x, diagY[i] + y) << (i + 4);
+            signature |= isWall(diagX[i] + x, diagY[i] + y) << (i + 4);
         else 
             signature |= 1 << (i + 4);
     }
