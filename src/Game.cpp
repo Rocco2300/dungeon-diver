@@ -7,24 +7,15 @@
 
 Game::Game(sf::RenderWindow& window)
 {
-    this->window = &window;
-
     tileset.create(AssetManager::getTexture("tiles"), {8, 8});
     world.create(tileset);
 }
 
-void Game::pollEvents()
+void Game::handleEvent(const sf::Event& event)
 {
-    sf::Event event;
-    while (window->pollEvent(event))
+    if (event.type == sf::Event::KeyPressed)
     {
-        if (event.type == sf::Event::Closed)
-            window->close();
-
-        if (event.type == sf::Event::KeyPressed)
-        {
-            world.keyPressed(event.key.code);
-        }
+        world.keyPressed(event.key.code);
     }
 }
 

@@ -20,9 +20,21 @@ void GameContext::run()
     {
         dt = clock.restart();
 
-        game->pollEvents();
+        pollEvents();
         game->update(dt);
         draw();
+    }
+}
+
+void GameContext::pollEvents()
+{
+    sf::Event event;
+    while (window.pollEvent(event))
+    {
+        if (event.type == sf::Event::Closed)
+            window.close();
+            
+        game->handleEvent(event);
     }
 }
 

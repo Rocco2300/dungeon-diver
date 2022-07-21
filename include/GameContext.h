@@ -19,7 +19,7 @@ public:
 
     void run(); 
 private:
-    // void pollEvents();
+    void pollEvents();
     // void update(sf::Time dt);
     void draw();
 };
