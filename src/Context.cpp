@@ -11,7 +11,8 @@ Context::Context()
     if (!texture.create(size, size)) 
         std::cerr << "Error creating render texture!\n";
 
-    game = new Game(*this);
+    StateStack st(*this);
+    game = new Game(st, *this);
 }
 
 void Context::run()

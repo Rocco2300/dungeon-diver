@@ -3,13 +3,7 @@
 #include <functional>
 
 #include "State.h"
-
-enum class StateID
-{
-    Title,
-    MainMenu,
-    Game,
-};
+#include "StateIdentifiers.h"
 
 class StateStack
 {
@@ -27,7 +21,7 @@ private:
         StateID stateID;
     };
 
-    std::vector<State> stack;
+    std::vector<State::Ptr> stack;
     std::vector<PendingChange> pendingChanges;
     Context* context;
     std::map<StateID, std::function<State::Ptr()>> factories;

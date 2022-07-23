@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game.h"
+#include "StateStack.h"
 
 class Context
 {

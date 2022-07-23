@@ -13,12 +13,14 @@ Game::Game(StateStack& stateStack, Context& context)
     world.create(tileset);
 }
 
-void Game::handleEvent(const sf::Event& event)
+bool Game::handleEvent(const sf::Event& event)
 {
     if (event.type == sf::Event::KeyPressed)
     {
         world.keyPressed(event.key.code);
     }
+
+    return false;
 }
 
 bool Game::update(sf::Time dt)
@@ -28,11 +30,9 @@ bool Game::update(sf::Time dt)
     return false;
 }
 
-bool Game::draw()
+void Game::draw()
 {
     sf::RenderTexture& texture = context->getRenderTex();
 
     texture.draw(world);
-
-    return false;
 }

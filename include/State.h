@@ -2,6 +2,8 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "StateIdentifiers.h"
+
 class StateStack;
 class Context;
 
@@ -18,9 +20,9 @@ public:
     State(StateStack& stateStack, Context& context);
     virtual ~State() = default;
 
-    virtual void handleEvent(const sf::Event& event) = 0;
+    virtual bool handleEvent(const sf::Event& event) = 0;
     virtual bool update(sf::Time dt) = 0;
-    virtual bool draw() = 0;
+    virtual void draw() = 0;
 
 protected:
     void requestStackPush(StateID stateID);
