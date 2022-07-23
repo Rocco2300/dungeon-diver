@@ -1,7 +1,8 @@
 #include "State.h"
 
-State::State(Context& context)
+State::State(StateStack& stateStack, Context& context)
 {
+    this->stateStack = &stateStack;
     this->context = &context;
 }
 

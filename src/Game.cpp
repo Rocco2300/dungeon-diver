@@ -6,8 +6,8 @@
 #include "AssetManager.h"
 #include "Context.h"
 
-Game::Game(Context& context)
-    : State(context)
+Game::Game(StateStack& stateStack, Context& context)
+    : State(stateStack, context)
 {
     tileset.create(AssetManager::getTexture("tiles"), {8, 8});
     world.create(tileset);
@@ -21,14 +21,18 @@ void Game::handleEvent(const sf::Event& event)
     }
 }
 
-void Game::update(sf::Time dt)
+bool Game::update(sf::Time dt)
 {
     world.update(dt);
+
+    return false;
 }
 
-void Game::draw()
+bool Game::draw()
 {
     sf::RenderTexture& texture = context->getRenderTex();
 
     texture.draw(world);
+
+    return false;
 }
