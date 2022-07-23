@@ -18,6 +18,7 @@ public:
     Context();
 
     void run(); 
+    inline sf::RenderTexture& getRenderTex() { return texture; }
 private:
     void pollEvents();
     // void update(sf::Time dt);
