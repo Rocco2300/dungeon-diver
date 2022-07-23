@@ -21,7 +21,7 @@ void Context::run()
         dt = clock.restart();
 
         pollEvents();
-        game->update(dt);
+        update(dt);
         draw();
     }
 }
@@ -36,6 +36,11 @@ void Context::pollEvents()
 
         game->handleEvent(event);
     }
+}
+
+void Context::update(sf::Time dt)
+{
+    game->update(dt);
 }
 
 void Context::draw()
