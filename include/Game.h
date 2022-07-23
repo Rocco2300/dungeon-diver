@@ -11,10 +11,10 @@ private:
 
 public:
     Game() = default;
-    Game(Context& context);
+    Game(StateStack& stateStack, Context& context);
 
     void handleEvent(const sf::Event& event);
-    void update(sf::Time dt);
-    void draw();
+    bool update(sf::Time dt);
+    bool draw();
 };
 
