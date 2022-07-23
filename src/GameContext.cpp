@@ -1,6 +1,6 @@
 #include "GameContext.h"
 
-GameContext::GameContext()
+Context::Context()
 {
     clock.restart();
 
@@ -14,7 +14,7 @@ GameContext::GameContext()
     game = new Game(window);
 }
 
-void GameContext::run()
+void Context::run()
 {
     while (window.isOpen())
     {
@@ -26,19 +26,19 @@ void GameContext::run()
     }
 }
 
-void GameContext::pollEvents()
+void Context::pollEvents()
 {
     sf::Event event;
     while (window.pollEvent(event))
     {
         if (event.type == sf::Event::Closed)
             window.close();
-            
+
         game->handleEvent(event);
     }
 }
 
-void GameContext::draw()
+void Context::draw()
 {
     texture.clear();
     texture.draw(*game);

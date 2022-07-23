@@ -2,7 +2,7 @@
 
 #include "Game.h"
 
-class GameContext
+class Context
 {
 private:
     Game* game;
@@ -15,7 +15,7 @@ private:
     sf::Clock clock;
     sf::Time dt;
 public:
-    GameContext();
+    Context();
 
     void run(); 
 private:
