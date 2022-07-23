@@ -6,8 +6,9 @@ class Context;
 
 class State  
 {
-private:
+protected:
     Context* context;
+    
 public:
     State(Context& context);
     virtual ~State() = default;

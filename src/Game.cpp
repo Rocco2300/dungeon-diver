@@ -4,8 +4,10 @@
 #include <fstream>
 
 #include "AssetManager.h"
+#include "Context.h"
 
-Game::Game(sf::RenderWindow& window)
+Game::Game(Context& context)
+    : State(context)
 {
     tileset.create(AssetManager::getTexture("tiles"), {8, 8});
     world.create(tileset);
@@ -24,7 +26,9 @@ void Game::update(sf::Time dt)
     world.update(dt);
 }
 
-void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
+void Game::draw()
 {
-    target.draw(world, states);
+    sf::RenderTexture& texture = context->getRenderTex();
+
+    texture.draw(world);
 }

@@ -1,8 +1,9 @@
 #pragma once
 
 #include "World.h"
+#include "State.h"
 
-class Game : public sf::Drawable
+class Game : public State
 {
 private:
     World world;
@@ -10,10 +11,10 @@ private:
 
 public:
     Game() = default;
-    Game(sf::RenderWindow& window);
+    Game(Context& context);
 
     void handleEvent(const sf::Event& event);
     void update(sf::Time dt);
-    void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+    void draw();
 };
 

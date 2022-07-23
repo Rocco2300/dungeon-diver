@@ -11,7 +11,7 @@ Context::Context()
     if (!texture.create(size, size)) 
         std::cerr << "Error creating render texture!\n";
 
-    game = new Game(window);
+    game = new Game(*this);
 }
 
 void Context::run()
@@ -41,7 +41,7 @@ void Context::pollEvents()
 void Context::draw()
 {
     texture.clear();
-    texture.draw(*game);
+    game->draw();
     texture.display();
 
     sf::Sprite spr;
