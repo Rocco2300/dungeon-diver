@@ -30,11 +30,18 @@ private:
     std::map<StateID, std::function<State::Ptr()>> factories;
 
 public:
+    StateStack() = default;
     StateStack(Context& context);
     ~StateStack() = default;
 
     template <typename T>
-    void registerState(StateID stateID);
+    void registerState(StateID stateID)
+    {
+        factories[stateID] = [this] ()
+        {
+            return State::Ptr(new T(*this, *context));
+        };
+    }
 
     void draw();
     void update(sf::Time dt);

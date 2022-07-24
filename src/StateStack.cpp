@@ -7,15 +7,6 @@ StateStack::StateStack(Context& context)
     this->context = &context;
 }
 
-template <typename T>
-void StateStack::registerState(StateID stateID)
-{
-    factories[stateID] = [this] ()
-    {
-        return State::Ptr(new T(*this, context));
-    };
-}
-
 void StateStack::draw()
 {
     for (auto it = stack.begin(); it != stack.end(); it++)
@@ -81,7 +72,7 @@ void StateStack::applyPendingChanges()
         switch (change.action)
         {
         case Action::Push:
-            stack.push_back(createState(change.stateID));
+            stack.push_back(std::move(createState(change.stateID)));
             break;
         case Action::Pop:
             stack.pop_back();
