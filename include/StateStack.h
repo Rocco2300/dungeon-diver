@@ -17,6 +17,9 @@ public:
 private:
     struct PendingChange
     {
+        PendingChange(Action action, StateID stateID = StateID::None) 
+            : action{action}, stateID{stateID} {}
+
         Action action;
         StateID stateID;
     };
@@ -40,6 +43,8 @@ public:
     void pushState(StateID stateID);
     void clearStates();
     void popState();
+
+    bool isEmpty() const;
 
 private:
     State::Ptr createState(StateID stateID);

@@ -2,7 +2,8 @@
 
 enum class StateID
 {
-    Title,
+    Title = 0,
     MainMenu,
     Game,
+    None = -1
 };
