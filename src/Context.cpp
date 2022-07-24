@@ -11,8 +11,10 @@ Context::Context()
     if (!texture.create(size, size)) 
         std::cerr << "Error creating render texture!\n";
 
-    StateStack st(*this);
-    game = new Game(st, *this);
+    stateStack = StateStack(*this);
+    stateStack->registerState<Game>(StateID::Game);
+    stateStack->pushState(StateID::Game);
+    // game = new Game(st, *this);
 }
 
 void Context::run()
@@ -35,19 +37,19 @@ void Context::pollEvents()
         if (event.type == sf::Event::Closed)
             window.close();
 
-        game->handleEvent(event);
+        stateStack->handleEvent(event);
     }
 }
 
 void Context::update(sf::Time dt)
 {
-    game->update(dt);
+    stateStack->update(dt);
 }
 
 void Context::draw()
 {
     texture.clear();
-    game->draw();
+    stateStack->draw();
     texture.display();
 
     sf::Sprite spr;

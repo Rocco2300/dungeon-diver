@@ -6,7 +6,8 @@
 class Context
 {
 private:
-    Game* game;
+    // Game* game;
+    StateStack* stateStack;
 
     sf::RenderWindow window;
     sf::RenderTexture texture;
