@@ -493,21 +493,12 @@ void MapGenerator::fillAreas()
 void MapGenerator::placeDoors()
 {
     std::vector<sf::Vector2i> possibleDoors;
+    possibleDoors = getPossibleDoors();
 
-    do
+    for (int i = possibleDoors.size() - 1; i >= 0; i--)
     {
-        possibleDoors.clear();
-
-        possibleDoors = getPossibleDoors();
-
-        if (possibleDoors.size() > 0)
-        {
-            auto idx = rand() % possibleDoors.size();
-            walls(possibleDoors[idx].x, possibleDoors[idx].y) = WallTile::Door;
-        }
-
-    } while (!possibleDoors.empty());
-    
+        walls(possibleDoors[i].x, possibleDoors[i].y) = WallTile::Door;
+    }
 }
 
 void MapGenerator::carveDoors()
@@ -752,7 +743,7 @@ void MapGenerator::placeExitStairs()
 }
 
 bool MapGenerator::isValidStairsPos(int x, int y)
-{
+{              
     bool res = !isWall(x, y) && getSignature(x, y) != 0 && roomMap(x, y) != 0;
 
     for (int i = 0; i < 4; i++)
