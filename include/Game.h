@@ -13,8 +13,8 @@ public:
     Game() = default;
     Game(StateStack& stateStack, sf::RenderTexture& texture);
 
-    bool handleEvent(const sf::Event& event);
-    bool update(sf::Time dt);
     void draw();
+    bool update(sf::Time dt);
+    bool handleEvent(const sf::Event& event);
 };
 

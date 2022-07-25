@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game.h"
+#include "MainMenu.h"
 #include "StateStack.h"
 
 class Application
