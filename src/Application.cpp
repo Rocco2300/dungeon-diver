@@ -14,10 +14,8 @@ Application::Application()
     // No non-trivial copy constructor
     // and unique_ptr member, have to heap alloc
     stateStack = new StateStack(texture);
-    stateStack->registerState<MainMenu>(StateID::MainMenu);
-    stateStack->registerState<Game>(StateID::Game);
+    registerStates();
     stateStack->pushState(StateID::MainMenu);
-    // game = new Game(st, *this);
 }
 
 void Application::run()
@@ -62,4 +60,10 @@ void Application::draw()
     window.clear();
     window.draw(spr);
     window.display();
+}
+
+void Application::registerStates()
+{
+    stateStack->registerState<MainMenu>(StateID::MainMenu);
+    stateStack->registerState<Game>(StateID::Game);
 }

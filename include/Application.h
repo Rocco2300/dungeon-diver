@@ -26,4 +26,6 @@ private:
     void pollEvents();
     void update(sf::Time dt);
     void draw();
+
+    void registerStates();
 };
