@@ -4,10 +4,9 @@
 #include <fstream>
 
 #include "AssetManager.h"
-#include "Context.h"
 
-Game::Game(StateStack& stateStack, Context& context)
-    : State(stateStack, context)
+Game::Game(StateStack& stateStack, sf::RenderTexture& texture)
+    : State(stateStack, texture)
 {
     tileset.create(AssetManager::getTexture("tiles"), {8, 8});
     world.create(tileset);
@@ -32,7 +31,5 @@ bool Game::update(sf::Time dt)
 
 void Game::draw()
 {
-    sf::RenderTexture& texture = context->getRenderTex();
-
-    texture.draw(world);
+    texture->draw(world);
 }

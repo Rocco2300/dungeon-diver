@@ -1,4 +1,4 @@
-#include "Context.h"
+#include "Application.h"
 
 #include <random>
 
@@ -8,7 +8,7 @@ int main()
     // Suppres false Failed to set DirectInput device axis mode: 1 error 
     sf::err().rdbuf(NULL);
 
-    Context gameContext;
-    gameContext.run();
+    Application application;
+    application.run();
     return 0;
 }

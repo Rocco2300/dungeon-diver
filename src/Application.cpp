@@ -1,6 +1,6 @@
-#include "Context.h"
+#include "Application.h"
 
-Context::Context()
+Application::Application()
 {
     clock.restart();
 
@@ -11,13 +11,15 @@ Context::Context()
     if (!texture.create(size, size)) 
         std::cerr << "Error creating render texture!\n";
 
-    stateStack = StateStack(*this);
+    // No non-trivial copy constructor
+    // and unique_ptr member, have to heap alloc
+    stateStack = new StateStack(texture);
     stateStack->registerState<Game>(StateID::Game);
     stateStack->pushState(StateID::Game);
     // game = new Game(st, *this);
 }
 
-void Context::run()
+void Application::run()
 {
     while (window.isOpen())
     {
@@ -29,7 +31,7 @@ void Context::run()
     }
 }
 
-void Context::pollEvents()
+void Application::pollEvents()
 {
     sf::Event event;
     while (window.pollEvent(event))
@@ -41,12 +43,12 @@ void Context::pollEvents()
     }
 }
 
-void Context::update(sf::Time dt)
+void Application::update(sf::Time dt)
 {
     stateStack->update(dt);
 }
 
-void Context::draw()
+void Application::draw()
 {
     texture.clear();
     stateStack->draw();

@@ -2,9 +2,9 @@
 
 #include <cassert>
 
-StateStack::StateStack(Context& context)
+StateStack::StateStack(sf::RenderTexture& texture)
 {
-    this->context = &context;
+    this->texture = &texture;
 }
 
 void StateStack::draw()

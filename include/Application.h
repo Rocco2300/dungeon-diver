@@ -3,7 +3,7 @@
 #include "Game.h"
 #include "StateStack.h"
 
-class Context
+class Application
 {
 private:
     // Game* game;
@@ -17,7 +17,7 @@ private:
     sf::Clock clock;
     sf::Time dt;
 public:
-    Context();
+    Application();
 
     void run(); 
     inline sf::RenderTexture& getRenderTex() { return texture; }
