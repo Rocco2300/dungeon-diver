@@ -17,7 +17,7 @@ private:
     bool selected;
 
 public:
-    Component() : isActive{false}, isSelected{false} { }
+    Component() : active{false}, selected{false} { }
     virtual ~Component() = default;
 
     virtual bool isSelectable() const = 0;
