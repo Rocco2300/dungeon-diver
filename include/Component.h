@@ -13,8 +13,8 @@ public:
     using Ptr = std::shared_ptr<Component>;
 
 private: 
-    bool isActive;
-    bool isSelected;
+    bool active;
+    bool selected;
 
 public:
     Component() : isActive{false}, isSelected{false} { }
