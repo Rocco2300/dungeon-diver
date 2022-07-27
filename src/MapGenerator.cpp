@@ -134,7 +134,8 @@ bool MapGenerator::isWall(int x, int y)
     if (!isInBounds(x, y))
         return true;
 
-    return (walls(x, y) != WallTile::Empty && walls(x, y) != WallTile::None);
+    // return (walls(x, y) != WallTile::Empty && walls(x, y) != WallTile::None);
+    return (walls(x, y) == WallTile::Wall);
 }
 
 bool MapGenerator::isInBounds(int x, int y)
@@ -529,7 +530,6 @@ void MapGenerator::carveShortcuts()
         carveShortcut(possibleShortcuts);
 
     } while (!possibleShortcuts.empty());
-    
 }
 
 void MapGenerator::floodFill(int x, int y, int area)
