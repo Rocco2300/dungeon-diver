@@ -14,9 +14,12 @@ private:
     inline const static std::string soundPathPrefix = "sound/";
     inline const static std::string imagePathPostfix = ".png";
     inline const static std::string soundPathPostfix = ".wav";
+    inline const static std::string fontPathPrefix = "fonts/";
+    inline const static std::string fontPathPostfix = ".ttf";
 
     inline static ResourceHolder<sf::Texture, std::string> textureHolder;
     inline static ResourceHolder<sf::SoundBuffer, std::string> bufferHolder;
+    inline static ResourceHolder<sf::Font, std::string> fontHolder;
 public:
     AssetManager() = default;
     ~AssetManager() = default;
@@ -26,4 +29,7 @@ public:
 
     static sf::SoundBuffer& getBuffer(const std::string& id);
     static void loadBuffer(const std::string& id, const char* path);
+
+    static sf::Font& getFont(const std::string& id);
+    static void loadFont(const std::string& id, const char* path);
 };

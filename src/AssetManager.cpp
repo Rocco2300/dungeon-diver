@@ -44,8 +44,32 @@ void AssetManager::loadBuffer(const std::string& id, const char* path)
     if (bufferHolder.isLoaded(id))
         return;
 
-     bufferHolder.load(
+    bufferHolder.load(
         id, 
         soundPathPrefix + id + soundPathPostfix
+    );
+}
+
+sf::Font& AssetManager::getFont(const std::string& id)
+{
+    if (fontHolder.isLoaded(id))
+        return fontHolder.get(id);
+
+    fontHolder.load(
+        id, 
+        fontPathPrefix + id + fontPathPostfix
+    );
+
+    return fontHolder.get(id);
+}
+
+void AssetManager::loadFont(const std::string& id, const char* path)
+{
+    if (fontHolder.isLoaded(id))
+        return;
+
+    fontHolder.load(
+        id, 
+        fontPathPrefix + id + fontPathPostfix
     );
 }
