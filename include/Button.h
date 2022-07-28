@@ -59,12 +59,12 @@ public:
     virtual void deactivate()
     {
         Component::deactivate();
-        callback();
+        // callback();
     }
 
     virtual void handleEvent(const sf::Event& event)
     {
-
+        Component::deactivate();
     }
 
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const

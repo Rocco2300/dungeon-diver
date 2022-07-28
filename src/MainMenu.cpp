@@ -18,7 +18,7 @@ MainMenu::MainMenu(StateStack& stateStack, sf::RenderTexture& texture)
     auto button1 = std::make_shared<GUI::Button<std::function<void()>>>();
     button1->setCallback([] ()
     {   
-        std::cout << "Pressed\n";
+        std::cout << "Pressed1\n";
     });
     auto& buttonBG1 = button1->getRectangleRef();
     button1->setPosition({0.f, 0.f});
@@ -29,7 +29,7 @@ MainMenu::MainMenu(StateStack& stateStack, sf::RenderTexture& texture)
     auto button2 = std::make_shared<GUI::Button<std::function<void()>>>();
     button2->setCallback([] ()
     {   
-        std::cout << "Pressed\n";
+        std::cout << "Pressed2\n";
     });
     auto& buttonBG2 = button2->getRectangleRef();
     button2->setPosition({0.f, 10.f});
@@ -40,7 +40,7 @@ MainMenu::MainMenu(StateStack& stateStack, sf::RenderTexture& texture)
     auto button3 = std::make_shared<GUI::Button<std::function<void()>>>();
     button3->setCallback([] ()
     {   
-        std::cout << "Pressed\n";
+        std::cout << "Pressed3\n";
     });
     auto& buttonBG3 = button3->getRectangleRef();
     button3->setPosition({0.f, 21.f});
