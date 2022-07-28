@@ -39,6 +39,8 @@ void GUI::Container::handleEvent(const sf::Event& event)
 
 void GUI::Container::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
+    target.draw(background);
+    
     for (auto& child : children)
     {
         target.draw(*child, states);

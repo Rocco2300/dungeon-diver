@@ -13,11 +13,15 @@ public:
     using Ptr = std::shared_ptr<Container>;
 
 private:
+    sf::RectangleShape background;
+
     std::vector<Component::Ptr> children;
     int selectedChild;
 
 public:
     Container() : selectedChild{-1} { }
+
+    inline sf::RectangleShape& getBackgoundRef() { return background; } 
 
     void pack(Component::Ptr component);
 
