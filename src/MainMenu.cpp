@@ -5,8 +5,12 @@
 MainMenu::MainMenu(StateStack& stateStack, sf::RenderTexture& texture)
     : State(stateStack, texture)
 {
-    rect.setFillColor(sf::Color::Green);
-    rect.setSize({36.f, 26.f});
+    guiContainer.setPosition({5, 5});
+    auto& containerBG = guiContainer.getBackgoundRef();
+    containerBG.setFillColor(sf::Color::Black);
+    containerBG.setSize({30, 30});
+    containerBG.setOutlineThickness(2.f);
+    containerBG.setOutlineColor(sf::Color::White);
 }
 
 bool MainMenu::handleEvent(const sf::Event& event)
@@ -27,6 +31,6 @@ bool MainMenu::update(sf::Time dt)
 
 void MainMenu::draw()
 {
-    texture->draw(rect);
+    texture->draw(guiContainer);
 }
 

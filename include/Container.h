@@ -21,7 +21,9 @@ private:
 public:
     Container() : selectedChild{-1} { }
 
+    inline sf::Vector2f getPosition() { return pos; }
     inline sf::RectangleShape& getBackgoundRef() { return background; } 
+    inline void setPosition(sf::Vector2f pos) { this->pos = pos; background.setPosition(pos); }
 
     void pack(Component::Ptr component);
 

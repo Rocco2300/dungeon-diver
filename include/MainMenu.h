@@ -1,11 +1,12 @@
 #pragma once
 
+#include "Container.h"
 #include "State.h"
 
 class MainMenu : public State
 {
 private:
-    sf::RectangleShape rect;
+    GUI::Container guiContainer;
     
 public:
     MainMenu(StateStack& stateStack, sf::RenderTexture& texture);

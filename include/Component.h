@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include <Graphics.hpp>
+#include <SFML/Graphics.hpp>
 
 namespace GUI
 {
@@ -12,9 +12,10 @@ class Component : public sf::Drawable
 public:
     using Ptr = std::shared_ptr<Component>;
 
-private: 
-    sf::Vector2i pos;
+protected: 
+    sf::Vector2f pos;
 
+private:
     bool active;
     bool selected;
 
@@ -22,8 +23,8 @@ public:
     Component() : active{false}, selected{false} { }
     virtual ~Component() = default;
 
-    inline sf::Vector2i getPosition() { return pos; }
-    inline void setPosition(sf::Vector2i pos) { this->pos = pos; }
+    virtual sf::Vector2f getPosition() = 0;
+    virtual void setPosition(sf::Vector2f pos) = 0;
 
     virtual bool isSelectable() const = 0;
             bool isSelected() const;
