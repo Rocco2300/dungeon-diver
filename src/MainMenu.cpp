@@ -2,6 +2,9 @@
 
 #include "StateStack.h"
 
+#include <iostream>
+#include <functional>
+
 MainMenu::MainMenu(StateStack& stateStack, sf::RenderTexture& texture)
     : State(stateStack, texture)
 {
@@ -11,15 +14,53 @@ MainMenu::MainMenu(StateStack& stateStack, sf::RenderTexture& texture)
     containerBG.setSize({30, 30});
     containerBG.setOutlineThickness(1.f);
     containerBG.setOutlineColor(sf::Color::White);
+
+    auto button1 = std::make_shared<GUI::Button<std::function<void()>>>();
+    button1->setCallback([] ()
+    {   
+        std::cout << "Pressed\n";
+    });
+    auto& buttonBG1 = button1->getRectangleRef();
+    button1->setPosition({0.f, 0.f});
+    buttonBG1.setFillColor(sf::Color::Black);
+    buttonBG1.setOutlineColor(sf::Color::White);
+    buttonBG1.setSize({8.f, 8.f});
+
+    auto button2 = std::make_shared<GUI::Button<std::function<void()>>>();
+    button2->setCallback([] ()
+    {   
+        std::cout << "Pressed\n";
+    });
+    auto& buttonBG2 = button2->getRectangleRef();
+    button2->setPosition({0.f, 10.f});
+    buttonBG2.setFillColor(sf::Color::Black);
+    buttonBG2.setOutlineColor(sf::Color::White);
+    buttonBG2.setSize({8.f, 8.f});
+
+    auto button3 = std::make_shared<GUI::Button<std::function<void()>>>();
+    button3->setCallback([] ()
+    {   
+        std::cout << "Pressed\n";
+    });
+    auto& buttonBG3 = button3->getRectangleRef();
+    button3->setPosition({0.f, 21.f});
+    buttonBG3.setFillColor(sf::Color::Black);
+    buttonBG3.setOutlineColor(sf::Color::White);
+    buttonBG3.setSize({8.f, 8.f});
+
+    guiContainer.pack(button1);
+    guiContainer.pack(button2);
+    guiContainer.pack(button3);
 }
 
 bool MainMenu::handleEvent(const sf::Event& event)
 {
-    if (event.type == sf::Event::KeyPressed)
-    {
-        stateStack->popState();
-        stateStack->pushState(StateID::Game);
-    }
+    guiContainer.handleEvent(event);
+    // if (event.type == sf::Event::KeyPressed)
+    // {
+    //     stateStack->popState();
+    //     stateStack->pushState(StateID::Game);
+    // }
 
     return false;
 }
