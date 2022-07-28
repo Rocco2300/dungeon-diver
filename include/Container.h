@@ -13,7 +13,7 @@ public:
     using Ptr = std::shared_ptr<Container>;
 
 private:
-    std::vector<Component> children;
+    std::vector<Component::Ptr> children;
     int selectedChild;
 
 public:
