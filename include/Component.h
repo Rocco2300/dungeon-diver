@@ -2,12 +2,13 @@
 
 #include <memory>
 
+#include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Window/Event.hpp>
 
 namespace GUI
 {
 
-class Component
+class Component : public sf::Drawable
 {
 public:
     using Ptr = std::shared_ptr<Component>;
