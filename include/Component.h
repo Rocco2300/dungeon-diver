@@ -13,12 +13,17 @@ public:
     using Ptr = std::shared_ptr<Component>;
 
 private: 
+    sf::Vector2i pos;
+
     bool active;
     bool selected;
 
 public:
     Component() : active{false}, selected{false} { }
     virtual ~Component() = default;
+
+    inline sf::Vector2i getPosition() { return pos; }
+    inline void setPosition(sf::Vector2i pos) { this->pos = pos; }
 
     virtual bool isSelectable() const = 0;
             bool isSelected() const;
