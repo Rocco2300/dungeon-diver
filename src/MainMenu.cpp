@@ -5,11 +5,11 @@
 MainMenu::MainMenu(StateStack& stateStack, sf::RenderTexture& texture)
     : State(stateStack, texture)
 {
-    guiContainer.setPosition({5, 5});
     auto& containerBG = guiContainer.getBackgoundRef();
+    guiContainer.setPosition({5, 5});
     containerBG.setFillColor(sf::Color::Black);
     containerBG.setSize({30, 30});
-    containerBG.setOutlineThickness(2.f);
+    containerBG.setOutlineThickness(1.f);
     containerBG.setOutlineColor(sf::Color::White);
 }
 

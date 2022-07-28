@@ -23,8 +23,8 @@ public:
     Component() : active{false}, selected{false} { }
     virtual ~Component() = default;
 
-    virtual sf::Vector2f getPosition() = 0;
-    virtual void setPosition(sf::Vector2f pos) = 0;
+    inline virtual sf::Vector2f getPosition() { return pos; };
+    inline virtual void setPosition(sf::Vector2f pos) { this->pos = pos; };
 
     virtual bool isSelectable() const = 0;
             bool isSelected() const;

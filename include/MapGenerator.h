@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <array>
 #include <sstream>
 #include <SFML/Graphics.hpp>
 
