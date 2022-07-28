@@ -2,8 +2,7 @@
 
 #include <memory>
 
-#include <SFML/Graphics/Drawable.hpp>
-#include <SFML/Window/Event.hpp>
+#include <Graphics.hpp>
 
 namespace GUI
 {
