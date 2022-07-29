@@ -1,6 +1,7 @@
 #include "MainMenu.h"
 
 #include "StateStack.h"
+#include "AssetManager.h"
 
 #include <iostream>
 #include <functional>
@@ -22,10 +23,12 @@ MainMenu::MainMenu(StateStack& stateStack, sf::RenderTexture& texture)
     });
     auto& buttonBG1 = button1->getRectangleRef();
     button1->setPosition({0.f, 0.f});
+    button1->setText("Play");
     buttonBG1.setFillColor(sf::Color::Black);
     buttonBG1.setOutlineColor(sf::Color::White);
-    buttonBG1.setSize({8.f, 8.f});
+    buttonBG1.setSize({24.f, 8.f});
 
+    // TODO: add something
     auto button2 = std::make_shared<GUI::Button<std::function<void()>>>();
     button2->setCallback([] ()
     {   
@@ -35,7 +38,7 @@ MainMenu::MainMenu(StateStack& stateStack, sf::RenderTexture& texture)
     button2->setPosition({0.f, 10.f});
     buttonBG2.setFillColor(sf::Color::Black);
     buttonBG2.setOutlineColor(sf::Color::White);
-    buttonBG2.setSize({8.f, 8.f});
+    buttonBG2.setSize({24.f, 8.f});
 
     auto button3 = std::make_shared<GUI::Button<std::function<void()>>>();
     button3->setCallback([] ()
@@ -46,17 +49,14 @@ MainMenu::MainMenu(StateStack& stateStack, sf::RenderTexture& texture)
     button3->setPosition({0.f, 21.f});
     buttonBG3.setFillColor(sf::Color::Black);
     buttonBG3.setOutlineColor(sf::Color::White);
-    buttonBG3.setSize({8.f, 8.f});
+    buttonBG3.setSize({24.f, 8.f});
 
     guiContainer.pack(button1);
     guiContainer.pack(button2);
     guiContainer.pack(button3);
 
-    text.setPosition({20.f, 20.f});
-    text.setSpacing(1);
-    text.setCharacterSize(3, 5);
-    text.setTexture(AssetManager::getTexture("font"));
-    text.setString("ButTon");
+    // text = Text(AssetManager::getTexture("font"), 3, 5, "BUTTON");
+    // text.setPosition({20.f, 20.f});
 }
 
 bool MainMenu::handleEvent(const sf::Event& event)

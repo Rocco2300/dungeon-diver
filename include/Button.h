@@ -1,6 +1,8 @@
 #pragma once
 
+#include "Text.h"
 #include "Component.h"
+#include "AssetManager.h"
 
 #include <memory>
 #include <functional>
@@ -17,11 +19,13 @@ public:
     using Ptr = std::shared_ptr<Button>;
 
 private:    
-    Callback callback;
+    Text text;
     sf::RectangleShape background;
 
+    Callback callback;
+
 public:
-    Button() = default;
+    Button() : text(AssetManager::getTexture("font"), 3, 5, "") { }
 
     sf::RectangleShape& getRectangleRef()
     {
@@ -31,6 +35,18 @@ public:
     void setCallback(Callback callback)
     {
         this->callback = callback;
+    }
+
+    void setText(std::string txt)
+    {
+        text.setString(txt);
+        text.setPosition(pos);
+    }
+
+    void setPosition(sf::Vector2f pos)
+    {
+        this->pos = pos;
+        text.setPosition(pos);
     }
 
     virtual bool isSelectable() const
@@ -69,10 +85,11 @@ public:
 
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
     {
-        // sf::Transform transform;
-        // transform.translate(pos);
-        // states.transform = transform;
+        sf::Transform transform;
+        transform.translate(pos);
+        states.transform = transform;
         target.draw(background, states);
+        target.draw(text, states);
     }
 };
 

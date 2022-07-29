@@ -3,6 +3,8 @@
 void GUI::Container::pack(Component::Ptr component)
 {
     children.push_back(component);
+    auto childPosition = children.back()->getPosition();
+    children.back()->setPosition(pos + childPosition);
 
     if (!hasSelection() && component->isSelectable())
         select(children.size() - 1);

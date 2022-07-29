@@ -4,8 +4,6 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "AssetManager.h"
-
 class Text : public sf::Drawable
 {
 private:
