@@ -51,6 +51,9 @@ MainMenu::MainMenu(StateStack& stateStack, sf::RenderTexture& texture)
     guiContainer.pack(button1);
     guiContainer.pack(button2);
     guiContainer.pack(button3);
+
+    text.setString("button");
+    text.setPosition({10.f, 10.f});
 }
 
 bool MainMenu::handleEvent(const sf::Event& event)
@@ -62,7 +65,7 @@ bool MainMenu::handleEvent(const sf::Event& event)
     //     stateStack->pushState(StateID::Game);
     // }
 
-    return false;
+   return false;
 }
 
 bool MainMenu::update(sf::Time dt)
@@ -73,5 +76,6 @@ bool MainMenu::update(sf::Time dt)
 void MainMenu::draw()
 {
     texture->draw(guiContainer);
+    texture->draw(text);
 }
 

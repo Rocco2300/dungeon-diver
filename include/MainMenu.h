@@ -3,10 +3,12 @@
 #include "Container.h"
 #include "Button.h"
 #include "State.h"
+#include "Text.h"
 
 class MainMenu : public State
 {
 private:
+    Text text;
     GUI::Container guiContainer;
     
 public:
