@@ -1,10 +1,10 @@
 #include "Text.h"
 
-Text::Text() : text(""), texture(&AssetManager::getTexture("font"))
+Text::Text() : texture(&AssetManager::getTexture("font")), text("")
 {
 }
 
-Text::Text(std::string str) : text(str), texture(&AssetManager::getTexture("font"))
+Text::Text(std::string str) : texture(&AssetManager::getTexture("font")), text(str)
 {
     setString(str);
 }
@@ -14,9 +14,9 @@ void Text::setString(std::string str)
     vertices.setPrimitiveType(sf::Quads);
     vertices.resize(str.length() * 4);
 
-    for (int i = 0; i < str.length(); i++)
+    for (size_t i = 0; i < str.length(); i++)
     {
-        int idx, tx, ty;
+        int idx, tx{}, ty{};
         if (str[i] >= 97 && str[i] <= 122)
         {
             idx = str[i] - 97;
@@ -27,7 +27,7 @@ void Text::setString(std::string str)
         {
             idx = str[i] - 65;
             tx = idx;
-            ty = 0;
+            ty = 1;
         }
 
         auto* quad = &vertices[i * 4];
