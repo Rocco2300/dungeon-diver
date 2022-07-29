@@ -1,6 +1,6 @@
 #include "Application.h"
 
-Application::Application()
+Application::Application() : scale{4.f}, size{8 * 16}
 {
     clock.restart();
 

@@ -12,8 +12,8 @@ private:
 
     sf::RenderWindow window;
     sf::RenderTexture texture;
-    float scale = 4.f;
-    int size = 8 * 16;
+    float scale;
+    int size;
 
     sf::Clock clock;
     sf::Time dt;

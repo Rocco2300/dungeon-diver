@@ -44,7 +44,7 @@ public:
 
         int tx = (background.getSize().x - text.getSize().x) / 2;
         int ty = (background.getSize().y - text.getSize().y) / 2;
-        text.setPosition({tx, ty});
+        text.setPosition(sf::Vector2f(tx, ty));
     }
 
     void setPosition(sf::Vector2f pos)
