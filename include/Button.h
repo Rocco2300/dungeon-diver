@@ -4,6 +4,7 @@
 #include "Component.h"
 #include "AssetManager.h"
 
+#include <iostream>
 #include <memory>
 #include <functional>
 
@@ -40,13 +41,17 @@ public:
     void setText(std::string txt)
     {
         text.setString(txt);
-        text.setPosition(pos);
+
+        int tx = (background.getSize().x - text.getSize().x) / 2;
+        int ty = (background.getSize().y - text.getSize().y) / 2;
+        text.setPosition({tx, ty});
     }
 
     void setPosition(sf::Vector2f pos)
     {
         this->pos = pos;
         text.setPosition(pos);
+
     }
 
     virtual bool isSelectable() const
@@ -88,7 +93,7 @@ public:
         sf::Transform transform;
         transform.translate(pos);
         states.transform *= transform;
-        
+
         target.draw(background, states);
         target.draw(text, states);
     }

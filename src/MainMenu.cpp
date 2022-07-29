@@ -13,20 +13,22 @@ MainMenu::MainMenu(StateStack& stateStack, sf::RenderTexture& texture)
     guiContainer.setPosition({5, 5});
     containerBG.setFillColor(sf::Color::Black);
     containerBG.setSize({30, 30});
-    containerBG.setOutlineThickness(1.f);
-    containerBG.setOutlineColor(sf::Color::White);
+    // containerBG.setOutlineThickness(1.f);
+    // containerBG.setOutlineColor(sf::Color::White);
 
     auto button1 = std::make_shared<GUI::Button<std::function<void()>>>();
-    button1->setCallback([] ()
+    button1->setCallback([&stateStack] ()
     {   
         std::cout << "Pressed1\n";
+        stateStack.popState();
+        stateStack.pushState(StateID::Game);
     });
     auto& buttonBG1 = button1->getRectangleRef();
     button1->setPosition({0.f, 0.f});
-    button1->setText("Play");
     buttonBG1.setFillColor(sf::Color::Black);
     buttonBG1.setOutlineColor(sf::Color::White);
     buttonBG1.setSize({24.f, 8.f});
+    button1->setText("Play");
 
     // TODO: add something
     auto button2 = std::make_shared<GUI::Button<std::function<void()>>>();

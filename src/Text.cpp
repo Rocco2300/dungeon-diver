@@ -17,6 +17,9 @@ void Text::setSpacing(int spacing)
 
 void Text::setString(std::string str)
 {
+    size.x = str.length() * width + str.length() * letterSpacing - letterSpacing;
+    size.y = height;
+
     vertices.setPrimitiveType(sf::Quads);
     vertices.resize(str.length() * 4);
 

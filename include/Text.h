@@ -4,10 +4,11 @@
 
 #include <SFML/Graphics.hpp>
 
-class Text : public sf::Drawable
+class Text : public sf::Drawable, public sf::Transformable
 {
 private:
    sf::Vector2f pos;
+   sf::Vector2f size;
    sf::Texture* texture;
    sf::VertexArray vertices;
 
@@ -19,6 +20,8 @@ private:
 public: 
    Text();
    Text(sf::Texture& texture, int width, int height, std::string str);
+
+   inline sf::Vector2f getSize() { return size; }
 
    void setSpacing(int spacing);
    void setString(std::string str);
