@@ -1,11 +1,11 @@
 #include "Text.h"
 
-Text::Text() : text(""), letterSpacing(1), width(8), height(8)
+Text::Text() : width(8), height(8), letterSpacing(1), text("")
 {
 }
 
-Text::Text(sf::Texture& texture, sf::Vector2i size, std::string str) 
-    : texture(&texture), width(size.x), height(size.y), letterSpacing(1), text(str)
+Text::Text(sf::Texture& texture, int width, int height, std::string str) 
+    : texture(&texture), width(width), height(height), letterSpacing(1), text(str)
 {
     setString(str);
 }
@@ -50,15 +50,20 @@ void Text::setString(std::string str)
     }
 }
 
+void Text::setTexture(sf::Texture& texture)
+{
+    this->texture = &texture;
+}
+
 void Text::setPosition(sf::Vector2f pos)
 {
     this->pos = pos;
 }
 
-void Text::setCharacterSize(sf::Vector2i size)
+void Text::setCharacterSize(int width, int height)
 {
-    width = size.x;
-    height = size.y;
+    this->width = width;
+    this->height = height;
 }
 
 void Text::draw(sf::RenderTarget& target, sf::RenderStates states) const

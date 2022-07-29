@@ -52,8 +52,11 @@ MainMenu::MainMenu(StateStack& stateStack, sf::RenderTexture& texture)
     guiContainer.pack(button2);
     guiContainer.pack(button3);
 
-    text.setString("ButTon");
     text.setPosition({20.f, 20.f});
+    text.setSpacing(1);
+    text.setCharacterSize(3, 5);
+    text.setTexture(AssetManager::getTexture("font"));
+    text.setString("ButTon");
 }
 
 bool MainMenu::handleEvent(const sf::Event& event)

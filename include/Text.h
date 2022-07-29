@@ -20,12 +20,13 @@ private:
    std::string text;
 public: 
    Text();
-   Text(sf::Texture& texture, sf::Vector2i size, std::string str);
+   Text(sf::Texture& texture, int width, int height, std::string str);
 
    void setSpacing(int spacing);
    void setString(std::string str);
    void setPosition(sf::Vector2f pos);
-   void setCharacterSize(sf::Vector2i size);
+   void setTexture(sf::Texture& texture);
+   void setCharacterSize(int width, int height);
 
    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
