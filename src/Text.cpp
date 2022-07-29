@@ -72,7 +72,7 @@ void Text::draw(sf::RenderTarget& target, sf::RenderStates states) const
     translate.translate(pos);
 
     states.texture = texture;
-    states.transform = translate;
+    states.transform *= translate;
 
     target.draw(vertices, states);
 }

@@ -3,8 +3,6 @@
 void GUI::Container::pack(Component::Ptr component)
 {
     children.push_back(component);
-    auto childPosition = children.back()->getPosition();
-    children.back()->setPosition(pos + childPosition);
 
     if (!hasSelection() && component->isSelectable())
         select(children.size() - 1);
@@ -44,13 +42,12 @@ void GUI::Container::draw(sf::RenderTarget& target, sf::RenderStates states) con
 {
     sf::Transform transform;
     transform.translate(pos);
-    target.draw(background, transform);
+    states.transform *= transform;
+    target.draw(background, states);
 
     for (auto& child : children)
     {
-        sf::Transform t;
-        t.translate(child->getPosition() + pos);
-        target.draw(*child, t);
+        target.draw(*child, states);
     }
 }
 

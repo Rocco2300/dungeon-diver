@@ -87,7 +87,8 @@ public:
     {
         sf::Transform transform;
         transform.translate(pos);
-        states.transform = transform;
+        states.transform *= transform;
+        
         target.draw(background, states);
         target.draw(text, states);
     }
