@@ -32,10 +32,10 @@ void Text::setString(std::string str)
 
         auto* quad = &vertices[i * 4];
 
-        quad[0].position = sf::Vector2f(i * 3, 0);
-        quad[1].position = sf::Vector2f((i + 1) * 3, 0);
-        quad[2].position = sf::Vector2f((i + 1) * 3, 5);
-        quad[3].position = sf::Vector2f(i * 3, 5);
+        quad[0].position = sf::Vector2f(i * 3 + i, 0);
+        quad[1].position = sf::Vector2f((i + 1) * 3 + i, 0);
+        quad[2].position = sf::Vector2f((i + 1) * 3 + i, 5);
+        quad[3].position = sf::Vector2f(i * 3 + i, 5);
 
         quad[0].texCoords = sf::Vector2f(tx * 3, ty * 5);
         quad[1].texCoords = sf::Vector2f((tx + 1) * 3, ty * 5);
