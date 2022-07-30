@@ -44,33 +44,13 @@ MainMenu::MainMenu(StateStack& stateStack, sf::RenderTexture& texture)
     buttonBG2.setSize({24.f, 8.f});
     button2->setText("Exit");
 
-    auto button3 = std::make_shared<GUI::Button<std::function<void()>>>();
-    button3->setCallback([] ()
-    {   
-        std::cout << "Pressed3\n";
-    });
-    auto& buttonBG3 = button3->getRectangleRef();
-    button3->setPosition({0.f, 21.f});
-    buttonBG3.setFillColor(sf::Color::Black);
-    buttonBG3.setOutlineColor(sf::Color::White);
-    buttonBG3.setSize({24.f, 8.f});
-
     guiContainer.pack(button1);
     guiContainer.pack(button2);
-    guiContainer.pack(button3);
-
-    // text = Text(AssetManager::getTexture("font"), 3, 5, "BUTTON");
-    // text.setPosition({20.f, 20.f});
 }
 
 bool MainMenu::handleEvent(const sf::Event& event)
 {
     guiContainer.handleEvent(event);
-    // if (event.type == sf::Event::KeyPressed)
-    // {
-    //     stateStack->popState();
-    //     stateStack->pushState(StateID::Game);
-    // }
 
    return false;
 }
@@ -83,6 +63,5 @@ bool MainMenu::update(sf::Time dt)
 void MainMenu::draw()
 {
     texture->draw(guiContainer);
-    // texture->draw(text);
 }
 

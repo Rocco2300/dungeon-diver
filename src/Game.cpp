@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 
+#include "StateStack.h"
 #include "AssetManager.h"
 
 Game::Game(StateStack& stateStack, sf::RenderTexture& texture)
@@ -16,6 +17,11 @@ bool Game::handleEvent(const sf::Event& event)
 {
     if (event.type == sf::Event::KeyPressed)
     {
+        if (event.key.code == sf::Keyboard::Escape)
+        {
+            stateStack->popState();
+            stateStack->pushState(StateID::MainMenu);
+        }
         world.keyPressed(event.key.code);
     }
 

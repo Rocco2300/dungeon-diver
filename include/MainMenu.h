@@ -8,7 +8,6 @@
 class MainMenu : public State
 {
 private:
-    Text text;
     GUI::Container guiContainer;
     
 public:
