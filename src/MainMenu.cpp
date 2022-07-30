@@ -32,15 +32,17 @@ MainMenu::MainMenu(StateStack& stateStack, sf::RenderTexture& texture)
 
     // TODO: add something
     auto button2 = std::make_shared<GUI::Button<std::function<void()>>>();
-    button2->setCallback([] ()
+    button2->setCallback([&stateStack] ()
     {   
         std::cout << "Pressed2\n";
+        stateStack.popState();
     });
     auto& buttonBG2 = button2->getRectangleRef();
     button2->setPosition({0.f, 10.f});
     buttonBG2.setFillColor(sf::Color::Black);
     buttonBG2.setOutlineColor(sf::Color::White);
     buttonBG2.setSize({24.f, 8.f});
+    button2->setText("Exit");
 
     auto button3 = std::make_shared<GUI::Button<std::function<void()>>>();
     button3->setCallback([] ()
@@ -81,6 +83,6 @@ bool MainMenu::update(sf::Time dt)
 void MainMenu::draw()
 {
     texture->draw(guiContainer);
-    texture->draw(text);
+    // texture->draw(text);
 }
 

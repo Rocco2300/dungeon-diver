@@ -23,10 +23,14 @@ void Application::run()
     while (window.isOpen())
     {
         dt = clock.restart();
+        
 
         pollEvents();
         update(dt);
         draw();
+        
+        if (stateStack->isEmpty())
+            window.close();
     }
 }
 
