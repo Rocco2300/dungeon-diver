@@ -25,20 +25,7 @@ void Text::setString(std::string str)
 
     for (size_t i = 0; i < str.length(); i++)
     {
-        int idx, tx{}, ty{};
-        if (str[i] >= 97 && str[i] <= 122)
-        {
-            idx = str[i] - 97;
-            tx = idx;
-            ty = 0;
-        }
-        else if (str[i] >= 65 && str[i] <= 90)
-        {
-            idx = str[i] - 65;
-            tx = idx;
-            ty = 1;
-        }
-
+        auto t = getTextureIndex(str[i]);
         auto* quad = &vertices[i * 4];
 
         quad[0].position = sf::Vector2f(i * width + i * letterSpacing, 0);
@@ -46,10 +33,10 @@ void Text::setString(std::string str)
         quad[2].position = sf::Vector2f((i + 1) * width + i * letterSpacing, height);
         quad[3].position = sf::Vector2f(i * width + i * letterSpacing, height);
 
-        quad[0].texCoords = sf::Vector2f(tx * width, ty * height);
-        quad[1].texCoords = sf::Vector2f((tx + 1) * width, ty * height);
-        quad[2].texCoords = sf::Vector2f((tx + 1) * width, (ty + 1) * height);
-        quad[3].texCoords = sf::Vector2f(tx * width, (ty + 1) * height);
+        quad[0].texCoords = sf::Vector2f(t.x * width, t.y * height);
+        quad[1].texCoords = sf::Vector2f((t.x + 1) * width, t.y * height);
+        quad[2].texCoords = sf::Vector2f((t.x + 1) * width, (t.y + 1) * height);
+        quad[3].texCoords = sf::Vector2f(t.x * width, (t.y + 1) * height);
     }
 }
 
@@ -80,3 +67,30 @@ void Text::draw(sf::RenderTarget& target, sf::RenderStates states) const
     target.draw(vertices, states);
 }
 
+sf::Vector2i Text::getTextureIndex(char c)
+{
+    sf::Vector2i res;
+
+    if (c >= 97 && c <= 122)
+    {
+        res.x = c - 97;
+        res.y = 0;
+    }
+    else if (c >= 65 && c <= 90)
+    {
+        res.x = c - 65;
+        res.y = 1;
+    }
+    else if (c >= 48 && c <= 57)
+    {
+        res.x = c - 48;
+        res.y = 2;
+    }
+    else if (specialCharMap.find(c) != specialCharMap.end())
+    {
+        res.x = specialCharMap[c];
+        res.y = 2;
+    }
+
+    return res;
+}
