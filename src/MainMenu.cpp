@@ -23,11 +23,8 @@ MainMenu::MainMenu(StateStack& stateStack, sf::RenderTexture& texture)
         stateStack.popState();
         stateStack.pushState(StateID::Game);
     });
-    auto& buttonBG1 = button1->getRectangleRef();
     button1->setPosition({0.f, 0.f});
-    buttonBG1.setFillColor(sf::Color::Black);
-    buttonBG1.setOutlineColor(sf::Color::White);
-    buttonBG1.setSize({24.f, 8.f});
+    button1->setSize({24, 8});
     button1->setText("Play");
 
     // TODO: add something
@@ -37,11 +34,8 @@ MainMenu::MainMenu(StateStack& stateStack, sf::RenderTexture& texture)
         std::cout << "Pressed2\n";
         stateStack.popState();
     });
-    auto& buttonBG2 = button2->getRectangleRef();
     button2->setPosition({0.f, 10.f});
-    buttonBG2.setFillColor(sf::Color::Black);
-    buttonBG2.setOutlineColor(sf::Color::White);
-    buttonBG2.setSize({24.f, 8.f});
+    button2->setSize({24, 8});
     button2->setText("Exit");
 
     guiContainer.pack(button1);

@@ -21,16 +21,18 @@ public:
 
 private:    
     Text text;
-    sf::RectangleShape background;
+    // sf::RectangleShape background;
+    sf::Vector2i size;
+    sf::Sprite selector;
 
     Callback callback;
 
 public:
-    Button() : text(AssetManager::getTexture("font"), 3, 5, "") { }
-
-    sf::RectangleShape& getRectangleRef()
+    Button() : text(AssetManager::getTexture("font"), 3, 5, "") 
     {
-        return background;
+        selector.setTexture(AssetManager::getTexture("gui_elements"));
+        selector.setTextureRect({0, 0, 8, 8});
+        selector.setPosition({-4.f, 0.f});
     }
 
     void setCallback(Callback callback)
@@ -38,12 +40,17 @@ public:
         this->callback = callback;
     }
 
+    void setSize(sf::Vector2i size)
+    {
+        this->size = size;
+    }
+
     void setText(std::string txt)
     {
         text.setString(txt);
 
-        int tx = (background.getSize().x - text.getSize().x) / 2;
-        int ty = (background.getSize().y - text.getSize().y) / 2;
+        int tx = (size.x - text.getSize().x) / 2;
+        int ty = (size.y - text.getSize().y) / 2;
         text.setPosition(sf::Vector2f(tx, ty));
     }
 
@@ -51,7 +58,6 @@ public:
     {
         this->pos = pos;
         text.setPosition(pos);
-
     }
 
     virtual bool isSelectable() const
@@ -62,13 +68,11 @@ public:
     virtual void select()
     {
         Component::select();
-        background.setOutlineThickness(1.f);
     }
 
     virtual void deselect()
     {
         Component::deselect();  
-        background.setOutlineThickness(0.f);
     }
 
     virtual void activate()
@@ -94,7 +98,10 @@ public:
         transform.translate(pos);
         states.transform *= transform;
 
-        target.draw(background, states);
+        // target.draw(background, states);
+        if (isSelected())
+            target.draw(selector, states);
+
         target.draw(text, states);
     }
 };
