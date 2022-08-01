@@ -22,7 +22,6 @@ public:
 private:    
     Text text;
     // sf::RectangleShape background;
-    sf::Vector2i size;
     sf::Sprite selector;
 
     Callback callback;
@@ -38,11 +37,6 @@ public:
     void setCallback(Callback callback)
     {
         this->callback = callback;
-    }
-
-    void setSize(sf::Vector2i size)
-    {
-        this->size = size;
     }
 
     void setText(std::string txt)

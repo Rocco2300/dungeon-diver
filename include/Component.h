@@ -14,6 +14,7 @@ public:
 
 protected: 
     sf::Vector2f pos;
+    sf::Vector2f size;
 
 private:
     bool active;
@@ -23,6 +24,8 @@ public:
     Component() : active{false}, selected{false} { }
     virtual ~Component() = default;
 
+    inline virtual sf::Vector2f getSize() { return size; };
+    inline virtual void setSize(sf::Vector2f size) { this->size = size; };
     inline virtual sf::Vector2f getPosition() { return pos; };
     inline virtual void setPosition(sf::Vector2f pos) { this->pos = pos; };
 
