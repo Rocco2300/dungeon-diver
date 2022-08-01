@@ -1,6 +1,9 @@
 #include "Container.h"
 
-void GUI::Container::pack(Component::Ptr component)
+namespace GUI
+{
+
+void Container::pack(Component::Ptr component)
 {
     children.push_back(component);
 
@@ -8,12 +11,12 @@ void GUI::Container::pack(Component::Ptr component)
         select(children.size() - 1);
 }
 
-bool GUI::Container::isSelectable() const
+bool Container::isSelectable() const
 {
     return false;
 }
 
-void GUI::Container::handleEvent(const sf::Event& event)
+void Container::handleEvent(const sf::Event& event)
 {
     if (hasSelection() && children[selectedChild]->isActive())
     {
@@ -38,7 +41,7 @@ void GUI::Container::handleEvent(const sf::Event& event)
     }
 }
 
-void GUI::Container::draw(sf::RenderTarget& target, sf::RenderStates states) const
+void Container::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     sf::Transform transform;
     transform.translate(pos);
@@ -51,12 +54,12 @@ void GUI::Container::draw(sf::RenderTarget& target, sf::RenderStates states) con
     }
 }
 
-bool GUI::Container::hasSelection() const
+bool Container::hasSelection() const
 {
     return selectedChild >= 0;
 }
 
-void GUI::Container::select(size_t index)
+void Container::select(size_t index)
 {
     if (children[index]->isSelectable())
     {
@@ -68,7 +71,7 @@ void GUI::Container::select(size_t index)
     }
 }
 
-void GUI::Container::selectNext()
+void Container::selectNext()
 {
     if (!hasSelection())
         return;
@@ -81,7 +84,7 @@ void GUI::Container::selectNext()
     select(next);
 }
 
-void GUI::Container::selectPrevious()
+void Container::selectPrevious()
 {
     if (!hasSelection())
 		return;
@@ -96,3 +99,4 @@ void GUI::Container::selectPrevious()
 	select(prev);
 }
 
+};
