@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Text.h"
+#include "Label.h"
 #include "Component.h"
 #include "AssetManager.h"
 
@@ -20,14 +20,14 @@ public:
     using Ptr = std::shared_ptr<Button>;
 
 private:    
-    Text text;
+    Label label;
     // sf::RectangleShape background;
     sf::Sprite selector;
 
     Callback callback;
 
 public:
-    Button() : text(AssetManager::getTexture("font"), 3, 5, "") 
+    Button()
     {
         selector.setTexture(AssetManager::getTexture("gui_elements"));
         selector.setTextureRect({0, 0, 8, 8});
@@ -41,17 +41,20 @@ public:
 
     void setText(std::string txt)
     {
-        text.setString(txt);
+        label.setText(txt);
+        label.setAllignment(TextAllign::Center);
+    }
 
-        int tx = (size.x - text.getSize().x) / 2;
-        int ty = (size.y - text.getSize().y) / 2;
-        text.setPosition(sf::Vector2f(tx, ty));
+    void setSize(sf::Vector2f size) override
+    {
+        this->size = size;
+        label.setSize(size);
     }
 
     void setPosition(sf::Vector2f pos)
     {
         this->pos = pos;
-        text.setPosition(pos);
+        label.setPosition(pos);
     }
 
     virtual bool isSelectable() const
@@ -96,7 +99,7 @@ public:
         if (isSelected())
             target.draw(selector, states);
 
-        target.draw(text, states);
+        target.draw(label, states);
     }
 };
 
