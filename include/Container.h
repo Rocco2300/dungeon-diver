@@ -24,6 +24,7 @@ public:
     inline sf::RectangleShape& getBackgoundRef() { return background; } 
 
     void pack(Component::Ptr component);
+    Component::Ptr getNthChild(int index);
 
     virtual bool isSelectable() const;
     virtual void handleEvent(const sf::Event& event);

@@ -11,6 +11,11 @@ void Container::pack(Component::Ptr component)
         select(children.size() - 1);
 }
 
+Component::Ptr Container::getNthChild(int index)
+{
+    return children[index];
+}
+
 bool Container::isSelectable() const
 {
     return false;
