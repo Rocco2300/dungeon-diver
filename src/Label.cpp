@@ -50,6 +50,10 @@ void TextLabel::handleEvent(const sf::Event& event)
 
 void TextLabel::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
+    sf::Transform transform;
+    transform.translate(pos);
+    states.transform *= transform;
+
     target.draw(text, states);
 }
 
@@ -109,6 +113,10 @@ void SpriteLabel::handleEvent(const sf::Event& event)
 
 void SpriteLabel::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
+    sf::Transform transform;
+    transform.translate(pos);
+    states.transform *= transform;
+
     target.draw(sprite, states);
 }
 
