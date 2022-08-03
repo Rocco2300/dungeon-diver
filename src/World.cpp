@@ -105,6 +105,11 @@ bool World::isPlayerTurn()
     return playerTurn;
 }
 
+int World::getPlayerLife()
+{
+    return player.getHp();
+}
+
 sf::Vector2i World::getPlayerPos()
 {
     return player.getPosition();

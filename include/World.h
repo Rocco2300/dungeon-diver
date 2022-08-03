@@ -30,6 +30,8 @@ public:
     bool isWall(Entity* caller, sf::Vector2i pos);
     bool isOccupied(Entity* caller, sf::Vector2i pos);
     bool isPlayerTurn();
+
+    int getPlayerLife();
     sf::Vector2i getPlayerPos();
     std::vector<Entity*>& getEntities();
 
