@@ -51,12 +51,6 @@ public:
         label.setSize(size);
     }
 
-    void setPosition(sf::Vector2f pos)
-    {
-        this->pos = pos;
-        label.setPosition(pos);
-    }
-
     virtual bool isSelectable() const
     {
         return true;
