@@ -4,7 +4,7 @@
 #include "Component.h"
 #include "AssetManager.h"
 
-enum class TextAllign
+enum class Allign
 {
     Left,
     Center,
@@ -14,19 +14,50 @@ enum class TextAllign
 namespace GUI
 {
 
-class Label : public Component
+class TextLabel : public Component
 {
 private:
     Text text;
-    TextAllign allignment;
+    Allign allignment;
 
 public:
-    Label() 
+    TextLabel() 
         : text(AssetManager::getTexture("font"), 3, 5, "")
-        , allignment(TextAllign::Left) { }
+        , allignment(Allign::Left) { }
 
-    void setAllignment(TextAllign allignment);
+    void setAllignment(Allign allignment);
     void setText(std::string str);
+
+    bool isSelectable() const;
+    void handleEvent(const sf::Event& event);
+
+    void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+
+private:
+    void applyAllignment();
+};
+
+class SpriteLabel : public Component
+{
+private:
+    sf::Sprite sprite;
+    Allign allignment;
+
+public:
+    SpriteLabel() 
+        : allignment(Allign::Left) { }
+
+    SpriteLabel(std::string spriteName)
+        : sprite(AssetManager::getTexture(spriteName))
+        , allignment(Allign::Left) { }
+
+    SpriteLabel(std::string spriteName, sf::IntRect rect) 
+        : sprite(AssetManager::getTexture(spriteName), rect)
+        , allignment(Allign::Left) { }
+
+    void setAllignment(Allign allignment);
+    void setSprite(std::string spriteName);
+    void setSpriteRect(sf::IntRect rect);
 
     bool isSelectable() const;
     void handleEvent(const sf::Event& event);

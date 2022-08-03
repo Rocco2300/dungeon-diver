@@ -57,5 +57,6 @@ bool MainMenu::update(sf::Time dt)
 void MainMenu::draw()
 {
     texture->draw(guiContainer);
+    texture->draw(spriteLabel);
 }
 

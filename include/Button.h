@@ -20,7 +20,7 @@ public:
     using Ptr = std::shared_ptr<Button>;
 
 private:    
-    Label label;
+    TextLabel label;
     // sf::RectangleShape background;
     sf::Sprite selector;
 
@@ -42,7 +42,7 @@ public:
     void setText(std::string txt)
     {
         label.setText(txt);
-        label.setAllignment(TextAllign::Center);
+        label.setAllignment(Allign::Center);
     }
 
     void setSize(sf::Vector2f size) override
