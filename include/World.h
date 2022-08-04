@@ -20,7 +20,6 @@ private:
     bool nextLevel;
 
     sf::Time moveTime;
-public:
     Map map;
 
 public:
