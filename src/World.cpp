@@ -6,9 +6,6 @@
 
 void World::create(Tileset& tileset)
 {
-    // CSV<Label> csv("csv/Enemies.csv");
-    // csv.print();
-
     nextLevel = false;
 
     gen.generateMap();

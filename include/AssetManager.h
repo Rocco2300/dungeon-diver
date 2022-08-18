@@ -10,11 +10,11 @@
 class AssetManager
 {
 private:
-    inline const static std::string imagePathPrefix = "img/";
-    inline const static std::string soundPathPrefix = "sound/";
+    inline const static std::string imagePathPrefix = "../img/";
+    inline const static std::string soundPathPrefix = "../sound/";
     inline const static std::string imagePathPostfix = ".png";
     inline const static std::string soundPathPostfix = ".wav";
-    inline const static std::string fontPathPrefix = "fonts/";
+    inline const static std::string fontPathPrefix = "../fonts/";
     inline const static std::string fontPathPostfix = ".ttf";
 
     inline static ResourceHolder<sf::Texture, std::string> textureHolder;
