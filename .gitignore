@@ -31,11 +31,9 @@
 *.out
 *.app
 
-# VS Code
+# Directories
 /.vscode
-
-# Map data
-*.txt
+/build
 
 # TODO
 todo
