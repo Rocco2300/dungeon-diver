@@ -14,24 +14,34 @@ The game is inspired by the series of [LazyDevs](https://www.youtube.com/c/LazyD
 
 ## Dependencies
 
-- mingw-w64
+- mingw32-make \ make
 - cmake
 - sfml (installed with bat files)
 
 ## How to build
 
-The only supported platform for the moment is windows, you can install the sfml library using the two bat files:
+The only supported platform for the install script is windows, you can also install on linux, but you will have to manually build SFML.
+
+You can install the sfml library using the bat file in the source dir. Also you can modify it, if you are using gnu win32 make instead of mingw32-make, or for any other reason.
 
 ```
 cd dungeon-diver
 ./install.bat
 ```
 
-Then you can build the binaries using `mingw32-make` and run it `./a`.
+Then you will be able to generate the build files, and build the project:
+
+```
+cd build
+cmake ..
+cmake --build .
+```
+
+Note: you should be able to use any generator with cmake (-G).
 
 ## Working on
 
-- [ ] User interface
+- [X] User interface
 - [ ] Better enemy ai (pathfinding)
 - [ ] Inventory and items
 - [ ] Refactor the map generator and finish it
@@ -42,3 +52,4 @@ Then you can build the binaries using `mingw32-make` and run it `./a`.
 - [X] State management
 - [ ] General refactoring
     - [ ] Refactoring the game and world classes
+    - [ ] "Refactor" project directory structure
