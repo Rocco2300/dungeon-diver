@@ -13,6 +13,7 @@ link_directories(
 include_directories(
     "${PROJECT_SOURCE_DIR}/include"
     "${PROJECT_SOURCE_DIR}/include/ui"
+    "${PROJECT_SOURCE_DIR}/include/util"
 )
 
 add_executable(dungeon_diver "${PROJECT_SOURCE_DIR}/src/main.cpp")
