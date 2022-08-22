@@ -11,13 +11,8 @@ link_directories(
 )
 
 include_directories(
-    "${PROJECT_SOURCE_DIR}/include/"
-    "${PROJECT_SOURCE_DIR}/include/SFML/"
-    "${PROJECT_SOURCE_DIR}/"
-)
-
-file(GLOB SOURCES
-    "${PROJECT_SOURCE_DIR}/src/*.cpp"
+    "${PROJECT_SOURCE_DIR}/include"
+    "${PROJECT_SOURCE_DIR}/include/ui"
 )
 
 add_executable(dungeon_diver "${PROJECT_SOURCE_DIR}/src/main.cpp")
