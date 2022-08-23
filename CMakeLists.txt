@@ -14,6 +14,7 @@ include_directories(
     "${PROJECT_SOURCE_DIR}/include"
     "${PROJECT_SOURCE_DIR}/include/ui"
     "${PROJECT_SOURCE_DIR}/include/util"
+    "${PROJECT_SOURCE_DIR}/include/asset"
 )
 
 add_executable(dungeon_diver "${PROJECT_SOURCE_DIR}/src/main.cpp")
