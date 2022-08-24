@@ -68,7 +68,8 @@ void Enemy::chase()
         auto dirOff = sf::Vector2i(nextPos - this->pos);
         path.pop_back();
 
-        move(dirOff);
+        if (!world->isOccupied(this, nextPos))
+            move(dirOff);
     }
     else if (distToPlayer() == 1)
     {
