@@ -43,6 +43,7 @@ Note: you should be able to use any generator with cmake (-G).
 
 - [X] User interface
 - [ ] Better enemy ai (pathfinding)
+    -[X] Stop enemies from running over eachother
 - [ ] Inventory and items
 - [ ] Refactor the map generator and finish it
 - [ ] Visual effects and juice
@@ -52,4 +53,7 @@ Note: you should be able to use any generator with cmake (-G).
 - [X] State management
 - [ ] General refactoring
     - [ ] Refactoring the game and world classes
-    - [ ] "Refactor" project directory structure
+    - [X] "Refactor" project directory structure
+- [ ] Improve turn taking
+- [ ] Improve attacking by using an "event manager"
+- [ ] Implement game manager to keep track of damage and items? 
