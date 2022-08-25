@@ -164,8 +164,9 @@ Path AStar::worldMapFindPath(sf::Vector2i start, sf::Vector2i end)
         {
             auto neighbour = sf::Vector2i(current.x + dirX[i], current.y + dirY[i]);
 
-            // if is wall
-            if (world->isWall(nullptr, neighbour))
+            // if is wall or if there is another entity there thata is not the player
+            if (world->isWall(nullptr, neighbour) ||
+                (world->isOccupied(nullptr, neighbour) && neighbour != end))
                 continue; 
 
             auto tentGScore = gScore[current] + 1;
