@@ -19,7 +19,6 @@ MainMenu::MainMenu(StateStack& stateStack, sf::RenderTexture& texture)
     auto button1 = std::make_shared<GUI::Button<std::function<void()>>>();
     button1->setCallback([&stateStack] ()
     {   
-        std::cout << "Pressed1\n";
         stateStack.popState();
         stateStack.pushState(StateID::Game);
     });
@@ -31,7 +30,6 @@ MainMenu::MainMenu(StateStack& stateStack, sf::RenderTexture& texture)
     auto button2 = std::make_shared<GUI::Button<std::function<void()>>>();
     button2->setCallback([&stateStack] ()
     {   
-        std::cout << "Pressed2\n";
         stateStack.popState();
     });
     button2->setPosition({0.f, 10.f});
