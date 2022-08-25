@@ -43,7 +43,8 @@ Note: you should be able to use any generator with cmake (-G).
 
 - [X] User interface
 - [ ] Better enemy ai (pathfinding)
-    -[X] Stop enemies from running over eachother
+    - [X] Stop enemies from running over eachother
+    - [X] Treat entities as obstacles in pathfinding
 - [ ] Inventory and items
 - [ ] Refactor the map generator and finish it
 - [ ] Visual effects and juice

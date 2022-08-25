@@ -13,8 +13,6 @@ MainMenu::MainMenu(StateStack& stateStack, sf::RenderTexture& texture)
     guiContainer.setPosition({5, 5});
     containerBG.setFillColor(sf::Color::Black);
     containerBG.setSize({30, 30});
-    // containerBG.setOutlineThickness(1.f);
-    // containerBG.setOutlineColor(sf::Color::White);
 
     auto button1 = std::make_shared<GUI::Button<std::function<void()>>>();
     button1->setCallback([&stateStack] ()
