@@ -21,7 +21,7 @@ void TextLabel::applyAllignment()
     switch (allignment)
     {
     case Allign::Left:
-        tx = 1;
+        tx = 0;
         ty = (size.y - text.getSize().y) / 2;
         text.setPosition(sf::Vector2f(tx, ty));
         break;
@@ -31,7 +31,7 @@ void TextLabel::applyAllignment()
         text.setPosition(sf::Vector2f(tx, ty));
         break;
     case Allign::Right:
-        tx = (size.x - text.getSize().x) - 1;
+        tx = (size.x - text.getSize().x);
         ty = (size.y - text.getSize().y) / 2;
         text.setPosition(sf::Vector2f(tx, ty));
         break;
