@@ -123,6 +123,22 @@ public:
         return data[index];
     }
 
+    T& at(int x, int y)
+    {
+        assert(data != nullptr);
+        assert(x >= 0 && x < 16 && y >= 0 && y < 16);
+
+        return data[y * 16 + x];
+    }
+
+    const T& at(int x, int y) const
+    {
+        assert(data != nullptr);
+        assert(x >= 0 && x < 16 && y >= 0 && y < 16);
+
+        return data[y * 16 + x];
+    }
+
     T& operator[](int index)
     {
         assert(data != nullptr);

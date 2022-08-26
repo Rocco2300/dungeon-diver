@@ -21,6 +21,9 @@ public:
     Map();
     void create(sf::Vector2i size);
 
+    Tile& at(int x, int y);
+    Tile& at(sf::Vector2i pos);
+
     Tile& operator()(int x, int y);
     Tile& operator()(sf::Vector2i pos);
 
