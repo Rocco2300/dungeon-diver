@@ -71,6 +71,11 @@ sf::Vector2i Text::getTextureIndex(char c)
 {
     sf::Vector2i res;
 
+    if (c == ' ')
+    {
+        res.x = 25;
+        res.y = 2;
+    }
     if (c >= 97 && c <= 122)
     {
         res.x = c - 97;
