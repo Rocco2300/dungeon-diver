@@ -57,15 +57,32 @@ void Game::initUI()
     spriteLabel->setSpriteRect({16, 0, 8, 8});
     spriteLabel->setPosition({6, 0});
 
-    container.setSize({16, 8});
-    container.setPosition({2, 2});
-    container.getBackgoundRef().setFillColor(sf::Color::Black);
-    container.getBackgoundRef().setOutlineColor(sf::Color::White);
-    container.getBackgoundRef().setOutlineThickness(1);
-    container.getBackgoundRef().setSize({16, 8});
+    hpDisplay.setSize({16, 8});
+    hpDisplay.setPosition({2, 2});
+    hpDisplay.getBackgoundRef().setFillColor(sf::Color::Black);
+    hpDisplay.getBackgoundRef().setOutlineColor(sf::Color::White);
+    hpDisplay.getBackgoundRef().setOutlineThickness(1);
+    hpDisplay.getBackgoundRef().setSize({16, 8});
     
-    container.pack(textLabel);
-    container.pack(spriteLabel);
+    hpDisplay.pack(textLabel);
+    hpDisplay.pack(spriteLabel);
+
+    auto gameOverLabel = std::make_shared<GUI::TextLabel>();
+    gameOverLabel->setSize({9 * 3, 5});
+    gameOverLabel->setPosition({2, 2});
+    gameOverLabel->setText("Game Over");
+
+    int posX = 64 - (9 * 3 + 8 + 4) / 2;
+    int posY = 64 - 9 / 2;
+
+    gameOverContainer.setSize({9 * 3 + 8 + 4, 9});
+    gameOverContainer.setPosition({static_cast<float>(posX), static_cast<float>(posY)});
+    gameOverContainer.getBackgoundRef().setFillColor(sf::Color::Black);
+    gameOverContainer.getBackgoundRef().setOutlineColor(sf::Color::White);
+    gameOverContainer.getBackgoundRef().setOutlineThickness(1);
+    gameOverContainer.getBackgoundRef().setSize({9 * 3 + 8 + 4, 9});
+
+    gameOverContainer.pack(gameOverLabel);
 }
 
 bool Game::handleEvent(const sf::Event& event)
@@ -76,6 +93,12 @@ bool Game::handleEvent(const sf::Event& event)
         {
             stateStack->popState();
             stateStack->pushState(StateID::MainMenu);
+        }
+
+        if (world.isGameOver() && event.key.code == sf::Keyboard::Enter)
+        {
+            stateStack->popState();
+            stateStack->pushState(StateID::Game);
         }
 
         sf::Vector2i pos;
@@ -116,7 +139,7 @@ bool Game::update(sf::Time dt)
 {
     world.update(dt);
 
-    auto componentLabel = container.getNthChild(0);
+    auto componentLabel = hpDisplay.getNthChild(0);
     auto* hpLabel = dynamic_cast<GUI::TextLabel*>(componentLabel.get());
     if (hpLabel)
         hpLabel->setText(std::to_string(world.getPlayerLife()));
@@ -138,5 +161,9 @@ void Game::draw()
 {
     texture->draw(world);
     // texture->draw(hpLabel);
-    texture->draw(container);
+    if (!world.isGameOver())
+        texture->draw(hpDisplay);
+
+    if (world.isGameOver())
+        texture->draw(gameOverContainer);
 }

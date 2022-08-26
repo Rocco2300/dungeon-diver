@@ -6,6 +6,7 @@
 
 void World::create(Map& map, Player& player, std::vector<Entity*>& entities)
 {
+    gameOver = false;
     nextLevel = false;
 
     this->map = &map;
@@ -21,6 +22,11 @@ void World::create(Map& map, Player& player, std::vector<Entity*>& entities)
 int World::getPlayerLife()
 {
     return player->getHp();
+}
+
+bool World::isGameOver()
+{
+    return gameOver;
 }
 
 bool World::goNextLevel()
@@ -83,6 +89,11 @@ bool World::isOccupied(Entity* caller, sf::Vector2i pos)
 
             if (entities->at(i)->isDead())
             {
+                if (entities->at(i) == player)
+                {
+                    gameOver = true;
+                    return true;
+                }
                 delete entities->at(i);
                 entities->erase(entities->begin() + i);
             }
@@ -139,6 +150,11 @@ void World::endTurn(Entity* entity)
     }
 }
 
+void World::setGameOver(bool value)
+{
+    gameOver = value;
+}
+
 void World::setNextLevel(bool value)
 {
     nextLevel = value;
@@ -151,6 +167,9 @@ void World::keyPressed(sf::Keyboard::Key key)
 
 void World::update(sf::Time dt)
 {
+    if (gameOver)
+        return;
+        
     if (entities->size() < 2)
         playerTurn = true;
 

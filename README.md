@@ -41,7 +41,13 @@ Note: you should be able to use any generator with cmake (-G).
 
 ## Working on
 
-- [X] User interface
+- [ ] Add death
+- [ ] User interface
+    - [ ] Add ui components
+    - [ ] Main Menu
+    - [ ] Settings Menu
+    - [X] HP UI
+    - [ ] Death screen
 - [ ] Better enemy ai (pathfinding)
     - [X] Stop enemies from running over eachother
     - [X] Treat entities as obstacles in pathfinding

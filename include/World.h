@@ -13,6 +13,7 @@ private:
     Player* player;
     std::vector<Entity*>* entities;
 
+    bool gameOver;
     bool playerTurn;
     bool nextLevel;
 
@@ -24,6 +25,7 @@ public:
 
     int getPlayerLife();
 
+    bool isGameOver();
     bool goNextLevel();
     bool isPlayerTurn();
     bool isWall(Entity* caller, sf::Vector2i pos);
@@ -33,6 +35,7 @@ public:
     std::vector<Entity*>& getEntities();
 
     void endTurn(Entity* entity);
+    void setGameOver(bool value);
     void setNextLevel(bool value);
 
     void keyPressed(sf::Keyboard::Key key);

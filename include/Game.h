@@ -8,7 +8,8 @@
 class Game : public State
 {
 private:
-    GUI::Container container;
+    GUI::Container hpDisplay;
+    GUI::Container gameOverContainer;
 
     Map map;
     Spawner spawner;
