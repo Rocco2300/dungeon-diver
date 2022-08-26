@@ -49,11 +49,11 @@ Note: you should be able to use any generator with cmake (-G).
 - [ ] Refactor the map generator and finish it
 - [ ] Visual effects and juice
     - [ ] UI effects
-    - [ ] Hit effects for enemies
+    - [X] Hit effects for enemies
     - [ ] Fog of war and light
 - [X] State management
 - [ ] General refactoring
-    - [ ] Refactoring the game and world classes
+    - [X] Refactoring the game and world classes
     - [X] "Refactor" project directory structure
 - [ ] Improve turn taking
 - [ ] Improve attacking by using an "event manager"
