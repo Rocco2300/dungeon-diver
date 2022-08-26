@@ -10,6 +10,12 @@ class Game : public State
 private:
     GUI::Container container;
 
+    Map map;
+    Spawner spawner;
+    MapGenerator gen;
+    std::vector<Entity*> entities;
+    Player player;
+
     World world;
     Tileset tileset;
 
@@ -20,5 +26,8 @@ public:
     void draw();
     bool update(sf::Time dt);
     bool handleEvent(const sf::Event& event);
+
+private:
+    void initUI();
 };
 

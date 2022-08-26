@@ -9,32 +9,31 @@
 class World : public sf::Drawable
 {
 private:
-    Tileset* tileset;
-
-    Spawner spawner;
-    MapGenerator gen;
-    std::vector<Entity*> entities;
-    Player player;
+    Map* map;
+    Player* player;
+    std::vector<Entity*>* entities;
 
     bool playerTurn;
     bool nextLevel;
 
     sf::Time moveTime;
-    Map map;
 
 public:
     World() = default;
-    void create(Tileset& tileset);
-
-    bool isWall(Entity* caller, sf::Vector2i pos);
-    bool isOccupied(Entity* caller, sf::Vector2i pos);
-    bool isPlayerTurn();
+    void create(Map& map, Player& player, std::vector<Entity*>& entities);
 
     int getPlayerLife();
+
+    bool goNextLevel();
+    bool isPlayerTurn();
+    bool isWall(Entity* caller, sf::Vector2i pos);
+    bool isOccupied(Entity* caller, sf::Vector2i pos);
+
     sf::Vector2i getPlayerPos();
     std::vector<Entity*>& getEntities();
 
     void endTurn(Entity* entity);
+    void setNextLevel(bool value);
 
     void keyPressed(sf::Keyboard::Key key);
 

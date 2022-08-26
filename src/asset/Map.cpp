@@ -9,6 +9,16 @@ Map::Map()
     tiles.alloc();
 }
 
+Tile& Map::at(int x, int y)
+{
+    return *tiles(x, y);
+}
+
+Tile& Map::at(sf::Vector2i pos)
+{
+    return *tiles(pos.x, pos.y);
+}
+
 Tile& Map::operator()(int x, int y)
 {
     return *tiles(x, y);
