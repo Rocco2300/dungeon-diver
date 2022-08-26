@@ -10,12 +10,7 @@ void main()
 
     if (pixel_color != vec4(0, 0, 0, 1))
     {
-        colorDifference.r = flashColor.r - pixel_color.r;
-        colorDifference.g = flashColor.g - pixel_color.g;
-        colorDifference.b = flashColor.b - pixel_color.b;
-        pixel_color.r = pixel_color.r + colorDifference.r * percent;
-        pixel_color.g = pixel_color.g + colorDifference.g * percent;
-        pixel_color.b = pixel_color.b + colorDifference.b * percent;
+        pixel_color = mix(pixel_color, flashColor, percent);
     }
 
     gl_FragColor = pixel_color; 
