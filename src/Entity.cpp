@@ -17,6 +17,14 @@ Entity::Entity()
     pos.y = 0.f;
 
     dead = false;
+
+    if (!shader.loadFromFile("../shader/shader.frag", sf::Shader::Fragment))
+        std::cerr << "Error loading shader.";
+    
+    tDmg = 0.f;
+    shader.setUniform("percent", tDmg);
+    shader.setUniform("texture", sf::Shader::CurrentTexture);
+    shader.setUniform("flashColor", sf::Glsl::Vec4(1, 1, 1, 1));
 }
 
 void Entity::setWorld(World& world)
@@ -51,6 +59,7 @@ void Entity::setSprite(std::string path, sf::Vector2i size)
 
 void Entity::takeDamage(int damageAmount)
 {
+    tDmg = 1.f;
     hp -= damageAmount;
 
     if (hp <= 0)
@@ -102,6 +111,16 @@ void Entity::bump(sf::Vector2i o)
 
 void Entity::update(sf::Time dt)
 {
+    shader.setUniform("percent", tDmg);
+
+    if (tDmg != 0.f)
+    {
+        tDmg -= 0.08f;
+
+        if (tDmg < 0.f)
+            tDmg = 0.f;
+    }
+
     if (dead)
         return;
 
@@ -134,6 +153,7 @@ void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const
     transform.translate(pos.x * 8 + off.x, pos.y * 8 + off.y);
     transform.scale({flip, 1.f}, {4.f, 4.f});
     states.transform = transform;
+    states.shader = &shader;
 
     target.draw(sprite, states);
 }

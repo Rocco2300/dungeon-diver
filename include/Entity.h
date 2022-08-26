@@ -13,11 +13,13 @@ protected:
     World* world;
 
     float t;
+    float tDmg;
     float flip;
     float frame;
     
     Tileset sprite;
     sf::Sprite currFrame;
+    sf::Shader shader;
 
     std::function<void()> animation;
 
