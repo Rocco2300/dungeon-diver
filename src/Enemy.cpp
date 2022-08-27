@@ -41,8 +41,6 @@ void Enemy::handleState()
 
 void Enemy::idle()
 {
-    std::cout << this << " " << " idle" << std::endl;
-
     if (playerLos())
     {
         state = AIState::Chase;
@@ -54,7 +52,6 @@ void Enemy::idle()
 
 void Enemy::chase()
 {
-    std::cout << this << " " << " chase" << std::endl;
     if (!playerLos())
     {
         state = AIState::Investigate;
@@ -94,8 +91,6 @@ void Enemy::chase()
 
 void Enemy::investigate()
 {
-    std::cout << this << " " << " investigate" << std::endl;
-
     auto path  = aStar.findPath(this->pos, playerPos, true);
 
     if (playerLos())
