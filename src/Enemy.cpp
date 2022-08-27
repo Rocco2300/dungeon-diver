@@ -41,6 +41,8 @@ void Enemy::handleState()
 
 void Enemy::idle()
 {
+    std::cout << this << " " << " idle" << std::endl;
+
     if (playerLos())
     {
         state = AIState::Chase;
@@ -52,6 +54,7 @@ void Enemy::idle()
 
 void Enemy::chase()
 {
+    std::cout << this << " " << " chase" << std::endl;
     if (!playerLos())
     {
         state = AIState::Investigate;
@@ -61,7 +64,13 @@ void Enemy::chase()
     playerPos = world->getPlayerPos();
 
     auto path  = aStar.findPath(this->pos, playerPos);
-    
+
+    // If the path is blocked, go up to the enemy to still chase
+    if (path.empty())
+    {
+        path = aStar.findPath(this->pos, playerPos, true);
+    }
+
     if (!path.empty() && distToPlayer() > 1)
     {
         auto nextPos = path.back();
@@ -85,7 +94,9 @@ void Enemy::chase()
 
 void Enemy::investigate()
 {
-    auto path  = aStar.findPath(this->pos, playerPos);
+    std::cout << this << " " << " investigate" << std::endl;
+
+    auto path  = aStar.findPath(this->pos, playerPos, true);
 
     if (playerLos())
     {
@@ -99,7 +110,7 @@ void Enemy::investigate()
         return;
     }
 
-    if (!path.empty() && distToPlayer() > 1)
+    if (distToPlayer() > 1)
     {
         auto nextPos = path.back();
         auto dirOff = sf::Vector2i(nextPos - this->pos);
@@ -123,7 +134,7 @@ void Enemy::update(sf::Time dt)
     if (!world->isPlayerTurn() && state != AIState::Idle)
         moveTime -= dt;
 
-    if (!world->isPlayerTurn())
+    if (world->canMove(this))
         handleState();
 
     Entity::update(dt);
