@@ -34,5 +34,5 @@ public:
 
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 private:
-    void _loadMap(std::istream& in);
+    void loadMapImpl(std::istream& in);
 };

@@ -43,14 +43,14 @@ void Map::loadMap(const char* path)
 {
     std::ifstream in(path);
 
-    _loadMap(in);
+    loadMapImpl(in);
 
     in.close();
 }
 
 void Map::loadMap(std::istream& in)
 {
-    _loadMap(in);
+    loadMapImpl(in);
 }
 
 void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -69,7 +69,7 @@ void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 }
 
-void Map::_loadMap(std::istream& in)
+void Map::loadMapImpl(std::istream& in)
 {
     // tiles.clear();
     tiles.dealloc();
