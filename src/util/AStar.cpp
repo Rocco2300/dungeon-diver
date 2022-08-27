@@ -73,12 +73,12 @@ Path AStar::reconstructPath(PathHashMap cameFrom, sf::Vector2i current)
     return totalPath;
 }
 
-Path AStar::findPath(sf::Vector2i start, sf::Vector2i end)
+Path AStar::findPath(sf::Vector2i start, sf::Vector2i end, bool ignoreEntities)
 {
     Path res{};
 
     if (world)
-        res = worldMapFindPath(start, end);
+        res = worldMapFindPath(start, end, ignoreEntities);
     else if (colMap)
         res = colMapFindPath(start, end);
 
@@ -137,7 +137,7 @@ Path AStar::colMapFindPath(sf::Vector2i start, sf::Vector2i end)
     return {};
 }
 
-Path AStar::worldMapFindPath(sf::Vector2i start, sf::Vector2i end)
+Path AStar::worldMapFindPath(sf::Vector2i start, sf::Vector2i end, bool ignoreEntities)
 {
     TileHashSet openSet;
     openSet.insert(start);
@@ -164,9 +164,11 @@ Path AStar::worldMapFindPath(sf::Vector2i start, sf::Vector2i end)
         {
             auto neighbour = sf::Vector2i(current.x + dirX[i], current.y + dirY[i]);
 
-            // if is wall or if there is another entity there thata is not the player
-            if (world->isWall(nullptr, neighbour) ||
-                (world->isOccupied(nullptr, neighbour) && neighbour != end))
+            // if is wall or if there is another entity there that is not the player
+            bool entityObstacle = (!ignoreEntities)
+                    && (world->isOccupied(nullptr, neighbour) && neighbour != end);
+
+            if (world->isWall(nullptr, neighbour) || entityObstacle)
                 continue; 
 
             auto tentGScore = gScore[current] + 1;

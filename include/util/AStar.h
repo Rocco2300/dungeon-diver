@@ -40,13 +40,13 @@ public:
     void setWorld(World* world);
     void setColMap(Grid<int>& colMap);
 
-    Path findPath(sf::Vector2i start, sf::Vector2i end);
+    Path findPath(sf::Vector2i start, sf::Vector2i end, bool ignoreEntities = false);
 private:
     int distance(sf::Vector2i curr, sf::Vector2i end);
     Path reconstructPath(PathHashMap cameFrom, sf::Vector2i current);
     sf::Vector2i getLowestScore(TileHashSet& openSet, ScoreHashMap& fScore);
 
     Path colMapFindPath(sf::Vector2i start, sf::Vector2i end);
-    Path worldMapFindPath(sf::Vector2i start, sf::Vector2i end);
+    Path worldMapFindPath(sf::Vector2i start, sf::Vector2i end, bool ignoreEntities);
 };
 
