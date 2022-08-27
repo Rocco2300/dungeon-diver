@@ -111,14 +111,16 @@ void Enemy::investigate()
         auto dirOff = sf::Vector2i(nextPos - this->pos);
         path.pop_back();
 
-        move(dirOff);
+        if (!world->isOccupied(this, nextPos))
+            move(dirOff);
     }
-    else if (distToPlayer() == 1)
-    {
-        auto dirOff = sf::Vector2i(playerPos - this->pos);
-
-        bump(dirOff);
-    }
+    // This shouldn't be a case I think
+//    else if (distToPlayer() == 1)
+//    {
+//        auto dirOff = sf::Vector2i(playerPos - this->pos);
+//
+//        bump(dirOff);
+//    }
 
     world->endTurn(this);
     moveTime = sf::seconds(.5f);
