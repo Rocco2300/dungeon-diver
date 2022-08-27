@@ -41,7 +41,7 @@ bool World::isPlayerTurn()
 
 bool World::canMove(Entity* caller)
 {
-    return std::find(toMove.begin(), toMove.end(), caller) != toMove.end();
+    return toMove.count(caller);
 }
 
 bool World::isWall(Entity* caller, sf::Vector2i pos)
@@ -129,7 +129,7 @@ void World::endTurn(Entity* entity)
         for (size_t i = 0; i < entities->size(); i++)
         {
             if (entities->at(i) != player)
-                toMove.push_back(entities->at(i));
+                toMove.insert(entities->at(i));
         }
         // DEBUG
         // for (int i = 0; i < 16; i++)
@@ -142,10 +142,9 @@ void World::endTurn(Entity* entity)
     }
     else 
     {
-        auto it = std::find(toMove.begin(), toMove.end(), entity);
-        if (it != toMove.end())
+        if (toMove.count(entity))
         {
-            toMove.erase(it);
+            toMove.erase(entity);
         }
 
         if (toMove.empty())

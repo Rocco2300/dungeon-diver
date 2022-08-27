@@ -1,5 +1,7 @@
 #pragma once
 
+#include <set>
+
 #include "Spawner.h"
 #include "Player.h"
 #include "Map.h"
@@ -12,7 +14,7 @@ private:
     Map* map;
     Player* player;
     std::vector<Entity*>* entities;
-    std::vector<Entity*> toMove;
+    std::set<Entity*> toMove;
 
     bool gameOver;
     bool playerTurn;
