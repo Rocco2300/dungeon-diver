@@ -24,7 +24,7 @@ public:
     inline sf::RenderTexture& getRenderTex() { return texture; }
 private:
     void pollEvents();
-    void update(sf::Time dt);
+    void update();
     void draw();
 
     void registerStates();

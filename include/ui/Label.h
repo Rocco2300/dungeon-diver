@@ -68,4 +68,4 @@ private:
     void applyAllignment();
 };
 
-};
+}

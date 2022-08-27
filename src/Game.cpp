@@ -1,7 +1,7 @@
 #include "Game.h"
 
+#include <memory>
 #include <iostream>
-#include <fstream>
 
 #include "StateStack.h"
 #include "AssetManager.h"
@@ -33,7 +33,7 @@ Game::Game(StateStack& stateStack, sf::RenderTexture& texture)
     {
         for (int x = 0; x < 16; x++)
         if (map(x, y).isWalkable())
-            openTiles.push_back({x, y});
+            openTiles.emplace_back(x, y);
     }
 
     for (int i = 0; i < 2; i++)
@@ -74,6 +74,8 @@ void Game::initUI()
 
     int posX = 64 - (9 * 3 + 8 + 4) / 2;
     int posY = 64 - 9 / 2;
+
+    auto a = std::make_shared<GUI::SpriteLabel>();
 
     gameOverContainer.setSize({9 * 3 + 8 + 4, 9});
     gameOverContainer.setPosition({static_cast<float>(posX), static_cast<float>(posY)});

@@ -39,7 +39,7 @@ sf::SoundBuffer& AssetManager::getBuffer(const std::string& id)
     return bufferHolder.get(id);
 }
 
-void AssetManager::loadBuffer(const std::string& id, const char* path)
+void AssetManager::loadBuffer(const std::string& id)
 {
     if (bufferHolder.isLoaded(id))
         return;
@@ -63,7 +63,7 @@ sf::Font& AssetManager::getFont(const std::string& id)
     return fontHolder.get(id);
 }
 
-void AssetManager::loadFont(const std::string& id, const char* path)
+void AssetManager::loadFont(const std::string& id)
 {
     if (fontHolder.isLoaded(id))
         return;

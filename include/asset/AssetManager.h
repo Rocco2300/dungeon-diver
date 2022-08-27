@@ -28,8 +28,8 @@ public:
     static void loadTexture(const std::string& id);
 
     static sf::SoundBuffer& getBuffer(const std::string& id);
-    static void loadBuffer(const std::string& id, const char* path);
+    static void loadBuffer(const std::string& id);
 
     static sf::Font& getFont(const std::string& id);
-    static void loadFont(const std::string& id, const char* path);
+    static void loadFont(const std::string& id);
 };

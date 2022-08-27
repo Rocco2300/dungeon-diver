@@ -41,9 +41,9 @@ Note: you should be able to use any generator with cmake (-G).
 
 ## Working on
 
-- [ ] Add death
+- [X] Add death
 - [ ] User interface
-    - [ ] Add ui components
+    - [X] Add ui components
     - [ ] Main Menu
     - [ ] Settings Menu
     - [X] HP UI

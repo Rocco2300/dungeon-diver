@@ -35,7 +35,7 @@ void TextLabel::applyAllignment()
         ty = (size.y - text.getSize().y) / 2;
         text.setPosition(sf::Vector2f(tx, ty));
         break;
-    };
+    }
 }
 
 bool TextLabel::isSelectable() const
@@ -98,7 +98,7 @@ void SpriteLabel::applyAllignment()
         ty = (size.y - sprHeight) / 2;
         sprite.setPosition(sf::Vector2f(tx, ty));
         break;
-    };
+    }
 }
 
 bool SpriteLabel::isSelectable() const
@@ -120,4 +120,4 @@ void SpriteLabel::draw(sf::RenderTarget& target, sf::RenderStates states) const
     target.draw(sprite, states);
 }
 
-};
+}

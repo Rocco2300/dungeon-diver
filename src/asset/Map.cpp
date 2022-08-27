@@ -62,10 +62,9 @@ void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
         sf::Transform transform;
         transform.translate(x * 8, y * 8);
-        sf::RenderStates states;
         states.transform = transform;
 
-        target.draw(*tiles[i].get(), states);
+        target.draw(*tiles[i], states);
     }
 
 }

@@ -25,7 +25,7 @@ void Application::run()
         dt = clock.restart();
 
         pollEvents();
-        update(dt);
+        update();
         draw();
         
         if (stateStack->isEmpty())
@@ -45,7 +45,7 @@ void Application::pollEvents()
     }
 }
 
-void Application::update(sf::Time dt)
+void Application::update()
 {
     stateStack->update(dt);
 }

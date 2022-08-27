@@ -41,4 +41,4 @@ public:
     virtual void handleEvent(const sf::Event& event) = 0;
 };
 
-};
+}

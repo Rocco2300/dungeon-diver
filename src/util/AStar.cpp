@@ -134,7 +134,7 @@ Path AStar::colMapFindPath(sf::Vector2i start, sf::Vector2i end)
         }
     }
 
-    return Path();
+    return {};
 }
 
 Path AStar::worldMapFindPath(sf::Vector2i start, sf::Vector2i end)
@@ -185,5 +185,5 @@ Path AStar::worldMapFindPath(sf::Vector2i start, sf::Vector2i end)
         }
     }
 
-    return Path();
+    return {};
 }

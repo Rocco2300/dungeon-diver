@@ -33,4 +33,4 @@ void Component::deactivate()
     active = false;
 }
 
-};
+}

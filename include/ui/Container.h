@@ -37,5 +37,5 @@ private:
     void selectPrevious();
 };
 
-};
+}
 

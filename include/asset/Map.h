@@ -19,7 +19,7 @@ private:
     Grid<std::unique_ptr<Tile>> tiles;
 public:
     Map();
-    void create(sf::Vector2i size);
+//    void create(sf::Vector2i size);
 
     Tile& at(int x, int y);
     Tile& at(sf::Vector2i pos);

@@ -50,13 +50,13 @@ bool World::isWall(Entity* caller, sf::Vector2i pos)
 
     if (caller == player)
     {
-        auto t = dynamic_cast<InteractableTile*>(&map->at(posI));
+        auto interactableTile = dynamic_cast<InteractableTile*>(&map->at(posI));
 
-        if (t)
+        if (interactableTile)
         {
-            t->onInteract();
+            interactableTile->onInteract();
 
-            auto exitTile = dynamic_cast<ExitStairsTile*>(t);
+            auto exitTile = dynamic_cast<ExitStairsTile*>(interactableTile);
             if (exitTile)
                 nextLevel = true;
         }
