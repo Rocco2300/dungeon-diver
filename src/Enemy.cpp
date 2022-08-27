@@ -74,7 +74,7 @@ void Enemy::chase()
         auto dirOff = sf::Vector2i(nextPos - this->pos);
         path.pop_back();
 
-        if (!world->isOccupied(this, nextPos))
+        if (!world->isOccupied(nullptr, nextPos))
             move(dirOff);
     }
     else if (distToPlayer() == 1)
@@ -111,7 +111,7 @@ void Enemy::investigate()
         auto dirOff = sf::Vector2i(nextPos - this->pos);
         path.pop_back();
 
-        if (!world->isOccupied(this, nextPos))
+        if (!world->isOccupied(nullptr, nextPos))
             move(dirOff);
     }
     // This shouldn't be a case I think

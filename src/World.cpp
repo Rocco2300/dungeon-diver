@@ -81,14 +81,7 @@ bool World::isOccupied(Entity* caller, sf::Vector2i pos)
             if (caller == nullptr)
                 return true;
 
-            if (dynamic_cast<Enemy*>(caller) && dynamic_cast<Player*>(entities->at(i)))
-            {
-                entities->at(i)->takeDamage(1);
-            }
-            else if (dynamic_cast<Player*>(caller) && dynamic_cast<Enemy*>(entities->at(i)))
-            {
-                entities->at(i)->takeDamage(1);
-            }
+            entities->at(i)->takeDamage(1);
 
             SoundManager::playSound("hit1");
 
