@@ -39,6 +39,11 @@ bool World::isPlayerTurn()
     return playerTurn;
 }
 
+bool World::canMove(Entity* caller)
+{
+    return std::find(toMove.begin(), toMove.end(), caller) != toMove.end();
+}
+
 bool World::isWall(Entity* caller, sf::Vector2i pos)
 {
     if (pos.x < 0 || pos.x > 15 || pos.y < 0 || pos.y > 15)
@@ -116,8 +121,6 @@ std::vector<Entity*>& World::getEntities()
 
 void World::endTurn(Entity* entity)
 {
-    static std::vector<Entity*> toMove;
-
     if (entity == player)
     {
         playerTurn = false;

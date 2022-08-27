@@ -12,6 +12,7 @@ private:
     Map* map;
     Player* player;
     std::vector<Entity*>* entities;
+    std::vector<Entity*> toMove;
 
     bool gameOver;
     bool playerTurn;
@@ -28,6 +29,7 @@ public:
     bool isGameOver();
     bool goNextLevel();
     bool isPlayerTurn();
+    bool canMove(Entity* caller);
     bool isWall(Entity* caller, sf::Vector2i pos);
     bool isOccupied(Entity* caller, sf::Vector2i pos);
 
