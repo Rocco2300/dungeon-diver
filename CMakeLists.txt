@@ -17,6 +17,10 @@ include_directories(
     "${PROJECT_SOURCE_DIR}/include/asset"
 )
 
+add_definitions(-DIMG_PATH="${PROJECT_SOURCE_DIR}/img/")
+add_definitions(-DSOUND_PATH="${PROJECT_SOURCE_DIR}/sound/")
+add_definitions(-DFONT_PATH="${PROJECT_SOURCE_DIR}/font/")
+
 add_executable(dungeon_diver "${PROJECT_SOURCE_DIR}/src/main.cpp")
 
 add_subdirectory(src)
