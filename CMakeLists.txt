@@ -18,19 +18,9 @@ include_directories(
 )
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
-    add_definitions(
-        /DIMG_PATH="${PROJECT_SOURCE_DIR}/img/"
-        /DSOUND_PATH="${PROJECT_SOURCE_DIR}/sound/"
-        /DFONT_PATH="${PROJECT_SOURCE_DIR}/font/"
-        /DSHADER_PATH="${PROJECT_SOURCE_DIR}/shader/"
-    )
+    add_definitions(/DPROJ_PATH="${PROJECT_SOURCE_DIR}/")
 else()
-    add_definitions(
-        -DIMG_PATH="${PROJECT_SOURCE_DIR}/img/"
-        -DSOUND_PATH="${PROJECT_SOURCE_DIR}/sound/"
-        -DFONT_PATH="${PROJECT_SOURCE_DIR}/font/"
-        -DSHADER_PATH="${PROJECT_SOURCE_DIR}/shader/"
-    )
+    add_definitions(-DPROJ_PATH="${PROJECT_SOURCE_DIR}/")
 endif()
 
 add_executable(dungeon_diver "${PROJECT_SOURCE_DIR}/src/main.cpp")
@@ -41,8 +31,8 @@ file(GLOB TARGET_DLLS "${PROJECT_SOURCE_DIR}/lib/bin/*.dll")
 
 add_custom_command(TARGET dungeon_diver
   POST_BUILD
-  COMMAND ${CMAKE_COMMAND} -E copy 
-  ${TARGET_DLLS} ${PROJECT_BINARY_DIR}
+  COMMAND ${CMAKE_COMMAND} -E copy_if_different
+  ${TARGET_DLLS} $<TARGET_FILE_DIR:dungeon_diver>
 )
 
 target_link_libraries(dungeon_diver PUBLIC src)

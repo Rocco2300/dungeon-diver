@@ -10,6 +10,9 @@
 class AssetManager
 {
 private:
+    inline const static std::string imagePath = "img/";
+    inline const static std::string soundPath = "sound/";
+    inline const static std::string fontPath = "font/";
     inline const static std::string imagePathPostfix = ".png";
     inline const static std::string soundPathPostfix = ".wav";
     inline const static std::string fontPathPostfix = ".ttf";

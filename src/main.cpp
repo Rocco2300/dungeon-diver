@@ -4,9 +4,9 @@
 
 int main()
 {
-    srand(time(NULL));
+    srand(time(nullptr));
     // Suppres false Failed to set DirectInput device axis mode: 1 error 
-    sf::err().rdbuf(NULL);
+    sf::err().rdbuf(nullptr);
 
     Application application;
     application.run();
