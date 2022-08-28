@@ -31,12 +31,15 @@
 *.out
 *.app
 
-# Directories
-/.vscode
+# Build directory
 /build
+
+# IDE Generated Stuff
+/.vscode
 /.cache
 /.idea
-/cmake-build-debug
+/.vs
+CMakeSettings.json
 
 # TODO
 todo
