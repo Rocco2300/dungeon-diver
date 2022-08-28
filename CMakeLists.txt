@@ -17,9 +17,21 @@ include_directories(
     "${PROJECT_SOURCE_DIR}/include/asset"
 )
 
-add_definitions(-DIMG_PATH="${PROJECT_SOURCE_DIR}/img/")
-add_definitions(-DSOUND_PATH="${PROJECT_SOURCE_DIR}/sound/")
-add_definitions(-DFONT_PATH="${PROJECT_SOURCE_DIR}/font/")
+if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+    add_definitions(
+        /DIMG_PATH="${PROJECT_SOURCE_DIR}/img/"
+        /DSOUND_PATH="${PROJECT_SOURCE_DIR}/sound/"
+        /DFONT_PATH="${PROJECT_SOURCE_DIR}/font/"
+        /DSHADER_PATH="${PROJECT_SOURCE_DIR}/shader/"
+    )
+else()
+    add_definitions(
+        -DIMG_PATH="${PROJECT_SOURCE_DIR}/img/"
+        -DSOUND_PATH="${PROJECT_SOURCE_DIR}/sound/"
+        -DFONT_PATH="${PROJECT_SOURCE_DIR}/font/"
+        -DSHADER_PATH="${PROJECT_SOURCE_DIR}/shader/"
+    )
+endif()
 
 add_executable(dungeon_diver "${PROJECT_SOURCE_DIR}/src/main.cpp")
 
