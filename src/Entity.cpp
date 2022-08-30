@@ -18,7 +18,8 @@ Entity::Entity()
 
     dead = false;
 
-    if (!shader.loadFromFile(std::string(PROJ_PATH) + "shader/shader.frag", sf::Shader::Fragment))
+    const std::string path = std::string(PROJ_PATH) + "shader/shader.frag";
+    if (!shader.loadFromFile(path, sf::Shader::Fragment))
         std::cerr << "Error loading shader.";
     
     tDmg = 0.f;
