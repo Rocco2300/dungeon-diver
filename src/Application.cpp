@@ -1,6 +1,8 @@
 #include "Application.h"
 
-Application::Application() : scale{4.f}, size{8 * 16}
+#include "Constants.h"
+
+Application::Application() : scale{4.f}, size{WINDOW_SIZE}
 {
     clock.restart();
 
@@ -67,6 +69,7 @@ void Application::draw()
 
 void Application::registerStates()
 {
-    stateStack->registerState<MainMenu>(StateID::MainMenu);
     stateStack->registerState<Game>(StateID::Game);
+    stateStack->registerState<MainMenu>(StateID::MainMenu);
+    stateStack->registerState<GameOver>(StateID::GameOver);
 }

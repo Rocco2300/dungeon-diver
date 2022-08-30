@@ -5,5 +5,6 @@ enum class StateID
     Title = 0,
     MainMenu,
     Game,
+    GameOver,
     None = -1
 };
