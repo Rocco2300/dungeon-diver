@@ -8,6 +8,7 @@
 Player::Player()
 {
     hp = 5;
+    damage = 1;
 
     sprite.create(AssetManager::getTexture("player"), {8, 8});
 }

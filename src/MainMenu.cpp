@@ -1,9 +1,7 @@
 #include "MainMenu.h"
 
 #include "StateStack.h"
-#include "AssetManager.h"
 
-#include <iostream>
 #include <functional>
 
 MainMenu::MainMenu(StateStack& stateStack, sf::RenderTexture& texture)

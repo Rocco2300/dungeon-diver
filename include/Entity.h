@@ -35,6 +35,7 @@ public:
     virtual void setWorld(World& world);
 
     int getHp();
+    int getDamage();
     bool isDead();
 
     void setHP(int hp);

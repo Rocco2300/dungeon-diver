@@ -38,6 +38,11 @@ int Entity::getHp()
     return hp;
 }
 
+int Entity::getDamage()
+{
+    return damage;
+}
+
 bool Entity::isDead()
 {
     return dead;

@@ -81,7 +81,7 @@ bool World::isOccupied(Entity* caller, sf::Vector2i pos)
             if (caller == nullptr)
                 return true;
 
-            entities->at(i)->takeDamage(1);
+            entities->at(i)->takeDamage(caller->getDamage());
 
             SoundManager::playSound("hit1");
 
@@ -136,9 +136,7 @@ void World::endTurn(Entity* entity)
     else 
     {
         if (toMove.count(entity))
-        {
             toMove.erase(entity);
-        }
 
         if (toMove.empty())
             playerTurn = true;
