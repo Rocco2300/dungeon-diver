@@ -26,7 +26,7 @@ private:
 
 public:
     Item() = default;
-    Item(ItemType type, std::string name, Player& player);
+    Item(ItemType type, std::string name, int value, Player& player);
 
     void use();
 };
