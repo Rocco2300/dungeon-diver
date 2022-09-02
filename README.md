@@ -47,7 +47,8 @@ Note: you should be able to use any generator with cmake (-G).
     - [ ] Main Menu
     - [ ] Settings Menu
     - [X] HP UI
-    - [ ] Death screen
+    - [X] Death screen
+    - [ ] Animate inventory and ui
 - [ ] Better enemy ai (pathfinding)
     - [X] Stop enemies from running over eachother
     - [X] Treat entities as obstacles in pathfinding
@@ -61,6 +62,6 @@ Note: you should be able to use any generator with cmake (-G).
 - [ ] General refactoring
     - [X] Refactoring the game and world classes
     - [X] "Refactor" project directory structure
-- [ ] Improve turn taking
-- [ ] Improve attacking by using an "event manager"
-- [ ] Implement game manager to keep track of damage and items? 
+    - [ ] Improve attacking by using an "event manager"
+    - [ ] Implement game manager to keep track of damage and items? 
+- [X] Improve turn taking

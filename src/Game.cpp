@@ -15,7 +15,7 @@ Game::Game(StateStack& stateStack, sf::RenderTexture& texture)
     initUI();
 
     gen.generateMap();
-    auto stream    = gen.getMapAsStream();
+    auto stream = gen.getMapAsStream();
     auto playerPos = gen.getEntrance();
 
     map.setSize({16, 16});

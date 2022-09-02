@@ -2,6 +2,8 @@
 
 #include "World.h"
 
+Spawner::Spawner() : world{nullptr}, entities{nullptr} {}
+
 void Spawner::init(World& world)
 {
     this->world = &world;

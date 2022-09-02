@@ -22,7 +22,6 @@ MainMenu::MainMenu(StateStack& stateStack, sf::RenderTexture& texture)
     button1->setSize({24, 8});
     button1->setText("Play");
 
-    // TODO: add something
     auto button2 = std::make_shared<GUI::Button<std::function<void()>>>();
     button2->setCallback([&stateStack] ()
     {   

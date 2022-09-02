@@ -13,7 +13,6 @@ private:
     enum class Label
     {
         Name = 0,
-        Path,
         HP,
         DMG,
         None = -1
@@ -25,7 +24,7 @@ private:
     std::vector<Entity*>* entities;
 
 public:
-    Spawner() = default;
+    Spawner();
     void init(World& world);
 
     void spawnEnemy(sf::Vector2i pos);
