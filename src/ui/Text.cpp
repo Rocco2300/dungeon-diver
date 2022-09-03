@@ -1,6 +1,6 @@
 #include "Text.h"
 
-Text::Text() : width(8), height(8), letterSpacing(1), text("")
+Text::Text() : width(3), height(5), letterSpacing(1), text("")
 {
 }
 

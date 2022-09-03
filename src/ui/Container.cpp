@@ -52,11 +52,10 @@ bool Container::isSelectable() const
 
 void Container::update(sf::Time dt)
 {
-    if (!hasArrowSelector)
+    if (!hasArrowSelector || doneLerping)
         return;
 
-    if (!doneLerping)
-        time += timeStep;
+    time += timeStep;
 
     if (time >= 1.f && !doneLerping)
     {
@@ -172,8 +171,8 @@ void Container::setArrowTarget()
 
     // In the case that we change target midway changed speed to keep the deltaDistance the same
     float percent = (
-            distance(arrowTarget, arrowStart) /
-            distance(children[prevSelectedChild]->getPosition(), arrowTarget)
+        distance(arrowTarget, arrowStart) /
+        distance(children[prevSelectedChild]->getPosition(), arrowTarget)
     );
 
     timeStep = (1.f + (1.f - percent)) / 60.f * speed;

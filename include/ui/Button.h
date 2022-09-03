@@ -22,17 +22,11 @@ public:
 private:    
     TextLabel label;
     // sf::RectangleShape background;
-//    sf::Sprite selector;
 
     Callback callback;
 
 public:
-    Button()
-    {
-//        selector.setTexture(AssetManager::getTexture("gui_elements"));
-//        selector.setTextureRect({0, 0, 8, 8});
-//        selector.setPosition({-4.f, 0.f});
-    }
+    Button() = default;
 
     void setCallback(Callback callback)
     {
