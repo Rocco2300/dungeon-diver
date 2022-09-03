@@ -2,6 +2,7 @@
 
 #include "Component.h"
 
+#include <queue>
 #include <vector>
 
 namespace GUI
@@ -16,11 +17,11 @@ private:
     sf::Sprite arrowSelector;
     sf::RectangleShape background;
 
+    std::queue<sf::Event> events;
     std::vector<Component::Ptr> children;
 
     float time;
     float speed;
-    float timeStep;
     float fadeSpeed;
     float lerpSpeed;
 
@@ -55,6 +56,7 @@ private:
     bool isArrowTargetOpposite() const;
 
     void select(size_t index);
+    void handleEventImpl(const sf::Event& event);
 
     void selectNext();
     void selectPrevious();

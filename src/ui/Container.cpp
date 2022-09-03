@@ -9,11 +9,10 @@ namespace GUI
 Container::Container() : selectedChild{-1}
 {
     time = 0.f;
-    fadeSpeed = 4.f;
+    fadeSpeed = 3.f;
     lerpSpeed = 16.f;
 
     speed = lerpSpeed;
-    timeStep = 0.016f * speed;
 
     doneFading  = true;
     doneLerping = true;
@@ -60,18 +59,24 @@ bool Container::isSelectable() const
 
 void Container::update(sf::Time dt)
 {
-    if (!hasArrowSelector || (doneLerping && doneFading))
+    if (doneFading && doneLerping)
+    {
+        if (!events.empty())
+        {
+            handleEventImpl(events.front());
+            events.pop();
+        }
+
+        return;
+    }
+
+    if (!hasArrowSelector)
         return;
 
-    time += timeStep;
+    time += dt.asSeconds() * speed;
 
     if (time >= 1.f)
-    {
-        doneFading  = true;
-        doneLerping = true;
-
         time = 1.f;
-    }
 
     if (!doneFading)
     {
@@ -86,37 +91,23 @@ void Container::update(sf::Time dt)
 
     if (!doneLerping)
         arrowSelector.setPosition(lerp(arrowStart, arrowTarget, time));
+
+    if (time == 1.f)
+    {
+        doneFading  = true;
+        doneLerping = true;
+    }
 }
 
 void Container::handleEvent(const sf::Event& event)
 {
-    if (hasSelection() && children[selectedChild]->isActive())
+    if (!doneFading || !doneLerping)
     {
-        children[selectedChild]->handleEvent(event);
+        events.push(event);
+        return;
     }
-    else if (event.type == sf::Event::KeyReleased)
-    {
-        if (event.key.code == sf::Keyboard::W)
-        {
-            selectPrevious();
 
-            if (hasArrowSelector)
-                setArrowTarget();
-        }
-        else if (event.key.code == sf::Keyboard::S)
-        {
-            selectNext();
-
-            if (hasArrowSelector)
-                setArrowTarget();
-        }
-        else if (event.key.code == sf::Keyboard::Return ||
-            event.key.code == sf::Keyboard::E)
-        {
-            if (hasSelection())
-                children[selectedChild]->activate();
-        }
-    }
+    handleEventImpl(event);
 }
 
 void Container::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -158,6 +149,37 @@ void Container::select(size_t index)
         
         children[index]->select();
         selectedChild = index;
+    }
+}
+
+void Container::handleEventImpl(const sf::Event &event)
+{
+    if (hasSelection() && children[selectedChild]->isActive())
+    {
+        children[selectedChild]->handleEvent(event);
+    }
+    else if (event.type == sf::Event::KeyReleased)
+    {
+        if (event.key.code == sf::Keyboard::W)
+        {
+            selectPrevious();
+
+            if (hasArrowSelector)
+                setArrowTarget();
+        }
+        else if (event.key.code == sf::Keyboard::S)
+        {
+            selectNext();
+
+            if (hasArrowSelector)
+                setArrowTarget();
+        }
+        else if (event.key.code == sf::Keyboard::Return ||
+                 event.key.code == sf::Keyboard::E)
+        {
+            if (hasSelection())
+                children[selectedChild]->activate();
+        }
     }
 }
 
@@ -208,14 +230,6 @@ void Container::setArrowTarget()
 
     arrowStart  = arrowSelector.getPosition();
     arrowTarget = children[selectedChild]->getPosition();
-
-    // In the case that we change target midway changed speed to keep the deltaDistance the same
-    float percent = (
-        distance(arrowTarget, arrowStart) /
-        distance(children[prevSelectedChild]->getPosition(), arrowTarget)
-    );
-
-    timeStep = (1.f + (1.f - percent)) / 60.f * speed;
 }
 
 }
