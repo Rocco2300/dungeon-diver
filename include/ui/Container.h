@@ -23,6 +23,7 @@ private:
     float timeStep;
 
     int selectedChild;
+    int prevSelectedChild;
 
     bool doneLerping;
     bool hasArrowSelector;

@@ -56,7 +56,7 @@ void Container::update(sf::Time dt)
         return;
 
     if (!doneLerping)
-        time += speed * dt.asSeconds();
+        time += timeStep;
 
     if (time >= 1.f && !doneLerping)
     {
@@ -141,6 +141,7 @@ void Container::selectNext()
         next = (next + 1) % children.size();
     while (!children[next]->isSelectable());
 
+    prevSelectedChild = selectedChild;
     select(next);
 }
 
@@ -156,7 +157,8 @@ void Container::selectPrevious()
 	while (!children[prev]->isSelectable());
 
 	// Select that component
-	select(prev);
+    prevSelectedChild = selectedChild;
+    select(prev);
 }
 
 void Container::setArrowTarget()
@@ -168,8 +170,8 @@ void Container::setArrowTarget()
     arrowStart  = arrowSelector.getPosition();
     arrowTarget = children[selectedChild]->getPosition();
 
-//    float percent = distance(arrowTarget, arrowStart) / 240.f;
-//    dt = (1.f + (1.f - percent)) / 60.f * speed;
+    float percent = distance(arrowTarget, arrowStart) / distance(children[prevSelectedChild]->getPosition(), arrowTarget);
+    timeStep = (1.f + (1.f - percent)) / 60.f * speed;
 }
 
 }
