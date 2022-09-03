@@ -22,16 +22,16 @@ public:
 private:    
     TextLabel label;
     // sf::RectangleShape background;
-    sf::Sprite selector;
+//    sf::Sprite selector;
 
     Callback callback;
 
 public:
     Button()
     {
-        selector.setTexture(AssetManager::getTexture("gui_elements"));
-        selector.setTextureRect({0, 0, 8, 8});
-        selector.setPosition({-4.f, 0.f});
+//        selector.setTexture(AssetManager::getTexture("gui_elements"));
+//        selector.setTextureRect({0, 0, 8, 8});
+//        selector.setPosition({-4.f, 0.f});
     }
 
     void setCallback(Callback callback)
@@ -90,8 +90,8 @@ public:
         states.transform *= transform;
 
         // target.draw(background, states);
-        if (isSelected())
-            target.draw(selector, states);
+//        if (isSelected())
+//            target.draw(selector, states);
 
         target.draw(label, states);
     }

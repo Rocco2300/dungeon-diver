@@ -13,23 +13,29 @@ public:
     using Ptr = std::shared_ptr<Container>;
 
 private:
+    sf::Sprite arrowSelector;
     sf::RectangleShape background;
 
     std::vector<Component::Ptr> children;
+
     int selectedChild;
+    bool hasArrowSelector;
 
 public:
-    Container() : selectedChild{-1} { }
+    Container();
 
     inline sf::RectangleShape& getBackgoundRef() { return background; } 
 
     void pack(Component::Ptr component);
     Component::Ptr getNthChild(int index);
 
+    void setArrowSelector(bool value);
+
     virtual bool isSelectable() const;
     virtual void handleEvent(const sf::Event& event);
     
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+
 private:
     bool hasSelection() const;
     void select(size_t index);

@@ -1,7 +1,16 @@
 #include "Container.h"
 
+#include "AssetManager.h"
+
 namespace GUI
 {
+
+Container::Container() : selectedChild{-1}
+{
+    arrowSelector.setTexture(AssetManager::getTexture("gui_elements"));
+    arrowSelector.setTextureRect({0, 0, 8, 8});
+    arrowSelector.setOrigin(4, 0);
+}
 
 void Container::pack(Component::Ptr component)
 {
@@ -9,11 +18,19 @@ void Container::pack(Component::Ptr component)
 
     if (!hasSelection() && component->isSelectable())
         select(children.size() - 1);
+
+    auto pos = children[selectedChild]->getPosition();
+    arrowSelector.setPosition(pos);
 }
 
 Component::Ptr Container::getNthChild(int index)
 {
     return children[index];
+}
+
+void Container::setArrowSelector(bool value)
+{
+    hasArrowSelector = value;
 }
 
 bool Container::isSelectable() const
@@ -44,6 +61,9 @@ void Container::handleEvent(const sf::Event& event)
                 children[selectedChild]->activate();
         }
     }
+
+    auto pos = children[selectedChild]->getPosition();
+    arrowSelector.setPosition(pos);
 }
 
 void Container::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -55,6 +75,9 @@ void Container::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
     for (auto& child : children)
     {
+        if (hasArrowSelector && child->isSelectable())
+            target.draw(arrowSelector, states);
+
         target.draw(*child, states);
     }
 }

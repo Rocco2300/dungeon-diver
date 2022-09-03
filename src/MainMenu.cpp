@@ -9,6 +9,8 @@ MainMenu::MainMenu(StateStack& stateStack, sf::RenderTexture& texture)
 {
     auto& containerBG = guiContainer.getBackgoundRef();
     guiContainer.setPosition({5, 5});
+    guiContainer.setArrowSelector(true);
+
     containerBG.setFillColor(sf::Color::Black);
     containerBG.setSize({30, 30});
 
