@@ -41,11 +41,13 @@ bool MainMenu::handleEvent(const sf::Event& event)
 {
     guiContainer.handleEvent(event);
 
-   return false;
+    return false;
 }
 
 bool MainMenu::update(sf::Time dt)
 {
+    guiContainer.update(dt);
+
     return false;
 }
 

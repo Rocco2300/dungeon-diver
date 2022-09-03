@@ -18,8 +18,17 @@ private:
 
     std::vector<Component::Ptr> children;
 
+    float time;
+    float speed;
+    float timeStep;
+
     int selectedChild;
+
+    bool doneLerping;
     bool hasArrowSelector;
+
+    sf::Vector2f arrowStart;
+    sf::Vector2f arrowTarget;
 
 public:
     Container();
@@ -32,8 +41,9 @@ public:
     void setArrowSelector(bool value);
 
     virtual bool isSelectable() const;
+
+            void update(sf::Time dt);
     virtual void handleEvent(const sf::Event& event);
-    
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 private:
@@ -41,6 +51,7 @@ private:
     void select(size_t index);
     void selectNext();
     void selectPrevious();
+    void setArrowTarget();
 };
 
 }
