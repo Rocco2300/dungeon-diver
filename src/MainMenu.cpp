@@ -1,18 +1,27 @@
 #include "MainMenu.h"
 
+#include "Constants.h"
 #include "StateStack.h"
 
+#include <cmath>
 #include <functional>
 
 MainMenu::MainMenu(StateStack& stateStack, sf::RenderTexture& texture)
     : State(stateStack, texture)
 {
     auto& containerBG = guiContainer.getBackgoundRef();
-    guiContainer.setPosition({5, 5});
+    guiContainer.setSize({43, 36});
     guiContainer.setArrowSelector(true);
+    // Floor the position to avoid floating point error on low res
+    guiContainer.setPosition({
+        std::floor((WINDOW_SIZE - guiContainer.getSize().x) / 2),
+        WINDOW_SIZE / 2
+    });
 
     containerBG.setFillColor(sf::Color::Black);
-    containerBG.setSize({30, 30});
+    containerBG.setOutlineThickness(1);
+    containerBG.setOutlineColor(sf::Color::White);
+    containerBG.setSize({43, 36});
 
     auto button1 = std::make_shared<GUI::Button<std::function<void()>>>();
     button1->setCallback([&stateStack] ()
@@ -20,7 +29,7 @@ MainMenu::MainMenu(StateStack& stateStack, sf::RenderTexture& texture)
         stateStack.popState();
         stateStack.pushState(StateID::Game);
     });
-    button1->setPosition({6.f, 0.f});
+    button1->setPosition({10.f, 4.f});
     button1->setSize({24, 8});
     button1->setText("Play");
 
@@ -29,7 +38,7 @@ MainMenu::MainMenu(StateStack& stateStack, sf::RenderTexture& texture)
     {
         std::cerr << "Not yet implemented :p\n";
     });
-    button2->setPosition({0.f, 10.f});
+    button2->setPosition({4.f, 14.f});
     button2->setSize({36, 8});
     button2->setText("Options");
 
@@ -38,7 +47,7 @@ MainMenu::MainMenu(StateStack& stateStack, sf::RenderTexture& texture)
     {   
         stateStack.popState();
     });
-    button3->setPosition({6.f, 20.f});
+    button3->setPosition({10.f, 24.f});
     button3->setSize({24, 8});
     button3->setText("Exit");
 

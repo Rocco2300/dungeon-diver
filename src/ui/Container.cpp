@@ -9,8 +9,8 @@ namespace GUI
 Container::Container() : selectedChild{-1}
 {
     time = 0.f;
-    fadeSpeed = 3.f;
-    lerpSpeed = 16.f;
+    fadeSpeed = 2.f;
+    lerpSpeed = 12.f;
 
     speed = lerpSpeed;
 
@@ -119,7 +119,7 @@ void Container::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
     for (auto& child : children)
     {
-        if (hasArrowSelector && child->isSelectable())
+        if (hasArrowSelector && child->isSelected())
             target.draw(arrowSelector, states);
 
         target.draw(*child, states);
