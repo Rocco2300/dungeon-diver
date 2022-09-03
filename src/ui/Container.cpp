@@ -170,7 +170,12 @@ void Container::setArrowTarget()
     arrowStart  = arrowSelector.getPosition();
     arrowTarget = children[selectedChild]->getPosition();
 
-    float percent = distance(arrowTarget, arrowStart) / distance(children[prevSelectedChild]->getPosition(), arrowTarget);
+    // In the case that we change target midway changed speed to keep the deltaDistance the same
+    float percent = (
+            distance(arrowTarget, arrowStart) /
+            distance(children[prevSelectedChild]->getPosition(), arrowTarget)
+    );
+
     timeStep = (1.f + (1.f - percent)) / 60.f * speed;
 }
 
