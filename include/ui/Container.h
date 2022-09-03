@@ -21,10 +21,13 @@ private:
     float time;
     float speed;
     float timeStep;
+    float fadeSpeed;
+    float lerpSpeed;
 
     int selectedChild;
     int prevSelectedChild;
 
+    bool doneFading;
     bool doneLerping;
     bool hasArrowSelector;
 

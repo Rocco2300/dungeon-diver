@@ -9,9 +9,13 @@ namespace GUI
 Container::Container() : selectedChild{-1}
 {
     time = 0.f;
-    speed = 16.f;
+    fadeSpeed = 4.f;
+    lerpSpeed = 16.f;
+
+    speed = lerpSpeed;
     timeStep = 0.016f * speed;
 
+    doneFading  = true;
     doneLerping = true;
 
     arrowSelector.setTexture(AssetManager::getTexture("gui_elements"));
@@ -56,21 +60,32 @@ bool Container::isSelectable() const
 
 void Container::update(sf::Time dt)
 {
-    if (doneLerping && arrowTarget != arrowSelector.getPosition())
-        arrowSelector.setPosition(arrowTarget);
-
-    if (!hasArrowSelector || doneLerping)
+    if (!hasArrowSelector || (doneLerping && doneFading))
         return;
 
     time += timeStep;
 
     if (time >= 1.f)
     {
+        doneFading  = true;
         doneLerping = true;
+
         time = 1.f;
     }
 
-    arrowSelector.setPosition(lerp(arrowStart, arrowTarget, time));
+    if (!doneFading)
+    {
+        if (time <= 0.5f)
+            arrowSelector.setColor(sf::Color(255, 255, 255, 1.f - (time * 2.f) * 255));
+        else
+        {
+            arrowSelector.setPosition(arrowTarget);
+            arrowSelector.setColor(sf::Color(255, 255, 255, (time - 0.5f) * 2.f * 255));
+        }
+    }
+
+    if (!doneLerping)
+        arrowSelector.setPosition(lerp(arrowStart, arrowTarget, time));
 }
 
 void Container::handleEvent(const sf::Event& event)
@@ -179,7 +194,15 @@ void Container::selectPrevious()
 void Container::setArrowTarget()
 {
     if (!isArrowTargetOpposite())
+    {
+        speed = lerpSpeed;
         doneLerping = false;
+    }
+    else
+    {
+        speed = fadeSpeed;
+        doneFading  = false;
+    }
 
     time = 0.f;
 

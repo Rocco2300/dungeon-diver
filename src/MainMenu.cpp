@@ -20,7 +20,7 @@ MainMenu::MainMenu(StateStack& stateStack, sf::RenderTexture& texture)
         stateStack.popState();
         stateStack.pushState(StateID::Game);
     });
-    button1->setPosition({4.f, 0.f});
+    button1->setPosition({6.f, 0.f});
     button1->setSize({24, 8});
     button1->setText("Play");
 
@@ -38,7 +38,7 @@ MainMenu::MainMenu(StateStack& stateStack, sf::RenderTexture& texture)
     {   
         stateStack.popState();
     });
-    button3->setPosition({4.f, 20.f});
+    button3->setPosition({6.f, 20.f});
     button3->setSize({24, 8});
     button3->setText("Exit");
 
