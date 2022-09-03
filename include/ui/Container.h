@@ -49,7 +49,10 @@ public:
 
 private:
     bool hasSelection() const;
+    bool isArrowTargetOpposite() const;
+
     void select(size_t index);
+
     void selectNext();
     void selectPrevious();
     void setArrowTarget();

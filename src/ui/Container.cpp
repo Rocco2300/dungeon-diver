@@ -30,6 +30,10 @@ void Container::pack(Component::Ptr component)
         if (hasArrowSelector)
         {
             auto pos = children[selectedChild]->getPosition();
+
+            arrowStart  = sf::Vector2f(pos);
+            arrowTarget = sf::Vector2f(pos);
+
             arrowSelector.setPosition(pos);
         }
     }
@@ -52,12 +56,15 @@ bool Container::isSelectable() const
 
 void Container::update(sf::Time dt)
 {
+    if (doneLerping && arrowTarget != arrowSelector.getPosition())
+        arrowSelector.setPosition(arrowTarget);
+
     if (!hasArrowSelector || doneLerping)
         return;
 
     time += timeStep;
 
-    if (time >= 1.f && !doneLerping)
+    if (time >= 1.f)
     {
         doneLerping = true;
         time = 1.f;
@@ -118,6 +125,15 @@ bool Container::hasSelection() const
     return selectedChild >= 0;
 }
 
+bool Container::isArrowTargetOpposite() const
+{
+    if ((selectedChild == 0 && prevSelectedChild == children.size() - 1) ||
+        (selectedChild == children.size() - 1 && prevSelectedChild == 0))
+        return true;
+
+    return false;
+}
+
 void Container::select(size_t index)
 {
     if (children[index]->isSelectable())
@@ -162,7 +178,8 @@ void Container::selectPrevious()
 
 void Container::setArrowTarget()
 {
-    doneLerping = false;
+    if (!isArrowTargetOpposite())
+        doneLerping = false;
 
     time = 0.f;
 
