@@ -25,7 +25,7 @@ void Player::giveItem(Item *item)
     }
 }
 
-std::array<std::unique_ptr<Item>, 5>& Player::getItemsRef()
+ItemContainer& Player::getItemsRef()
 {
     return inventory;
 }

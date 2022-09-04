@@ -21,7 +21,9 @@ public:
     ItemFactory(Player& player);
 
     Item* getItem();
+
     void givePlayerItem();
+    void setPlayer(Player& player);
 
 private:
     ItemType stringToItemType(std::string type);

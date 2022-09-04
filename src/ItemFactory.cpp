@@ -28,6 +28,11 @@ void ItemFactory::givePlayerItem()
     player->giveItem(item);
 }
 
+void ItemFactory::setPlayer(Player &player)
+{
+    this->player = &player;
+}
+
 ItemType ItemFactory::stringToItemType(std::string type)
 {
     if (type == "heal")

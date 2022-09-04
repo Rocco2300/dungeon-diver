@@ -24,7 +24,8 @@ Inventory::Inventory(StateStack& stateStack, Context context)
         auto button = std::make_shared<GUI::Button<std::function<void()>>>();
         button->setCallback([this, i] ()
         {
-            items->at(i)->use();
+            items->use(i);
+            updateButtonLabels();
         });
         button->setPosition({4.f, i * 10.f});
         button->setSize({36, 8});
@@ -60,4 +61,20 @@ bool Inventory::update(sf::Time dt)
 void Inventory::draw()
 {
     context.texture->draw(gui);
+}
+
+void Inventory::updateButtonLabels()
+{
+    for (size_t i = 0; i < items->size(); i++)
+    {
+        using ButtonType = GUI::Button<std::function<void()>>;
+        auto button = dynamic_cast<ButtonType *>(gui.getNthChild(i).get());
+
+        auto buttonText =
+              items->at(i)
+            ? items->at(i)->getName()
+            : "...";
+
+        button->setText(buttonText);
+    }
 }

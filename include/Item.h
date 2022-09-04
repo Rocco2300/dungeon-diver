@@ -14,6 +14,9 @@ enum class ItemType
 
 class Item
 {
+public:
+    using Ptr = std::unique_ptr<Item>;
+
 private:
     Player* player;
     ItemType type;

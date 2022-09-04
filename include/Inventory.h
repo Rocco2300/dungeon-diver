@@ -13,7 +13,7 @@ private:
     GUI::Container gui;
 
     int selectedItem;
-    std::array<std::unique_ptr<Item>, 5>* items;
+    ItemContainer* items;
 
 public:
     Inventory(StateStack& stateStack, Context context);
@@ -21,5 +21,8 @@ public:
     virtual void draw();
     virtual bool update(sf::Time dt);
     virtual bool handleEvent(const sf::Event& event);
+
+private:
+    void updateButtonLabels();
 };
 

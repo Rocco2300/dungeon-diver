@@ -6,8 +6,6 @@
 #include "StateStack.h"
 #include "AssetManager.h"
 
-#include "ItemFactory.h"
-
 Game::Game(StateStack& stateStack, Context context)
     : State(stateStack, context)
 {
@@ -17,6 +15,8 @@ Game::Game(StateStack& stateStack, Context context)
     Context contxt = stateStack.getContext();
     contxt.world = &world;
     stateStack.setContext(contxt);
+
+    itemFact.setPlayer(player);
 
     initUI();
 
@@ -33,10 +33,6 @@ Game::Game(StateStack& stateStack, Context context)
 
     entities.push_back(&player);
     spawner.init(world);
-
-    ItemFactory itemFact(player);
-    itemFact.givePlayerItem();
-    itemFact.givePlayerItem();
 
     std::vector<sf::Vector2i> openTiles;
     for (int y = 0; y < 16; y++)
@@ -115,6 +111,9 @@ bool Game::handleEvent(const sf::Event& event)
             pos = gen.getEntrance();
             player.setPosition(pos);
             map.loadMap(stream);
+            break;
+        case sf::Keyboard::I:
+            itemFact.givePlayerItem();
             break;
         default:
             break;

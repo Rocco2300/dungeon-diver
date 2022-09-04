@@ -5,6 +5,8 @@
 #include "World.h"
 #include "State.h"
 
+#include "ItemFactory.h"
+
 class Game : public State
 {
 private:
@@ -15,6 +17,8 @@ private:
     MapGenerator gen;
     std::vector<Entity*> entities;
     Player player;
+
+    ItemFactory itemFact;
 
     World world;
     Tileset tileset;

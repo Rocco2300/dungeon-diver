@@ -5,20 +5,21 @@
 #include <vector>
 #include <functional>
 
-#include "Item.h"
 #include "Entity.h"
+#include "ItemContainer.h"
+
 
 class Player : public Entity
 {
 private:
-    std::array<std::unique_ptr<Item>, 5> inventory;
+    ItemContainer inventory;
 
     std::vector<sf::Vector2i> moves;
 
 public:
     Player();
 
-    std::array<std::unique_ptr<Item>, 5>& getItemsRef();
+    ItemContainer& getItemsRef();
 
     void giveItem(Item* item);
 
