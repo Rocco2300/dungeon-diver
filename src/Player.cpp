@@ -5,12 +5,17 @@
 
 #include "AssetManager.h"
 
-Player::Player()
+Player::Player() : item{nullptr}
 {
     hp = 5;
     damage = 1;
 
     sprite.create(AssetManager::getTexture("player"), {8, 8});
+}
+
+void Player::giveItem(Item *item)
+{
+    this->item = item;
 }
 
 void Player::onKeyPressed(sf::Keyboard::Key key)
@@ -21,16 +26,19 @@ void Player::onKeyPressed(sf::Keyboard::Key key)
     switch (key)
     {
     case sf::Keyboard::W:
-        moves.push_back(sf::Vector2i(0, -1));
+        moves.emplace_back(0, -1);
         break;
     case sf::Keyboard::D:
-        moves.push_back(sf::Vector2i(1, 0));
+        moves.emplace_back(1, 0);
         break;
     case sf::Keyboard::S:
-        moves.push_back(sf::Vector2i(0, 1));
+        moves.emplace_back(0, 1);
         break;
     case sf::Keyboard::A:
-        moves.push_back(sf::Vector2i(-1, 0));
+        moves.emplace_back(-1, 0);
+        break;
+    case sf::Keyboard::U:
+        useItem();
         break;
     default:
         break;
@@ -55,4 +63,14 @@ void Player::update(sf::Time dt)
     }
 
     Entity::update(dt);
+}
+
+void Player::useItem()
+{
+    if (item)
+    {
+        item->use();
+        delete item;
+        item = nullptr;
+    }
 }

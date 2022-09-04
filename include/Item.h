@@ -3,7 +3,7 @@
 #include <string>
 #include <SFML/Graphics.hpp>
 
-#include "Player.h"
+class Player;
 
 enum class ItemType
 {

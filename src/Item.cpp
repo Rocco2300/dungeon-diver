@@ -1,5 +1,7 @@
 #include "Item.h"
 
+#include "Player.h"
+
 Item::Item(ItemType type, std::string name, int value, Player& player)
 {
     this->player = &player;

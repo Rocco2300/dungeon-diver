@@ -19,8 +19,8 @@ MainMenu::MainMenu(StateStack& stateStack, sf::RenderTexture& texture)
     });
 
     containerBG.setFillColor(sf::Color::Black);
-    containerBG.setOutlineThickness(1);
-    containerBG.setOutlineColor(sf::Color::White);
+//    containerBG.setOutlineThickness(1);
+//    containerBG.setOutlineColor(sf::Color::White);
     containerBG.setSize({43, 36});
 
     auto button1 = std::make_shared<GUI::Button<std::function<void()>>>();

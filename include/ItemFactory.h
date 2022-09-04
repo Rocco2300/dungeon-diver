@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Item.h"
-#include "Player.h"
 
 class ItemFactory
 {
@@ -21,7 +20,8 @@ public:
     ItemFactory() = default;
     ItemFactory(Player& player);
 
-    Item getItem();
+    Item* getItem();
+    void givePlayerItem();
 
 private:
     ItemType stringToItemType(std::string type);
