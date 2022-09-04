@@ -11,7 +11,6 @@
 class Player : public Entity
 {
 private:
-    int selectedItem;
     std::array<std::unique_ptr<Item>, 5> inventory;
 
     std::vector<sf::Vector2i> moves;
@@ -19,13 +18,11 @@ private:
 public:
     Player();
 
+    std::array<std::unique_ptr<Item>, 5>& getItemsRef();
+
     void giveItem(Item* item);
 
     void onKeyPressed(sf::Keyboard::Key key);
     void update(sf::Time dt);
-
-private:
-    void useItem();
-    void printInventory();
 };
 

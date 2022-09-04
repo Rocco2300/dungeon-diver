@@ -7,7 +7,7 @@
 
 #include "AssetManager.h"
 
-Player::Player() : selectedItem{-1}, inventory{}
+Player::Player() : inventory{}
 {
     hp = 5;
     damage = 1;
@@ -22,12 +22,12 @@ void Player::giveItem(Item *item)
     if (it != inventory.end())
     {
         *it = std::unique_ptr<Item>(item);
-
-        if (selectedItem == -1)
-        {
-            selectedItem = it - inventory.begin();
-        }
     }
+}
+
+std::array<std::unique_ptr<Item>, 5>& Player::getItemsRef()
+{
+    return inventory;
 }
 
 void Player::onKeyPressed(sf::Keyboard::Key key)
@@ -48,21 +48,6 @@ void Player::onKeyPressed(sf::Keyboard::Key key)
         break;
     case sf::Keyboard::A:
         moves.emplace_back(-1, 0);
-        break;
-    case sf::Keyboard::U:
-        useItem();
-        printInventory();
-        break;
-    case sf::Keyboard::P:
-        printInventory();
-        break;
-    case sf::Keyboard::RBracket:
-        selectedItem = (selectedItem + 1) % 5;
-        printInventory();
-        break;
-    case sf::Keyboard::LBracket:
-        selectedItem = (selectedItem + 4) % 5;
-        printInventory();
         break;
     default:
         break;
@@ -87,31 +72,4 @@ void Player::update(sf::Time dt)
     }
 
     Entity::update(dt);
-}
-
-void Player::useItem()
-{
-    if (selectedItem != -1 && inventory[selectedItem])
-    {
-        inventory[selectedItem]->use();
-        inventory[selectedItem].reset();
-    }
-}
-
-void Player::printInventory()
-{
-    for (size_t i = 0; i < inventory.size(); i++)
-    {
-        auto item = inventory[i].get();
-        auto itemSlot = (item) ? item->getName() : "Empty";
-
-        std::stringstream ss;
-        if (i == selectedItem)
-            ss << '[' << std::left << itemSlot << "] ";
-        else
-            ss << ' ' << std::left << itemSlot << "  ";
-
-        std::cout << std::left << std::setw(10) << ss.str();
-    }
-    std::cout << std::endl;
 }
