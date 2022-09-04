@@ -102,6 +102,11 @@ bool World::isOccupied(Entity* caller, sf::Vector2i pos)
     return false;
 }
 
+Player& World::getPlayerRef()
+{
+    return *player;
+}
+
 sf::Vector2i World::getPlayerPos()
 {
     return player->getPosition();
