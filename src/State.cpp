@@ -2,10 +2,10 @@
 
 #include "StateStack.h"
 
-State::State(StateStack& stateStack, sf::RenderTexture& texture)
+State::State(StateStack& stateStack, Context context)
 {
+    this->context = context;
     this->stateStack = &stateStack;
-    this->texture = &texture;
 }
 
 void State::requestStackPush(StateID stateID)

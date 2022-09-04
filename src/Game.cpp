@@ -8,11 +8,15 @@
 
 #include "ItemFactory.h"
 
-Game::Game(StateStack& stateStack, sf::RenderTexture& texture)
-    : State(stateStack, texture)
+Game::Game(StateStack& stateStack, Context context)
+    : State(stateStack, context)
 {
     tileset.create(AssetManager::getTexture("tiles"), {8, 8});
     world.create(map, player, entities);
+
+    Context contxt = stateStack.getContext();
+    contxt.world = &world;
+    stateStack.setContext(contxt);
 
     initUI();
 
@@ -83,6 +87,10 @@ bool Game::handleEvent(const sf::Event& event)
             stateStack->popState();
             stateStack->pushState(StateID::MainMenu);
         }
+        else if (event.key.code == sf::Keyboard::Tab)
+        {
+            stateStack->pushState(StateID::Inventory);
+        }
 
         sf::Vector2i pos;
         std::stringstream stream;
@@ -147,10 +155,10 @@ bool Game::update(sf::Time dt)
 
 void Game::draw()
 {
-    texture->draw(world);
+    context.texture->draw(world);
 
     if (!world.isGameOver())
     {
-        texture->draw(hpDisplay);
+        context.texture->draw(hpDisplay);
     }
 }

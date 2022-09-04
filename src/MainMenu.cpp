@@ -6,8 +6,8 @@
 #include <cmath>
 #include <functional>
 
-MainMenu::MainMenu(StateStack& stateStack, sf::RenderTexture& texture)
-    : State(stateStack, texture)
+MainMenu::MainMenu(StateStack& stateStack, Context context)
+    : State(stateStack, context)
 {
     auto& containerBG = guiContainer.getBackgoundRef();
     guiContainer.setSize({43, 36});
@@ -72,6 +72,6 @@ bool MainMenu::update(sf::Time dt)
 
 void MainMenu::draw()
 {
-    texture->draw(guiContainer);
+    context.texture->draw(guiContainer);
 }
 

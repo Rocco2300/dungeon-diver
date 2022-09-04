@@ -21,7 +21,7 @@ private:
 
 public:
     Game() = default;
-    Game(StateStack& stateStack, sf::RenderTexture& texture);
+    Game(StateStack& stateStack, Context context);
 
     void draw();
     bool update(sf::Time dt);

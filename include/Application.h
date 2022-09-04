@@ -3,6 +3,7 @@
 #include "Game.h"
 #include "MainMenu.h"
 #include "GameOver.h"
+#include "Inventory.h"
 #include "StateStack.h"
 
 class Application

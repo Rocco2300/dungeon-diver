@@ -13,7 +13,7 @@ private:
     GUI::Container container;
 
 public:
-    GameOver(StateStack& stateStack, sf::RenderTexture& texture);
+    GameOver(StateStack& stateStack, Context context);
 
     void draw();
     bool update(sf::Time dt);

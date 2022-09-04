@@ -2,9 +2,19 @@
 
 #include <cassert>
 
-StateStack::StateStack(sf::RenderTexture& texture)
+StateStack::StateStack(Context context)
 {
-    this->texture = &texture;
+    this->context = context;
+}
+
+Context StateStack::getContext()
+{
+    return context;
+}
+
+void StateStack::setContext(Context context)
+{
+    this->context = context;
 }
 
 void StateStack::draw()
@@ -49,7 +59,7 @@ void StateStack::clearStates()
 
 void StateStack::popState()
 {
-    pendingChanges.push_back({Action::Clear});
+    pendingChanges.push_back({Action::Pop});
 }
 
 bool StateStack::isEmpty() const 

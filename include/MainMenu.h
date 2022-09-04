@@ -11,7 +11,7 @@ private:
     GUI::Container guiContainer;
     
 public:
-    MainMenu(StateStack& stateStack, sf::RenderTexture& texture);
+    MainMenu(StateStack& stateStack, Context context);
 
     void draw();
     bool update(sf::Time dt);

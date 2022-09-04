@@ -15,7 +15,11 @@ Application::Application() : scale{4.f}, size{WINDOW_SIZE}
 
     // No non-trivial copy constructor
     // and unique_ptr member, have to heap alloc
-    stateStack = new StateStack(texture);
+    Context context;
+    context.texture = &texture;
+    context.world = nullptr;
+
+    stateStack = new StateStack(context);
     registerStates();
     stateStack->pushState(StateID::MainMenu);
 }
@@ -72,4 +76,5 @@ void Application::registerStates()
     stateStack->registerState<Game>(StateID::Game);
     stateStack->registerState<MainMenu>(StateID::MainMenu);
     stateStack->registerState<GameOver>(StateID::GameOver);
+    stateStack->registerState<Inventory>(StateID::Inventory);
 }

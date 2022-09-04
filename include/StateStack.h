@@ -24,22 +24,25 @@ private:
         StateID stateID;
     };
 
-    sf::RenderTexture* texture;
+    Context context;
     std::vector<State::Ptr> stack;
     std::vector<PendingChange> pendingChanges;
     std::map<StateID, std::function<State::Ptr()>> factories;
 
 public:
     StateStack() = default;
-    StateStack(sf::RenderTexture& texture);
+    StateStack(Context context);
     ~StateStack() = default;
+
+    Context getContext();
+    void setContext(Context context);
 
     template <typename T>
     void registerState(StateID stateID)
     {
         factories[stateID] = [this] ()
         {
-            return State::Ptr(new T(*this, *texture));
+            return State::Ptr(new T(*this, context));
         };
     }
 

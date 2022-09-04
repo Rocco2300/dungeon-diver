@@ -4,8 +4,8 @@
 #include "Constants.h"
 #include "StateStack.h"
 
-GameOver::GameOver(StateStack &stateStack, sf::RenderTexture &texture)
-    : State(stateStack, texture)
+GameOver::GameOver(StateStack &stateStack, Context context)
+    : State(stateStack, context)
 {
     initUI();
 
@@ -69,6 +69,6 @@ bool GameOver::update(sf::Time dt)
 
 void GameOver::draw()
 {
-    texture->draw(backgroudSprite);
-    texture->draw(container);
+    context.texture->draw(backgroudSprite);
+    context.texture->draw(container);
 }
