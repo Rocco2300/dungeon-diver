@@ -6,5 +6,6 @@ enum class StateID
     MainMenu,
     Game,
     GameOver,
+    Inventory,
     None = -1
 };
