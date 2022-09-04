@@ -22,3 +22,8 @@ void Item::use()
         break;
     }
 }
+
+std::string Item::getName()
+{
+    return name;
+}

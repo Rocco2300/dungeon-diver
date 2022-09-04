@@ -1,16 +1,18 @@
 #pragma once
 
-#include <functional>
+#include <array>
+#include <memory>
 #include <vector>
+#include <functional>
 
 #include "Item.h"
 #include "Entity.h"
 
-
 class Player : public Entity
 {
 private:
-    Item* item;
+    int selectedItem;
+    std::array<std::unique_ptr<Item>, 5> inventory;
 
     std::vector<sf::Vector2i> moves;
 
@@ -24,5 +26,6 @@ public:
 
 private:
     void useItem();
+    void printInventory();
 };
 

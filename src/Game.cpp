@@ -6,6 +6,8 @@
 #include "StateStack.h"
 #include "AssetManager.h"
 
+#include "ItemFactory.h"
+
 Game::Game(StateStack& stateStack, sf::RenderTexture& texture)
     : State(stateStack, texture)
 {
@@ -27,6 +29,10 @@ Game::Game(StateStack& stateStack, sf::RenderTexture& texture)
 
     entities.push_back(&player);
     spawner.init(world);
+
+    ItemFactory itemFact(player);
+    itemFact.givePlayerItem();
+    itemFact.givePlayerItem();
 
     std::vector<sf::Vector2i> openTiles;
     for (int y = 0; y < 16; y++)

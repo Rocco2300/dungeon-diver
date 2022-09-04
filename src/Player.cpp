@@ -1,11 +1,13 @@
 #include "World.h"
 
-#include <iostream>
 #include <cmath>
+#include <iostream>
+#include <algorithm>
+#include <iomanip>
 
 #include "AssetManager.h"
 
-Player::Player() : item{nullptr}
+Player::Player() : selectedItem{-1}, inventory{}
 {
     hp = 5;
     damage = 1;
@@ -15,7 +17,17 @@ Player::Player() : item{nullptr}
 
 void Player::giveItem(Item *item)
 {
-    this->item = item;
+    auto it = std::find(inventory.begin(), inventory.end(), nullptr);
+
+    if (it != inventory.end())
+    {
+        *it = std::unique_ptr<Item>(item);
+
+        if (selectedItem == -1)
+        {
+            selectedItem = it - inventory.begin();
+        }
+    }
 }
 
 void Player::onKeyPressed(sf::Keyboard::Key key)
@@ -39,6 +51,18 @@ void Player::onKeyPressed(sf::Keyboard::Key key)
         break;
     case sf::Keyboard::U:
         useItem();
+        printInventory();
+        break;
+    case sf::Keyboard::P:
+        printInventory();
+        break;
+    case sf::Keyboard::RBracket:
+        selectedItem = (selectedItem + 1) % 5;
+        printInventory();
+        break;
+    case sf::Keyboard::LBracket:
+        selectedItem = (selectedItem + 4) % 5;
+        printInventory();
         break;
     default:
         break;
@@ -67,10 +91,27 @@ void Player::update(sf::Time dt)
 
 void Player::useItem()
 {
-    if (item)
+    if (selectedItem != -1 && inventory[selectedItem])
     {
-        item->use();
-        delete item;
-        item = nullptr;
+        inventory[selectedItem]->use();
+        inventory[selectedItem].reset();
     }
+}
+
+void Player::printInventory()
+{
+    for (size_t i = 0; i < inventory.size(); i++)
+    {
+        auto item = inventory[i].get();
+        auto itemSlot = (item) ? item->getName() : "Empty";
+
+        std::stringstream ss;
+        if (i == selectedItem)
+            ss << '[' << std::left << itemSlot << "] ";
+        else
+            ss << ' ' << std::left << itemSlot << "  ";
+
+        std::cout << std::left << std::setw(10) << ss.str();
+    }
+    std::cout << std::endl;
 }

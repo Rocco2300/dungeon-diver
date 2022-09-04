@@ -29,4 +29,6 @@ public:
     Item(ItemType type, std::string name, int value, Player& player);
 
     void use();
+
+    std::string getName();
 };
