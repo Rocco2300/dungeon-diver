@@ -14,10 +14,10 @@ public:
     using Ptr = std::shared_ptr<Container>;
 
 private:
-    sf::Sprite arrowSelector;
+    sf::Sprite         arrowSelector;
     sf::RectangleShape background;
 
-    std::queue<sf::Event> events;
+    std::queue<sf::Event>       events;
     std::vector<Component::Ptr> children;
 
     float time;
@@ -30,7 +30,12 @@ private:
 
     bool doneFading;
     bool doneLerping;
+    bool doneScaling;
+    bool hasTransition;
     bool hasArrowSelector;
+
+    float targetSize;
+    float currentSize;
 
     sf::Vector2f arrowStart;
     sf::Vector2f arrowTarget;
@@ -38,16 +43,18 @@ private:
 public:
     Container();
 
-    inline sf::RectangleShape& getBackgoundRef() { return background; } 
+    inline sf::RectangleShape& getBackgoundRef() { return background; }
 
-    void pack(Component::Ptr component);
+    void           pack(Component::Ptr component);
     Component::Ptr getNthChild(int index);
 
+    void setTransition(bool value);
     void setArrowSelector(bool value);
+    void setSize(sf::Vector2f size) override;
 
     virtual bool isSelectable() const;
 
-            void update(sf::Time dt);
+    void         update(sf::Time dt);
     virtual void handleEvent(const sf::Event& event);
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
@@ -63,5 +70,4 @@ private:
     void setArrowTarget();
 };
 
-}
-
+}// namespace GUI
