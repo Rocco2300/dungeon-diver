@@ -13,7 +13,7 @@ Game::Game(StateStack& stateStack, Context context)
     world.create(map, player, entities);
 
     Context contxt = stateStack.getContext();
-    contxt.world = &world;
+    contxt.world   = &world;
     stateStack.setContext(contxt);
 
     itemFact.setPlayer(player);
@@ -21,13 +21,13 @@ Game::Game(StateStack& stateStack, Context context)
     initUI();
 
     gen.generateMap();
-    auto stream = gen.getMapAsStream();
+    auto stream    = gen.getMapAsStream();
     auto playerPos = gen.getEntrance();
 
     map.setSize({16, 16});
     map.setTileset(this->tileset);
     map.loadMap(stream);
-    
+
     player.setWorld(world);
     player.setPosition(playerPos);
 
@@ -38,8 +38,8 @@ Game::Game(StateStack& stateStack, Context context)
     for (int y = 0; y < 16; y++)
     {
         for (int x = 0; x < 16; x++)
-        if (map(x, y).isWalkable())
-            openTiles.emplace_back(x, y);
+            if (map(x, y).isWalkable())
+                openTiles.emplace_back(x, y);
     }
 
     for (int i = 0; i < 2; i++)
@@ -69,7 +69,7 @@ void Game::initUI()
     hpDisplay.getBackgoundRef().setOutlineColor(sf::Color::White);
     hpDisplay.getBackgoundRef().setOutlineThickness(1);
     hpDisplay.getBackgoundRef().setSize({16, 8});
-    
+
     hpDisplay.pack(textLabel);
     hpDisplay.pack(spriteLabel);
 }
@@ -88,7 +88,7 @@ bool Game::handleEvent(const sf::Event& event)
             stateStack->pushState(StateID::Inventory);
         }
 
-        sf::Vector2i pos;
+        sf::Vector2i      pos;
         std::stringstream stream;
         // @Debugging
         switch (event.key.code)
@@ -108,7 +108,7 @@ bool Game::handleEvent(const sf::Event& event)
         case sf::Keyboard::G:
             gen.generateMap();
             stream = gen.getMapAsStream();
-            pos = gen.getEntrance();
+            pos    = gen.getEntrance();
             player.setPosition(pos);
             map.loadMap(stream);
             break;
@@ -134,8 +134,8 @@ bool Game::update(sf::Time dt)
         stateStack->pushState(StateID::GameOver);
     }
 
-    auto componentLabel = hpDisplay.getNthChild(0);
-    auto* hpLabel = dynamic_cast<GUI::TextLabel*>(componentLabel.get());
+    auto  componentLabel = hpDisplay.getNthChild(0);
+    auto* hpLabel        = dynamic_cast<GUI::TextLabel*>(componentLabel.get());
     if (hpLabel)
         hpLabel->setText(std::to_string(world.getPlayerLife()));
 
@@ -143,7 +143,7 @@ bool Game::update(sf::Time dt)
     {
         gen.generateMap();
         auto stream = gen.getMapAsStream();
-        auto pos = gen.getEntrance();
+        auto pos    = gen.getEntrance();
         player.setPosition(pos);
         map.loadMap(stream);
         world.setNextLevel(false);

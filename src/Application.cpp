@@ -2,7 +2,9 @@
 
 #include "Constants.h"
 
-Application::Application() : scale{4.f}, size{WINDOW_SIZE}
+Application::Application()
+    : scale{4.f}
+    , size{WINDOW_SIZE}
 {
     clock.restart();
 
@@ -10,14 +12,14 @@ Application::Application() : scale{4.f}, size{WINDOW_SIZE}
     window.setFramerateLimit(60);
     window.setKeyRepeatEnabled(false);
 
-    if (!texture.create(size, size)) 
+    if (!texture.create(size, size))
         std::cerr << "Error creating render texture!\n";
 
     // No non-trivial copy constructor
     // and unique_ptr member, have to heap alloc
     Context context;
     context.texture = &texture;
-    context.world = nullptr;
+    context.world   = nullptr;
 
     stateStack = new StateStack(context);
     registerStates();
@@ -33,7 +35,7 @@ void Application::run()
         pollEvents();
         update();
         draw();
-        
+
         if (stateStack->isEmpty())
             window.close();
     }

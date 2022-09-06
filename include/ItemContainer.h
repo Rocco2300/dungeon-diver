@@ -14,20 +14,21 @@ private:
     std::array<Item::Ptr, 5> items;
 
 public:
-    ItemContainer() : items{} {}
+    ItemContainer()
+        : items{}
+    {
+    }
 
     void use(int index);
 
     size_t size();
 
-    Item::Ptr& at(int index);
+    Item::Ptr&       at(int index);
     const Item::Ptr& at(int index) const;
 
-    Item::Ptr& operator[](int index);
+    Item::Ptr&       operator[](int index);
     const Item::Ptr& operator[](int index) const;
 
     iterator begin();
     iterator end();
 };
-
-

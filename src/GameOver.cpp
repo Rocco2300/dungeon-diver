@@ -4,16 +4,12 @@
 #include "Constants.h"
 #include "StateStack.h"
 
-GameOver::GameOver(StateStack &stateStack, Context context)
+GameOver::GameOver(StateStack& stateStack, Context context)
     : State(stateStack, context)
 {
     initUI();
 
-    backgroundImage.create(
-        WINDOW_SIZE,
-        WINDOW_SIZE,
-        sf::Color(0, 0, 0, 150)
-    );
+    backgroundImage.create(WINDOW_SIZE, WINDOW_SIZE, sf::Color(0, 0, 0, 150));
 
     if (!backgroundTexture.loadFromImage(backgroundImage))
         std::cerr << "Error loading background texture from image.\n";

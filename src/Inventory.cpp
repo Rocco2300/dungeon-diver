@@ -39,13 +39,16 @@ bool Inventory::handleEvent(const sf::Event &event)
 {
     gui.handleEvent(event);
 
-    switch (event.key.code)
+    if (event.type == sf::Event::KeyPressed)
     {
-        case sf::Keyboard::Escape:
+        switch (event.key.code)
+        {
+        case sf::Keyboard::Tab:
             stateStack->popState();
             break;
         default:
             break;
+        }
     }
 
     return false;

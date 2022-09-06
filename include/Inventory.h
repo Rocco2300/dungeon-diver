@@ -12,7 +12,6 @@ class Inventory : public State
 private:
     GUI::Container gui;
 
-    int selectedItem;
     ItemContainer* items;
 
 public:
