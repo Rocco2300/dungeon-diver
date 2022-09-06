@@ -1,0 +1,22 @@
+# Format Style Options - Created with Clang Power Tools
+---
+BasedOnStyle: Microsoft
+AccessModifierOffset: -4
+AlignAfterOpenBracket: AlwaysBreak
+AlignConsecutiveAssignments: Consecutive
+AlignConsecutiveDeclarations: Consecutive
+AllowShortFunctionsOnASingleLine: InlineOnly
+AllowShortLambdasOnASingleLine: None
+AlwaysBreakTemplateDeclarations: Yes
+BraceWrapping: 
+  BeforeLambdaBody: true
+BreakConstructorInitializersBeforeComma: true
+ColumnLimit: 80
+DeriveLineEnding: false
+DerivePointerAlignment: true
+EmptyLineBeforeAccessModifier: Always
+IncludeBlocks: Regroup
+MaxEmptyLinesToKeep: 2
+SortIncludes: false
+UseCRLF: true
+...
