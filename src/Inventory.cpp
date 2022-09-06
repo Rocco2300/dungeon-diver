@@ -1,11 +1,11 @@
 #include "Inventory.h"
 
-#include "Player.h"
 #include "Button.h"
+#include "Player.h"
 #include "StateStack.h"
 
 Inventory::Inventory(StateStack& stateStack, Context context)
-    : State(stateStack, context), selectedItem(0)
+    : State(stateStack, context)
 {
     auto& containerBG = gui.getBackgoundRef();
     gui.setSize({40, 50});
@@ -22,11 +22,12 @@ Inventory::Inventory(StateStack& stateStack, Context context)
     for (size_t i = 0; i < items->size(); i++)
     {
         auto button = std::make_shared<GUI::Button<std::function<void()>>>();
-        button->setCallback([this, i] ()
-        {
-            items->use(i);
-            updateButtonLabels();
-        });
+        button->setCallback(
+                [this, i]()
+                {
+                    items->use(i);
+                    updateButtonLabels();
+                });
         button->setPosition({4.f, i * 10.f});
         button->setSize({36, 8});
         button->setText((items->at(i)) ? items->at(i)->getName() : "...");
@@ -35,7 +36,7 @@ Inventory::Inventory(StateStack& stateStack, Context context)
     }
 }
 
-bool Inventory::handleEvent(const sf::Event &event)
+bool Inventory::handleEvent(const sf::Event& event)
 {
     gui.handleEvent(event);
 
@@ -61,22 +62,16 @@ bool Inventory::update(sf::Time dt)
     return true;
 }
 
-void Inventory::draw()
-{
-    context.texture->draw(gui);
-}
+void Inventory::draw() { context.texture->draw(gui); }
 
 void Inventory::updateButtonLabels()
 {
     for (size_t i = 0; i < items->size(); i++)
     {
         using ButtonType = GUI::Button<std::function<void()>>;
-        auto button = dynamic_cast<ButtonType *>(gui.getNthChild(i).get());
+        auto button      = dynamic_cast<ButtonType*>(gui.getNthChild(i).get());
 
-        auto buttonText =
-              items->at(i)
-            ? items->at(i)->getName()
-            : "...";
+        auto buttonText = items->at(i) ? items->at(i)->getName() : "...";
 
         button->setText(buttonText);
     }

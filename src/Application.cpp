@@ -18,8 +18,8 @@ Application::Application()
     // No non-trivial copy constructor
     // and unique_ptr member, have to heap alloc
     Context context;
-    context.texture = &texture;
     context.world   = nullptr;
+    context.texture = &texture;
 
     stateStack = new StateStack(context);
     registerStates();

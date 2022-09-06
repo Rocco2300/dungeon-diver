@@ -1,12 +1,11 @@
 #include "GameOver.h"
 
-#include "Label.h"
 #include "Constants.h"
+#include "Label.h"
 #include "StateStack.h"
 
-GameOver::GameOver(StateStack& stateStack, Context context)
-    : State(stateStack, context)
-{
+GameOver::GameOver(StateStack &stateStack, Context context)
+    : State(stateStack, context) {
     initUI();
 
     backgroundImage.create(WINDOW_SIZE, WINDOW_SIZE, sf::Color(0, 0, 0, 150));
@@ -17,8 +16,7 @@ GameOver::GameOver(StateStack& stateStack, Context context)
     backgroudSprite.setTexture(backgroundTexture);
 }
 
-void GameOver::initUI()
-{
+void GameOver::initUI() {
     auto gameOverLabel = std::make_shared<GUI::TextLabel>();
     gameOverLabel->setSize({9 * 3, 5});
     gameOverLabel->setPosition({2, 2});
@@ -39,32 +37,27 @@ void GameOver::initUI()
     container.pack(gameOverLabel);
 }
 
-bool GameOver::handleEvent(const sf::Event& event)
-{
-    if (event.type == sf::Event::KeyPressed)
-    {
-        switch (event.key.code)
-        {
-        case sf::Keyboard::Escape:
-            stateStack->clearStates();
-            stateStack->pushState(StateID::MainMenu);
-        case sf::Keyboard::Enter:
-            stateStack->clearStates();
-            stateStack->pushState(StateID::Game);
-        default:
-            break;
+bool GameOver::handleEvent(const sf::Event &event) {
+    if (event.type == sf::Event::KeyPressed) {
+        switch (event.key.code) {
+            case sf::Keyboard::Escape:
+                stateStack->clearStates();
+                stateStack->pushState(StateID::MainMenu);
+            case sf::Keyboard::Enter:
+                stateStack->clearStates();
+                stateStack->pushState(StateID::Game);
+            default:
+                break;
         }
     }
     return true;
 }
 
-bool GameOver::update(sf::Time dt)
-{
+bool GameOver::update(sf::Time dt) {
     return false;
 }
 
-void GameOver::draw()
-{
+void GameOver::draw() {
     context.texture->draw(backgroudSprite);
     context.texture->draw(container);
 }

@@ -1,14 +1,14 @@
 #pragma once
 
-#include "State.h"
 #include "Container.h"
+#include "State.h"
 
 class GameOver : public State
 {
 private:
-    sf::Image backgroundImage;
+    sf::Image   backgroundImage;
+    sf::Sprite  backgroudSprite;
     sf::Texture backgroundTexture;
-    sf::Sprite backgroudSprite;
 
     GUI::Container container;
 

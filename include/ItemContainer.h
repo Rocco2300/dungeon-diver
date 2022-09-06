@@ -16,8 +16,7 @@ private:
 public:
     ItemContainer()
         : items{}
-    {
-    }
+    {}
 
     void use(int index);
 
