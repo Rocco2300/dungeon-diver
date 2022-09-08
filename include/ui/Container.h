@@ -20,6 +20,7 @@ public:
     using Ptr = std::shared_ptr<Container>;
 
 private:
+    sf::Vector2f       origin;
     sf::RectangleShape background;
     sf::Sprite         arrowSelector;
     sf::Color          backgroundColor;

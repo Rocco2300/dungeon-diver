@@ -65,10 +65,14 @@ void Container::setBackgroundColor(sf::Color color)
     background.setFillColor(sf::Color(255, 255, 255, 0));
 }
 
+// Disclaimer: call this function after
+// you set the position and size :)
 void Container::setTransition(bool value)
 {
     hasTransition = value;
     doneScaling   = !hasTransition;
+
+    background.setPosition({background.getPosition().x, size.y / 2});
 }
 
 void Container::setArrowSelector(bool value) { hasArrowSelector = value; }
@@ -152,7 +156,10 @@ void Container::update(sf::Time dt)
     if (!doneScaling)
     {
         float sizeY = lerp(currentSize, targetSize, time);
+
         background.setSize({background.getSize().x, sizeY});
+        background.setOrigin(0, background.getSize().y / 2);
+        background.setPosition(background.getPosition().x, size.y / 2);
     }
 
     if (time == 1.f)
@@ -195,6 +202,9 @@ void Container::draw(sf::RenderTarget& target, sf::RenderStates states) const
     tex.display();
 
     sf::Sprite spr(tex.getTexture());
+    spr.setOrigin(0, background.getSize().y / 2);
+    spr.setPosition(background.getPosition().x, size.y / 2);
+
     target.draw(spr, states);
     target.draw(background, states);
 }
