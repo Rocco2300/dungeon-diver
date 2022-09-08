@@ -5,6 +5,12 @@
 #include <queue>
 #include <vector>
 
+enum class Transition
+{
+    Open,
+    Close
+};
+
 namespace GUI
 {
 
@@ -14,8 +20,9 @@ public:
     using Ptr = std::shared_ptr<Container>;
 
 private:
-    sf::Sprite         arrowSelector;
     sf::RectangleShape background;
+    sf::Sprite         arrowSelector;
+    sf::Color          backgroundColor;
 
     std::queue<sf::Event>       events;
     std::vector<Component::Ptr> children;
@@ -48,10 +55,17 @@ public:
     void           pack(Component::Ptr component);
     Component::Ptr getNthChild(int index);
 
+    void setOutlineColor(sf::Color color);
+    void setOutlineThickness(int thickness);
+    void setBackgroundColor(sf::Color color);
+
     void setTransition(bool value);
     void setArrowSelector(bool value);
     void setSize(sf::Vector2f size) override;
 
+    void transition(Transition transition);
+
+    bool         isDoneScaling();
     virtual bool isSelectable() const;
 
     void         update(sf::Time dt);

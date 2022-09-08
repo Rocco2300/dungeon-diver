@@ -7,15 +7,15 @@
 Inventory::Inventory(StateStack& stateStack, Context context)
     : State(stateStack, context)
 {
-    auto& containerBG = gui.getBackgoundRef();
     gui.setSize({40, 50});
     gui.setArrowSelector(true);
     gui.setPosition({2.f, 14.f});
+    gui.setTransition(true);
 
-    containerBG.setFillColor(sf::Color::Black);
-    containerBG.setOutlineThickness(1);
-    containerBG.setOutlineColor(sf::Color::White);
-    containerBG.setSize(gui.getSize());
+    gui.setSize(gui.getSize());
+    gui.setOutlineThickness(1);
+    gui.setOutlineColor(sf::Color::White);
+    gui.setBackgroundColor(sf::Color::Black);
 
     this->items = &context.world->getPlayerRef().getItemsRef();
 
@@ -46,6 +46,7 @@ bool Inventory::handleEvent(const sf::Event& event)
         {
         case sf::Keyboard::Tab:
             stateStack->popState();
+            //            gui.transition(Transition::Close);
             break;
         default:
             break;
@@ -57,6 +58,9 @@ bool Inventory::handleEvent(const sf::Event& event)
 
 bool Inventory::update(sf::Time dt)
 {
+    //    if (gui.isDoneScaling() && gui.getBackgoundRef().getSize().y == 0.f)
+    //        stateStack->popState();
+
     gui.update(dt);
 
     return true;

@@ -1,10 +1,10 @@
 #include "Game.h"
 
-#include <memory>
 #include <iostream>
+#include <memory>
 
-#include "StateStack.h"
 #include "AssetManager.h"
+#include "StateStack.h"
 
 Game::Game(StateStack& stateStack, Context context)
     : State(stateStack, context)
@@ -38,8 +38,7 @@ Game::Game(StateStack& stateStack, Context context)
     for (int y = 0; y < 16; y++)
     {
         for (int x = 0; x < 16; x++)
-            if (map(x, y).isWalkable())
-                openTiles.emplace_back(x, y);
+            if (map(x, y).isWalkable()) openTiles.emplace_back(x, y);
     }
 
     for (int i = 0; i < 2; i++)
@@ -65,10 +64,9 @@ void Game::initUI()
 
     hpDisplay.setSize({16, 8});
     hpDisplay.setPosition({2, 2});
-    hpDisplay.getBackgoundRef().setFillColor(sf::Color::Black);
-    hpDisplay.getBackgoundRef().setOutlineColor(sf::Color::White);
-    hpDisplay.getBackgoundRef().setOutlineThickness(1);
-    hpDisplay.getBackgoundRef().setSize({16, 8});
+    hpDisplay.setOutlineThickness(1);
+    hpDisplay.setOutlineColor(sf::Color::White);
+    hpDisplay.setBackgroundColor(sf::Color::Black);
 
     hpDisplay.pack(textLabel);
     hpDisplay.pack(spriteLabel);
@@ -129,15 +127,11 @@ bool Game::update(sf::Time dt)
 {
     world.update(dt);
 
-    if (world.isGameOver())
-    {
-        stateStack->pushState(StateID::GameOver);
-    }
+    if (world.isGameOver()) { stateStack->pushState(StateID::GameOver); }
 
     auto  componentLabel = hpDisplay.getNthChild(0);
     auto* hpLabel        = dynamic_cast<GUI::TextLabel*>(componentLabel.get());
-    if (hpLabel)
-        hpLabel->setText(std::to_string(world.getPlayerLife()));
+    if (hpLabel) hpLabel->setText(std::to_string(world.getPlayerLife()));
 
     if (world.goNextLevel() && player.notMoving())
     {
@@ -156,8 +150,5 @@ void Game::draw()
 {
     context.texture->draw(world);
 
-    if (!world.isGameOver())
-    {
-        context.texture->draw(hpDisplay);
-    }
+    if (!world.isGameOver()) { context.texture->draw(hpDisplay); }
 }

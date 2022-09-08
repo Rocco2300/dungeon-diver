@@ -15,6 +15,9 @@ Container::Container()
 
     speed = lerpSpeed;
 
+    hasTransition    = false;
+    hasArrowSelector = false;
+
     doneFading  = true;
     doneScaling = true;
     doneLerping = true;
@@ -46,6 +49,22 @@ void Container::pack(Component::Ptr component)
 
 Component::Ptr Container::getNthChild(int index) { return children[index]; }
 
+void Container::setOutlineColor(sf::Color color)
+{
+    background.setOutlineColor(color);
+}
+
+void Container::setOutlineThickness(int thickness)
+{
+    background.setOutlineThickness(thickness);
+}
+
+void Container::setBackgroundColor(sf::Color color)
+{
+    backgroundColor = color;
+    background.setFillColor(sf::Color(255, 255, 255, 0));
+}
+
 void Container::setTransition(bool value)
 {
     hasTransition = value;
@@ -56,10 +75,29 @@ void Container::setArrowSelector(bool value) { hasArrowSelector = value; }
 
 void Container::setSize(sf::Vector2f size)
 {
-    this->size  = size;
+    this->size = size;
+    background.setSize(size);
+    
     targetSize  = size.y;
     currentSize = 0.f;
 }
+
+void Container::transition(Transition transition)
+{
+    switch (transition)
+    {
+    case Transition::Open:
+        targetSize  = size.y;
+        currentSize = background.getSize().y;
+        break;
+    case Transition::Close:
+        targetSize  = 0;
+        currentSize = background.getSize().x;
+        break;
+    }
+}
+
+bool Container::isDoneScaling() { return doneScaling; }
 
 bool Container::isSelectable() const { return false; }
 
@@ -76,7 +114,7 @@ void Container::update(sf::Time dt)
         return;
     }
 
-    if (!hasArrowSelector || !hasTransition) return;
+    if (!hasArrowSelector && !hasTransition) return;
 
     time += dt.asSeconds() * speed;
 
@@ -98,7 +136,11 @@ void Container::update(sf::Time dt)
     if (!doneLerping)
         arrowSelector.setPosition(lerp(arrowStart, arrowTarget, time));
 
-    if (!doneScaling) { int size = lerp(currentSize, targetSize, t); }
+    if (!doneScaling)
+    {
+        float sizeY = lerp(currentSize, targetSize, time);
+        background.setSize({background.getSize().x, sizeY});
+    }
 
     if (time == 1.f)
     {
@@ -124,15 +166,24 @@ void Container::draw(sf::RenderTarget& target, sf::RenderStates states) const
     sf::Transform transform;
     transform.translate(pos);
     states.transform *= transform;
-    target.draw(background, states);
+
+    sf::RenderTexture tex;
+    tex.create(background.getSize().x, background.getSize().y);
+
+    tex.clear(backgroundColor);
 
     for (auto& child: children)
     {
-        if (hasArrowSelector && child->isSelected())
-            target.draw(arrowSelector, states);
+        if (hasArrowSelector && child->isSelected()) tex.draw(arrowSelector);
 
-        target.draw(*child, states);
+        tex.draw(*child);
     }
+
+    tex.display();
+
+    sf::Sprite spr(tex.getTexture());
+    target.draw(spr, states);
+    target.draw(background, states);
 }
 
 bool Container::hasSelection() const { return selectedChild >= 0; }
