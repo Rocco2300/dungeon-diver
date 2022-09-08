@@ -7,6 +7,9 @@
 Inventory::Inventory(StateStack& stateStack, Context context)
     : State(stateStack, context)
 {
+    // 0 = Opening, 1 = Closing
+    option = 1;
+
     gui.setSize({40, 50});
     gui.setTransition(true);
     gui.setArrowSelector(true);
@@ -43,7 +46,8 @@ bool Inventory::handleEvent(const sf::Event& event)
         switch (event.key.code)
         {
         case sf::Keyboard::Tab:
-            gui.transition(Transition::Close);
+            gui.transition(static_cast<Transition>(option));
+            option = (option + 1) % 2;
             break;
         default:
             break;

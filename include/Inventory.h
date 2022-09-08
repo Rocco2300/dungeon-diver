@@ -1,8 +1,8 @@
 #pragma once
 
+#include "Container.h"
 #include "Item.h"
 #include "State.h"
-#include "Container.h"
 
 #include <array>
 #include <memory>
@@ -10,8 +10,9 @@
 class Inventory : public State
 {
 private:
-    GUI::Container gui;
+    int option;
 
+    GUI::Container gui;
     ItemContainer* items;
 
 public:
@@ -24,4 +25,3 @@ public:
 private:
     void updateButtonLabels();
 };
-
