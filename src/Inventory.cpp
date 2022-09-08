@@ -45,8 +45,7 @@ bool Inventory::handleEvent(const sf::Event& event)
         switch (event.key.code)
         {
         case sf::Keyboard::Tab:
-            stateStack->popState();
-            //            gui.transition(Transition::Close);
+            gui.transition(Transition::Close);
             break;
         default:
             break;
@@ -58,8 +57,8 @@ bool Inventory::handleEvent(const sf::Event& event)
 
 bool Inventory::update(sf::Time dt)
 {
-    //    if (gui.isDoneScaling() && gui.getBackgoundRef().getSize().y == 0.f)
-    //        stateStack->popState();
+    if (gui.isClosed())
+        stateStack->popState();
 
     gui.update(dt);
 

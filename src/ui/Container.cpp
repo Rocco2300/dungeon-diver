@@ -77,27 +77,36 @@ void Container::setSize(sf::Vector2f size)
 {
     this->size = size;
     background.setSize(size);
-    
+
     targetSize  = size.y;
     currentSize = 0.f;
 }
 
 void Container::transition(Transition transition)
 {
+    doneScaling = false;
+    
     switch (transition)
     {
     case Transition::Open:
+        time        = 0.f;
         targetSize  = size.y;
         currentSize = background.getSize().y;
         break;
     case Transition::Close:
-        targetSize  = 0;
+        time        = 0.f;
+        targetSize  = 0.f;
         currentSize = background.getSize().x;
         break;
     }
 }
 
-bool Container::isDoneScaling() { return doneScaling; }
+bool Container::isClosed()
+{
+    if (doneScaling && targetSize == 0.f) { return true; }
+
+    return false;
+}
 
 bool Container::isSelectable() const { return false; }
 

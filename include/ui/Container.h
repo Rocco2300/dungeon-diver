@@ -65,7 +65,7 @@ public:
 
     void transition(Transition transition);
 
-    bool         isDoneScaling();
+    bool         isClosed();
     virtual bool isSelectable() const;
 
     void         update(sf::Time dt);
