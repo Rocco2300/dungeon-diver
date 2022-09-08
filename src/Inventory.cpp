@@ -8,12 +8,10 @@ Inventory::Inventory(StateStack& stateStack, Context context)
     : State(stateStack, context)
 {
     gui.setSize({40, 50});
-    gui.setArrowSelector(true);
-    gui.setPosition({2.f, 14.f});
     gui.setTransition(true);
-
-    gui.setSize(gui.getSize());
+    gui.setArrowSelector(true);
     gui.setOutlineThickness(1);
+    gui.setPosition({2.f, 14.f});
     gui.setOutlineColor(sf::Color::White);
     gui.setBackgroundColor(sf::Color::Black);
 
@@ -57,8 +55,7 @@ bool Inventory::handleEvent(const sf::Event& event)
 
 bool Inventory::update(sf::Time dt)
 {
-    if (gui.isClosed())
-        stateStack->popState();
+    if (gui.isClosed()) stateStack->popState();
 
     gui.update(dt);
 

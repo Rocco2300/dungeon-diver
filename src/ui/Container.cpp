@@ -89,14 +89,18 @@ void Container::transition(Transition transition)
     switch (transition)
     {
     case Transition::Open:
+        if (targetSize == size.y) return;
+
         time        = 0.f;
         targetSize  = size.y;
         currentSize = background.getSize().y;
         break;
     case Transition::Close:
+        if (targetSize == 0.f) return;
+
         time        = 0.f;
         targetSize  = 0.f;
-        currentSize = background.getSize().x;
+        currentSize = background.getSize().y;
         break;
     }
 }
