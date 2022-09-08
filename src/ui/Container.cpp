@@ -181,7 +181,7 @@ void Container::draw(sf::RenderTarget& target, sf::RenderStates states) const
     states.transform *= transform;
 
     sf::RenderTexture tex;
-    tex.create(background.getSize().x, background.getSize().y);
+    tex.create(background.getSize().x + 1, background.getSize().y + 1);
 
     tex.clear(backgroundColor);
 
