@@ -85,7 +85,7 @@ void Container::setSize(sf::Vector2f size)
 void Container::transition(Transition transition)
 {
     doneScaling = false;
-    
+
     switch (transition)
     {
     case Transition::Open:
@@ -161,7 +161,7 @@ void Container::update(sf::Time dt)
 
 void Container::handleEvent(const sf::Event& event)
 {
-    if (!doneFading || !doneLerping)
+    if (!doneFading || !doneLerping || !doneScaling)
     {
         events.push(event);
         return;
