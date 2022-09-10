@@ -2,19 +2,19 @@
 
 #include <set>
 
-#include "Spawner.h"
-#include "Player.h"
 #include "Map.h"
+#include "Player.h"
+#include "Spawner.h"
 
 #include "MapGenerator.h"
 
 class World : public sf::Drawable
 {
 private:
-    Map* map;
-    Player* player;
+    Map*                  map;
+    Player*               player;
     std::vector<Entity*>* entities;
-    std::set<Entity*> toMove;
+    std::set<Entity*>     toMove;
 
     bool gameOver;
     bool playerTurn;
@@ -35,8 +35,11 @@ public:
     bool isWall(Entity* caller, sf::Vector2i pos);
     bool isOccupied(Entity* caller, sf::Vector2i pos);
 
-    Player& getPlayerRef();
-    sf::Vector2i getPlayerPos();
+    void attack(Entity* caller, sf::Vector2i pos);
+    void interact(Entity* caller, sf::Vector2i pos);
+
+    Player&               getPlayerRef();
+    sf::Vector2i          getPlayerPos();
     std::vector<Entity*>& getEntities();
 
     void endTurn(Entity* entity);
@@ -45,8 +48,6 @@ public:
 
     void keyPressed(sf::Keyboard::Key key);
 
-    void update(sf::Time dt);
+    void         update(sf::Time dt);
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
-
-
