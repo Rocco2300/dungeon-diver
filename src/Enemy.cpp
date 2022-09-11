@@ -1,19 +1,16 @@
 #include "Enemy.h"
 
-#include <iostream>
-#include "World.h"
 #include "Constants.h"
+#include "World.h"
+#include <iostream>
 
 Enemy::Enemy()
 {
-    state = AIState::Idle;
+    state    = AIState::Idle;
     moveTime = sf::seconds(.5f);
 }
 
-AIState Enemy::getState()
-{
-    return state;
-}
+AIState Enemy::getState() { return state; }
 
 void Enemy::setWorld(World& world)
 {
@@ -29,12 +26,10 @@ void Enemy::handleState()
         idle();
         break;
     case AIState::Chase:
-        if (moveTime.asSeconds() <= 0)
-            chase();
-        break; 
+        if (moveTime.asSeconds() <= 0) chase();
+        break;
     case AIState::Investigate:
-        if (moveTime.asSeconds() <= 0)
-            investigate();
+        if (moveTime.asSeconds() <= 0) investigate();
         break;
     }
 }
@@ -60,29 +55,24 @@ void Enemy::chase()
 
     playerPos = world->getPlayerPos();
 
-    auto path  = aStar.findPath(this->pos, playerPos);
+    auto path = aStar.findPath(this->pos, playerPos);
 
     // If the path is blocked, go up to the enemy to still chase
-    if (path.empty())
-    {
-        path = aStar.findPath(this->pos, playerPos, true);
-    }
+    if (path.empty()) { path = aStar.findPath(this->pos, playerPos, true); }
 
     if (!path.empty() && distToPlayer() > 1)
     {
         auto nextPos = path.back();
-        auto dirOff = sf::Vector2i(nextPos - this->pos);
+        auto dirOff  = sf::Vector2i(nextPos - this->pos);
         path.pop_back();
 
-        if (!world->isOccupied(nullptr, nextPos))
-            move(dirOff);
+        if (!world->isOccupied(nullptr, nextPos)) move(dirOff);
     }
     else if (distToPlayer() == 1)
     {
         auto dirOff = sf::Vector2i(playerPos - this->pos);
 
-        if (world->isOccupied(this, this->pos + dirOff))
-            bump(dirOff);
+        if (world->isOccupied(this, this->pos + dirOff)) bump(dirOff);
     }
 
     world->endTurn(this);
@@ -91,7 +81,7 @@ void Enemy::chase()
 
 void Enemy::investigate()
 {
-    auto path  = aStar.findPath(this->pos, playerPos, true);
+    auto path = aStar.findPath(this->pos, playerPos, true);
 
     if (playerLos())
     {
@@ -108,19 +98,11 @@ void Enemy::investigate()
     if (distToPlayer() > 1)
     {
         auto nextPos = path.back();
-        auto dirOff = sf::Vector2i(nextPos - this->pos);
+        auto dirOff  = sf::Vector2i(nextPos - this->pos);
         path.pop_back();
 
-        if (!world->isOccupied(nullptr, nextPos))
-            move(dirOff);
+        if (!world->isOccupied(nullptr, nextPos)) move(dirOff);
     }
-    // This shouldn't be a case I think
-//    else if (distToPlayer() == 1)
-//    {
-//        auto dirOff = sf::Vector2i(playerPos - this->pos);
-//
-//        bump(dirOff);
-//    }
 
     world->endTurn(this);
     moveTime = sf::seconds(.5f);
@@ -128,11 +110,9 @@ void Enemy::investigate()
 
 void Enemy::update(sf::Time dt)
 {
-    if (!world->isPlayerTurn() && state != AIState::Idle)
-        moveTime -= dt;
+    if (!world->isPlayerTurn() && state != AIState::Idle) moveTime -= dt;
 
-    if (world->canMove(this))
-        handleState();
+    if (world->canMove(this)) handleState();
 
     Entity::update(dt);
 }
@@ -153,8 +133,7 @@ bool Enemy::playerLos()
     float dy = playerPos.y - pos.y;
 
     float step;
-    if (std::abs(dx) >= std::abs(dy))
-        step = std::abs(dx);
+    if (std::abs(dx) >= std::abs(dy)) step = std::abs(dx);
     else
         step = std::abs(dy);
 
@@ -166,7 +145,7 @@ bool Enemy::playerLos()
 
     int i = 1;
     while (i <= step)
-    {   
+    {
         // DEBUG
         // world->map((int)x, (int)y).setDebug(true);
         // world->map((int)x, (int)y).setDebugRect(sf::Color::Green, 150);
@@ -176,7 +155,7 @@ bool Enemy::playerLos()
 
         x += dx;
         y += dy;
-        i ++;
+        i++;
     }
 
     return true;
