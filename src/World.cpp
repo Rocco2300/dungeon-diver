@@ -31,11 +31,9 @@ bool World::canMove(Entity* caller) { return toMove.count(caller); }
 
 bool World::isWall(Entity* caller, sf::Vector2i pos)
 {
-    if (pos.x < 0 || pos.x > 15 || pos.y < 0 || pos.y > 15) return true;
+    if (!isInBounds(pos)) return true;
 
-    sf::Vector2i posI(pos.x, pos.y);
-
-    return !map->at(posI).isWalkable();
+    return !map->at(pos).isWalkable();
 }
 
 bool World::isOccupied(Entity* caller, sf::Vector2i pos)
@@ -75,6 +73,8 @@ void World::attack(Entity* caller, sf::Vector2i pos)
 
 void World::interact(Entity* caller, sf::Vector2i pos)
 {
+    if (!isInBounds(pos)) return;
+
     if (caller == player)
     {
         auto interactableTile = dynamic_cast<InteractableTile*>(&map->at(pos));
@@ -154,4 +154,9 @@ void World::draw(sf::RenderTarget& target, sf::RenderStates states) const
     {
         target.draw(*entities->at(i), states);
     }
+}
+
+bool World::isInBounds(sf::Vector2i pos)
+{
+    return (pos.x >= 0 && pos.x < 16 && pos.y >= 0 && pos.y < 16);
 }

@@ -50,4 +50,7 @@ public:
 
     void         update(sf::Time dt);
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+
+private:
+    bool isInBounds(sf::Vector2i pos);
 };
