@@ -27,7 +27,7 @@ ItemContainer& Player::getItemsRef() { return inventory; }
 
 void Player::onKeyPressed(sf::Keyboard::Key key)
 {
-    if (!world->isPlayerTurn()) return;
+    if (!world->canMove(this)) return;
 
     switch (key)
     {
@@ -50,7 +50,7 @@ void Player::onKeyPressed(sf::Keyboard::Key key)
 
 void Player::update(sf::Time dt)
 {
-    if (notMoving() && !moves.empty() && world->isPlayerTurn())
+    if (notMoving() && !moves.empty() && world->canMove(this))
     {
         auto nextMove = moves.front();
         moves.erase(moves.begin());

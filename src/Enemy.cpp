@@ -114,7 +114,7 @@ void Enemy::investigate()
 
 void Enemy::update(sf::Time dt)
 {
-    if (!world->isPlayerTurn() && state != AIState::Idle) moveTime -= dt;
+    if (world->canMove(this) && state != AIState::Idle) moveTime -= dt;
 
     if (world->canMove(this)) handleState();
 
