@@ -55,24 +55,28 @@ void Enemy::chase()
 
     playerPos = world->getPlayerPos();
 
-    auto path = aStar.findPath(this->pos, playerPos);
+    auto path = aStar.findPath(pos, playerPos);
 
     // If the path is blocked, go up to the enemy to still chase
-    if (path.empty()) { path = aStar.findPath(this->pos, playerPos, true); }
+    if (path.empty()) { path = aStar.findPath(pos, playerPos, true); }
 
     if (!path.empty() && distToPlayer() > 1)
     {
         auto nextPos = path.back();
-        auto dirOff  = sf::Vector2i(nextPos - this->pos);
+        auto dirOff  = sf::Vector2i(nextPos - pos);
         path.pop_back();
 
         if (!world->isOccupied(nullptr, nextPos)) move(dirOff);
     }
     else if (distToPlayer() == 1)
     {
-        auto dirOff = sf::Vector2i(playerPos - this->pos);
+        auto dirOff = sf::Vector2i(playerPos - pos);
 
-        if (world->isOccupied(this, this->pos + dirOff)) bump(dirOff);
+        if (world->isOccupied(this, pos + dirOff))
+        {
+            bump(dirOff);
+            world->attack(this, pos + dirOff);
+        }
     }
 
     world->endTurn(this);
@@ -127,7 +131,6 @@ int Enemy::distToPlayer()
 bool Enemy::playerLos()
 {
     auto playerPos = world->getPlayerPos();
-    // std::cout << playerPos.x << " " << playerPos.y << '\n';
 
     float dx = playerPos.x - pos.x;
     float dy = playerPos.y - pos.y;
@@ -146,10 +149,6 @@ bool Enemy::playerLos()
     int i = 1;
     while (i <= step)
     {
-        // DEBUG
-        // world->map((int)x, (int)y).setDebug(true);
-        // world->map((int)x, (int)y).setDebugRect(sf::Color::Green, 150);
-
         if (world->isWall(nullptr, {static_cast<int>(x), static_cast<int>(y)}))
             return false;
 
