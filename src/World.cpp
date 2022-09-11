@@ -35,45 +35,21 @@ bool World::isWall(Entity* caller, sf::Vector2i pos)
 
     sf::Vector2i posI(pos.x, pos.y);
 
-    auto returnVal = !map->at(posI).isWalkable();
-
-    if (caller == player)
-    {
-        auto interactableTile = dynamic_cast<InteractableTile*>(&map->at(posI));
-
-        if (interactableTile)
-        {
-            interactableTile->onInteract();
-
-            auto exitTile = dynamic_cast<ExitStairsTile*>(interactableTile);
-            if (exitTile) nextLevel = true;
-        }
-    }
-
-    return returnVal;
+    return !map->at(posI).isWalkable();
 }
 
 bool World::isOccupied(Entity* caller, sf::Vector2i pos)
 {
     for (int i = entities->size() - 1; i >= 0; i--)
     {
-        if (pos == entities->at(i)->getPosition())
-        {
-            // If we use this function in another context
-            // ouside of entity interaction don't damage entities
-            if (caller == nullptr) return true;
-
-            attack(caller, pos);
-
-            return true;
-        }
+        if (pos == entities->at(i)->getPosition()) { return true; }
     }
     return false;
 }
 
 void World::attack(Entity* caller, sf::Vector2i pos)
 {
-    for (int i = i < entities->size() - 1; i >= 0; i--)
+    for (int i = entities->size() - 1; i >= 0; i--)
     {
         auto entity = entities->at(i);
 
@@ -93,6 +69,22 @@ void World::attack(Entity* caller, sf::Vector2i pos)
                 delete entities->at(i);
                 entities->erase(entities->begin() + i);
             }
+        }
+    }
+}
+
+void World::interact(Entity* caller, sf::Vector2i pos)
+{
+    if (caller == player)
+    {
+        auto interactableTile = dynamic_cast<InteractableTile*>(&map->at(pos));
+
+        if (interactableTile)
+        {
+            interactableTile->onInteract();
+
+            auto exitTile = dynamic_cast<ExitStairsTile*>(interactableTile);
+            if (exitTile) nextLevel = true;
         }
     }
 }
