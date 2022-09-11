@@ -1,39 +1,33 @@
 #include "World.h"
 
-#include <cmath>
-#include <iostream>
 #include <algorithm>
+#include <cmath>
 #include <iomanip>
+#include <iostream>
 
 #include "AssetManager.h"
 
-Player::Player() : inventory{}
+Player::Player()
+    : inventory{}
 {
-    hp = 5;
+    hp     = 5;
     damage = 1;
 
     sprite.create(AssetManager::getTexture("player"), {8, 8});
 }
 
-void Player::giveItem(Item *item)
+void Player::giveItem(Item* item)
 {
     auto it = std::find(inventory.begin(), inventory.end(), nullptr);
 
-    if (it != inventory.end())
-    {
-        *it = std::unique_ptr<Item>(item);
-    }
+    if (it != inventory.end()) { *it = std::unique_ptr<Item>(item); }
 }
 
-ItemContainer& Player::getItemsRef()
-{
-    return inventory;
-}
+ItemContainer& Player::getItemsRef() { return inventory; }
 
 void Player::onKeyPressed(sf::Keyboard::Key key)
 {
-    if (!world->isPlayerTurn())
-        return;
+    if (!world->isPlayerTurn()) return;
 
     switch (key)
     {
@@ -62,12 +56,18 @@ void Player::update(sf::Time dt)
         moves.erase(moves.begin());
 
         if (world->isOccupied(this, pos + nextMove))
+        {
             bump(nextMove);
+            world->attack(this, pos + nextMove);
+        }
         else if (world->isWall(this, pos + nextMove))
+        {
             bump(nextMove);
-        else 
+            world->interact(this, pos + nextMove);
+        }
+        else
             move(nextMove);
-        
+
         world->endTurn(this);
     }
 
