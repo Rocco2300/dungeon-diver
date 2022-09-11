@@ -105,7 +105,6 @@ std::vector<Entity*>& World::getEntities() { return *entities; }
 
 void World::endTurn(Entity* entity)
 {
-    std::cout << toMove << '\n';
     auto it = std::find(entities->begin(), entities->end(), entity);
 
     if (it == entities->end()) return;
