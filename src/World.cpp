@@ -6,14 +6,14 @@
 
 void World::create(Map& map, Player& player, std::vector<Entity*>& entities)
 {
+    toMove = 0;
+
     gameOver  = false;
     nextLevel = false;
 
     this->map      = &map;
     this->player   = &player;
     this->entities = &entities;
-
-    this->playerTurn = true;
 
     moveTime = sf::seconds(.3f);
 }
@@ -25,9 +25,17 @@ bool World::isGameOver() { return gameOver; }
 
 bool World::goNextLevel() { return nextLevel; }
 
-bool World::isPlayerTurn() { return playerTurn; }
+bool World::canMove(Entity* caller)
+{
+    auto it = std::find(entities->begin(), entities->end(), caller);
 
-bool World::canMove(Entity* caller) { return toMove.count(caller); }
+    if (it == entities->end()) return false;
+
+    auto index = std::distance(entities->begin(), it);
+    if (caller == *it && index == toMove) return true;
+
+    return false;
+}
 
 bool World::isWall(Entity* caller, sf::Vector2i pos)
 {
@@ -97,30 +105,14 @@ std::vector<Entity*>& World::getEntities() { return *entities; }
 
 void World::endTurn(Entity* entity)
 {
-    if (entity == player)
-    {
-        playerTurn = false;
+    std::cout << toMove << '\n';
+    auto it = std::find(entities->begin(), entities->end(), entity);
 
-        toMove.clear();
-        for (size_t i = 0; i < entities->size(); i++)
-        {
-            if (entities->at(i) != player) toMove.insert(entities->at(i));
-        }
-        // DEBUG
-        // for (int i = 0; i < 16; i++)
-        // {
-        //     for (int j = 0; j < 16; j++)
-        //     {
-        //         map(i, j).setDebug(false);
-        //     }
-        // }
-    }
-    else
-    {
-        if (toMove.count(entity)) toMove.erase(entity);
+    if (it == entities->end()) return;
 
-        if (toMove.empty()) playerTurn = true;
-    }
+    auto index = std::distance(entities->begin(), it);
+    if (entity == *it && index == toMove)
+        toMove = (toMove + 1) % entities->size();
 }
 
 void World::setGameOver(bool value) { gameOver = value; }
@@ -132,8 +124,6 @@ void World::keyPressed(sf::Keyboard::Key key) { player->onKeyPressed(key); }
 void World::update(sf::Time dt)
 {
     if (gameOver) return;
-
-    if (entities->size() < 2) playerTurn = true;
 
     player->update(dt);
     for (size_t i = 0; i < entities->size(); i++)
