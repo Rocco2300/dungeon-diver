@@ -10,10 +10,12 @@ Player::Player()
 {
     hp     = 5;
     damage = 1;
-    hook   = true;
+    hook   = false;
 
     sprite.create(AssetManager::getTexture("player"), {8, 8});
 }
+
+void Player::setHook(bool value) { hook = value; }
 
 void Player::giveItem(Item* item)
 {

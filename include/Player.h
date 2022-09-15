@@ -23,6 +23,7 @@ public:
 
     ItemContainer& getItemsRef();
 
+    void setHook(bool value);
     void giveItem(Item* item);
 
     void onKeyPressed(sf::Keyboard::Key key);
