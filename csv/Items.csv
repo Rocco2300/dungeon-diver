@@ -1,2 +1,6 @@
-Name,Type,Value
-potion,heal,2
+Name,Type,Value,
+potion,heal,2,
+hook,mov,1,
+,,,
+,,,
+,,, 

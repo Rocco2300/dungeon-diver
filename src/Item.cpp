@@ -13,17 +13,16 @@ Item::Item(ItemType type, std::string name, int value, Player& player)
 
 void Item::use()
 {
-    switch(type)
+    switch (type)
     {
     case ItemType::Heal:
         player->setHP(player->getHp() + value);
     case ItemType::Damage:
+    case ItemType::Mov:
+        player->setHook(value);
     default:
         break;
     }
 }
 
-std::string Item::getName()
-{
-    return name;
-}
+std::string Item::getName() { return name; }

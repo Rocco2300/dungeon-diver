@@ -1,7 +1,7 @@
 #pragma once
 
-#include <string>
 #include <SFML/Graphics.hpp>
+#include <string>
 
 class Player;
 
@@ -9,6 +9,7 @@ enum class ItemType
 {
     Heal,
     Damage,
+    Mov,
     None = -1
 };
 
@@ -18,7 +19,7 @@ public:
     using Ptr = std::unique_ptr<Item>;
 
 private:
-    Player* player;
+    Player*  player;
     ItemType type;
 
     std::string name;
