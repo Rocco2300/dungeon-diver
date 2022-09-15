@@ -2,8 +2,8 @@
 
 #include <iostream>
 
-#include "World.h"
 #include "Constants.h"
+#include "World.h"
 
 AStar::AStar()
 {
@@ -23,15 +23,9 @@ AStar::AStar(Grid<int>& colMap)
     this->colMap = &colMap;
 }
 
-void AStar::setWorld(World* world)
-{
-    this->world = world;
-}
+void AStar::setWorld(World* world) { this->world = world; }
 
-void AStar::setColMap(Grid<int>& colMap)
-{
-    this->colMap = &colMap;
-}
+void AStar::setColMap(Grid<int>& colMap) { this->colMap = &colMap; }
 
 int AStar::distance(sf::Vector2i curr, sf::Vector2i end)
 {
@@ -42,14 +36,14 @@ int AStar::distance(sf::Vector2i curr, sf::Vector2i end)
 
 sf::Vector2i AStar::getLowestScore(TileHashSet& openSet, ScoreHashMap& fScore)
 {
-    int min = 2'000'000'000;
+    int  min   = 2'000'000'000;
     auto minIt = openSet.begin();
 
     for (auto it = openSet.begin(); it != openSet.end(); ++it)
     {
         if (fScore[*it] < min)
         {
-            min = fScore[*it];
+            min   = fScore[*it];
             minIt = it;
         }
     }
@@ -77,8 +71,7 @@ Path AStar::findPath(sf::Vector2i start, sf::Vector2i end, bool ignoreEntities)
 {
     Path res{};
 
-    if (world)
-        res = worldMapFindPath(start, end, ignoreEntities);
+    if (world) res = worldMapFindPath(start, end, ignoreEntities);
     else if (colMap)
         res = colMapFindPath(start, end);
 
@@ -103,28 +96,32 @@ Path AStar::colMapFindPath(sf::Vector2i start, sf::Vector2i end)
     {
         auto current = getLowestScore(openSet, fScore);
 
-        if (current == end)
-            return reconstructPath(cameFrom, current);
+        if (current == end) return reconstructPath(cameFrom, current);
 
         openSet.erase(current);
 
         // Go through all the neighbours
         for (int i = 0; i < 4; i++)
         {
-            auto neighbour = sf::Vector2i(current.x + dirX[i], current.y + dirY[i]);
+            auto neighbour =
+                    sf::Vector2i(current.x + dirX[i], current.y + dirY[i]);
 
             // if is wall
-            bool inBounds = (neighbour.x >= 0 && neighbour.x < 16 && neighbour.y >= 0 && neighbour.y < 16);
-            if (((inBounds && colMap->at(neighbour.y * 16 + neighbour.x) == 2) || !inBounds))
-                continue; 
+            bool inBounds =
+                    (neighbour.x >= 0 && neighbour.x < 16 && neighbour.y >= 0 &&
+                     neighbour.y < 16);
+            if (((inBounds &&
+                  colMap->at(neighbour.y * 16 + neighbour.x) == 2) ||
+                 !inBounds))
+                continue;
 
             auto tentGScore = gScore[current] + 1;
-            auto found = gScore.find(neighbour) != gScore.end();
+            auto found      = gScore.find(neighbour) != gScore.end();
             if ((found && tentGScore < gScore[neighbour]) || !found)
             {
                 cameFrom[neighbour] = current;
-                gScore[neighbour] = tentGScore;
-                fScore[neighbour] = tentGScore + distance(neighbour, end);
+                gScore[neighbour]   = tentGScore;
+                fScore[neighbour]   = tentGScore + distance(neighbour, end);
 
                 if (openSet.find(neighbour) == openSet.end())
                 {
@@ -137,7 +134,8 @@ Path AStar::colMapFindPath(sf::Vector2i start, sf::Vector2i end)
     return {};
 }
 
-Path AStar::worldMapFindPath(sf::Vector2i start, sf::Vector2i end, bool ignoreEntities)
+Path AStar::worldMapFindPath(
+        sf::Vector2i start, sf::Vector2i end, bool ignoreEntities)
 {
     TileHashSet openSet;
     openSet.insert(start);
@@ -154,30 +152,30 @@ Path AStar::worldMapFindPath(sf::Vector2i start, sf::Vector2i end, bool ignoreEn
     {
         auto current = getLowestScore(openSet, fScore);
 
-        if (current == end)
-            return reconstructPath(cameFrom, current);
+        if (current == end) return reconstructPath(cameFrom, current);
 
         openSet.erase(current);
 
         // Go through all the neighbours
         for (int i = 0; i < 4; i++)
         {
-            auto neighbour = sf::Vector2i(current.x + dirX[i], current.y + dirY[i]);
+            auto neighbour =
+                    sf::Vector2i(current.x + dirX[i], current.y + dirY[i]);
 
             // if is wall or if there is another entity there that is not the player
-            bool entityObstacle = (!ignoreEntities)
-                    && (world->isOccupied(nullptr, neighbour) && neighbour != end);
+            bool entityObstacle =
+                    (!ignoreEntities) &&
+                    (world->isOccupied(neighbour) && neighbour != end);
 
-            if (world->isWall(nullptr, neighbour) || entityObstacle)
-                continue; 
+            if (world->isWall(neighbour) || entityObstacle) continue;
 
             auto tentGScore = gScore[current] + 1;
-            auto found = gScore.find(neighbour) != gScore.end();
+            auto found      = gScore.find(neighbour) != gScore.end();
             if ((found && tentGScore < gScore[neighbour]) || !found)
             {
                 cameFrom[neighbour] = current;
-                gScore[neighbour] = tentGScore;
-                fScore[neighbour] = tentGScore + distance(neighbour, end);
+                gScore[neighbour]   = tentGScore;
+                fScore[neighbour]   = tentGScore + distance(neighbour, end);
 
                 if (openSet.find(neighbour) == openSet.end())
                 {

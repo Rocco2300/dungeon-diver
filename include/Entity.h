@@ -16,8 +16,8 @@ protected:
     float tDmg;
     float flip;
     float frame;
-    
-    Tileset sprite;
+
+    Tileset    sprite;
     sf::Sprite currFrame;
     sf::Shader shader;
 
@@ -27,15 +27,16 @@ protected:
     sf::Vector2f offS;
     sf::Vector2f off;
 
-    int hp;
-    int damage;
+    int  hp;
+    int  damage;
     bool dead;
+
 public:
-    Entity();   
+    Entity();
     virtual void setWorld(World& world);
 
-    int getHp();
-    int getDamage();
+    int  getHp();
+    int  getDamage();
     bool isDead();
 
     void setHP(int hp);
@@ -47,11 +48,12 @@ public:
     void move(sf::Vector2i o);
     void bump(sf::Vector2i o);
 
-    bool notMoving();
+    bool         notMoving();
     sf::Vector2i getPosition();
 
-    void update(sf::Time dt);
+    virtual void update(sf::Time dt);
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+
 private:
     void animate(float animationSpeed);
     void animateMove();
