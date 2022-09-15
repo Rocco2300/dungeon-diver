@@ -10,6 +10,7 @@ Player::Player()
 {
     hp     = 5;
     damage = 1;
+    hook   = true;
 
     sprite.create(AssetManager::getTexture("player"), {8, 8});
 }
@@ -64,7 +65,18 @@ void Player::update(sf::Time dt)
             world->interact(this, pos + nextMove);
         }
         else
-            move(nextMove);
+        {
+            if (hook)
+            {
+                int i = 0;
+                while (!world->isWall(pos + i * nextMove)) { i++; }
+
+                move((i - 1) * nextMove);
+                hook = false;
+            }
+            else
+                move(nextMove);
+        }
 
         world->endTurn(this);
     }
