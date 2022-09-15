@@ -66,13 +66,13 @@ void Enemy::chase()
         auto dirOff  = sf::Vector2i(nextPos - pos);
         path.pop_back();
 
-        if (!world->isOccupied(nullptr, nextPos)) move(dirOff);
+        if (!world->isOccupied(nextPos)) move(dirOff);
     }
     else if (distToPlayer() == 1)
     {
         auto dirOff = sf::Vector2i(playerPos - pos);
 
-        if (world->isOccupied(this, pos + dirOff))
+        if (world->isOccupied(pos + dirOff))
         {
             bump(dirOff);
             world->attack(this, pos + dirOff);
@@ -105,7 +105,7 @@ void Enemy::investigate()
         auto dirOff  = sf::Vector2i(nextPos - this->pos);
         path.pop_back();
 
-        if (!world->isOccupied(nullptr, nextPos)) move(dirOff);
+        if (!world->isOccupied(nextPos)) move(dirOff);
     }
 
     world->endTurn(this);
@@ -149,7 +149,7 @@ bool Enemy::playerLos()
     int i = 1;
     while (i <= step)
     {
-        if (world->isWall(nullptr, {static_cast<int>(x), static_cast<int>(y)}))
+        if (world->isWall({static_cast<int>(x), static_cast<int>(y)}))
             return false;
 
         x += dx;

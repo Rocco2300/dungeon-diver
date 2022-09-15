@@ -1,9 +1,7 @@
 #include "World.h"
 
 #include <algorithm>
-#include <cmath>
 #include <iomanip>
-#include <iostream>
 
 #include "AssetManager.h"
 
@@ -55,12 +53,12 @@ void Player::update(sf::Time dt)
         auto nextMove = moves.front();
         moves.erase(moves.begin());
 
-        if (world->isOccupied(this, pos + nextMove))
+        if (world->isOccupied(pos + nextMove))
         {
             bump(nextMove);
             world->attack(this, pos + nextMove);
         }
-        else if (world->isWall(this, pos + nextMove))
+        else if (world->isWall(pos + nextMove))
         {
             bump(nextMove);
             world->interact(this, pos + nextMove);
