@@ -31,8 +31,8 @@ public:
     bool isGameOver();
     bool goNextLevel();
     bool canMove(Entity* caller);
-    bool isWall(Entity* caller, sf::Vector2i pos);
-    bool isOccupied(Entity* caller, sf::Vector2i pos);
+    bool isWall(sf::Vector2i pos);
+    bool isOccupied(sf::Vector2i pos);
 
     void attack(Entity* caller, sf::Vector2i pos);
     void interact(Entity* caller, sf::Vector2i pos);

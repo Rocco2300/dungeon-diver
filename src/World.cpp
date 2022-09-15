@@ -37,14 +37,14 @@ bool World::canMove(Entity* caller)
     return false;
 }
 
-bool World::isWall(Entity* caller, sf::Vector2i pos)
+bool World::isWall(sf::Vector2i pos)
 {
     if (!isInBounds(pos)) return true;
 
     return !map->at(pos).isWalkable();
 }
 
-bool World::isOccupied(Entity* caller, sf::Vector2i pos)
+bool World::isOccupied(sf::Vector2i pos)
 {
     for (int i = entities->size() - 1; i >= 0; i--)
     {
