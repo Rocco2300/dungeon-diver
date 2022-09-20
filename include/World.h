@@ -33,6 +33,7 @@ public:
     bool canMove(Entity* caller);
     bool isWall(sf::Vector2i pos);
     bool isOccupied(sf::Vector2i pos);
+    bool isInteractable(sf::Vector2i pos);
 
     void attack(Entity* caller, sf::Vector2i pos);
     void interact(Entity* caller, sf::Vector2i pos);

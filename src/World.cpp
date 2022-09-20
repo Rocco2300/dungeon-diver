@@ -53,6 +53,13 @@ bool World::isOccupied(sf::Vector2i pos)
     return false;
 }
 
+bool World::isInteractable(sf::Vector2i pos)
+{
+    if (!isInBounds(pos)) return false;
+
+    return dynamic_cast<InteractableTile*>(&map->at(pos));
+}
+
 void World::attack(Entity* caller, sf::Vector2i pos)
 {
     for (int i = entities->size() - 1; i >= 0; i--)
