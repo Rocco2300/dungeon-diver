@@ -28,4 +28,9 @@ public:
 
     void onKeyPressed(sf::Keyboard::Key key);
     void update(sf::Time dt);
+
+private:
+    void handleMove(sf::Vector2i nextMove);
+    void handleAttack(sf::Vector2i nextMove);
+    void handleWallBump(sf::Vector2i nextMove);
 };
