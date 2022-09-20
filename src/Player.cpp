@@ -56,6 +56,7 @@ void Player::update(sf::Time dt)
         auto nextMove = moves.front();
         moves.erase(moves.begin());
 
+        // TODO: This is convoluted, find a better way to handle
         if (world->isOccupied(pos + nextMove))
         {
             bump(nextMove);
@@ -63,8 +64,12 @@ void Player::update(sf::Time dt)
         }
         else if (world->isWall(pos + nextMove))
         {
+            if (world->isInteractable(pos + nextMove))
+            {
+                world->interact(this, pos + nextMove);
+            }
+
             bump(nextMove);
-            world->interact(this, pos + nextMove);
         }
         else
         {
@@ -77,7 +82,14 @@ void Player::update(sf::Time dt)
                 hook = false;
             }
             else
+            {
+                if (world->isInteractable(pos + nextMove))
+                {
+                    world->interact(this, pos + nextMove);
+                }
+
                 move(nextMove);
+            }
         }
 
         world->endTurn(this);
