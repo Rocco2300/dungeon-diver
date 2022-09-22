@@ -17,9 +17,12 @@ void Item::use()
     {
     case ItemType::Heal:
         player->setHP(player->getHp() + value);
+        break;
     case ItemType::Damage:
+        break;
     case ItemType::Mov:
         player->setHook(value);
+        break;
     default:
         break;
     }
