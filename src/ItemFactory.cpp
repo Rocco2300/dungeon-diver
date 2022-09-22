@@ -46,6 +46,10 @@ ItemType ItemFactory::stringToItemType(std::string type)
 {
     if (type == "heal")
         return ItemType::Heal;
-    else
+    else if (type == "mov")
+        return ItemType::Mov;
+    else if (type == "dmg")
         return ItemType::Damage;
+    
+    return ItemType::None;
 }
