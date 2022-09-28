@@ -29,17 +29,20 @@ bool World::canMove(Entity* caller)
 {
     auto it = std::find(entities->begin(), entities->end(), caller);
 
-    if (it == entities->end()) return false;
+    if (it == entities->end())
+        return false;
 
     auto index = std::distance(entities->begin(), it);
-    if (caller == *it && index == toMove) return true;
+    if (caller == *it && index == toMove)
+        return true;
 
     return false;
 }
 
 bool World::isWall(sf::Vector2i pos)
 {
-    if (!isInBounds(pos)) return true;
+    if (!isInBounds(pos))
+        return true;
 
     return !map->at(pos).isWalkable();
 }
@@ -48,14 +51,18 @@ bool World::isOccupied(sf::Vector2i pos)
 {
     for (int i = entities->size() - 1; i >= 0; i--)
     {
-        if (pos == entities->at(i)->getPosition()) { return true; }
+        if (pos == entities->at(i)->getPosition())
+        {
+            return true;
+        }
     }
     return false;
 }
 
 bool World::isInteractable(sf::Vector2i pos)
 {
-    if (!isInBounds(pos)) return false;
+    if (!isInBounds(pos))
+        return false;
 
     return dynamic_cast<InteractableTile*>(&map->at(pos));
 }
@@ -88,7 +95,8 @@ void World::attack(Entity* caller, sf::Vector2i pos)
 
 void World::interact(Entity* caller, sf::Vector2i pos)
 {
-    if (!isInBounds(pos)) return;
+    if (!isInBounds(pos))
+        return;
 
     if (caller == player)
     {
@@ -99,7 +107,8 @@ void World::interact(Entity* caller, sf::Vector2i pos)
             interactableTile->onInteract();
 
             auto exitTile = dynamic_cast<ExitStairsTile*>(interactableTile);
-            if (exitTile) nextLevel = true;
+            if (exitTile)
+                nextLevel = true;
         }
     }
 }
@@ -114,11 +123,17 @@ void World::endTurn(Entity* entity)
 {
     auto it = std::find(entities->begin(), entities->end(), entity);
 
-    if (it == entities->end()) return;
+    if (it == entities->end())
+        return;
 
     auto index = std::distance(entities->begin(), it);
     if (entity == *it && index == toMove)
-        toMove = (toMove + 1) % entities->size();
+    {
+        entity->decrementTurns();
+
+        if (entity->turnsLeft() == 0)
+            toMove = (toMove + 1) % entities->size();
+    }
 }
 
 void World::setGameOver(bool value) { gameOver = value; }
@@ -129,13 +144,17 @@ void World::keyPressed(sf::Keyboard::Key key) { player->onKeyPressed(key); }
 
 void World::update(sf::Time dt)
 {
-    if (gameOver) return;
+    if (gameOver)
+        return;
 
     player->update(dt);
     for (size_t i = 0; i < entities->size(); i++)
     {
         auto enemy = dynamic_cast<Enemy*>(entities->at(i));
-        if (enemy) { enemy->update(dt); }
+        if (enemy)
+        {
+            enemy->update(dt);
+        }
     }
 
     // Remove sounds that finished playing
