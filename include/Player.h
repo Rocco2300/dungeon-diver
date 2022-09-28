@@ -15,7 +15,6 @@ private:
     ItemContainer inventory;
 
     bool hook;
-    bool timeWarp;
 
     std::vector<sf::Vector2i> moves;
 
@@ -29,9 +28,6 @@ public:
 
     void onKeyPressed(sf::Keyboard::Key key);
     void update(sf::Time dt);
-
-protected:
-    void endTurn();
 
 private:
     void handleMove(sf::Vector2i nextMove);

@@ -152,7 +152,9 @@ void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const
 void Entity::endTurn()
 {
     world->endTurn(this);
-    turns = 1;
+
+    if (turns == 0)
+        turns = 1;
 }
 
 void Entity::animate(float animationSpeed)
