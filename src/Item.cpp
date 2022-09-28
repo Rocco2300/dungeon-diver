@@ -23,6 +23,9 @@ void Item::use()
     case ItemType::Mov:
         player->setHook(value);
         break;
+    case ItemType::Warp:
+        player->setTurns(value);
+        break;
     default:
         break;
     }

@@ -10,6 +10,7 @@ enum class ItemType
     Heal,
     Damage,
     Mov,
+    Warp,
     None = -1
 };
 

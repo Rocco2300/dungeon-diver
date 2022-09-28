@@ -24,7 +24,7 @@ Item* ItemFactory::getItem()
     static std::seed_seq ss{u32(timeSeed & 0xffffffff), u32(timeSeed >> 32)};
 
     static std::mt19937                       rng(ss);
-    static std::uniform_int_distribution<u32> unif(0, 1);
+    static std::uniform_int_distribution<u32> unif(0, 2);
 
     auto index = unif(rng);
 
@@ -50,6 +50,8 @@ ItemType ItemFactory::stringToItemType(std::string type)
         return ItemType::Mov;
     else if (type == "dmg")
         return ItemType::Damage;
-    
+    else if (type == "warp")
+        return ItemType::Warp;
+
     return ItemType::None;
 }
