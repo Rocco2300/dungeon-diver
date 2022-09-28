@@ -9,7 +9,10 @@ Player::Player()
 {
     hp     = 5;
     damage = 1;
-    hook   = false;
+    turns  = 2;
+
+    hook     = false;
+    timeWarp = true;
 
     sprite.create(AssetManager::getTexture("player"), {8, 8});
 }
@@ -72,7 +75,18 @@ void Player::update(sf::Time dt)
     Entity::update(dt);
 }
 
-void Player::endTurn() { world->endTurn(this); }
+void Player::endTurn()
+{
+    world->endTurn(this);
+
+    if (timeWarp && turns == 0)
+    {
+        turns    = 1;
+        timeWarp = false;
+    }
+    else if (!timeWarp)
+        turns = 1;
+}
 
 void Player::handleMove(sf::Vector2i nextMove)
 {

@@ -15,6 +15,7 @@ private:
     ItemContainer inventory;
 
     bool hook;
+    bool timeWarp;
 
     std::vector<sf::Vector2i> moves;
 
