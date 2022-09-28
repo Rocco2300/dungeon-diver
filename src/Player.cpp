@@ -66,11 +66,13 @@ void Player::update(sf::Time dt)
         else
             handleMove(nextMove);
 
-        world->endTurn(this);
+        endTurn();
     }
 
     Entity::update(dt);
 }
+
+void Player::endTurn() { world->endTurn(this); }
 
 void Player::handleMove(sf::Vector2i nextMove)
 {

@@ -26,10 +26,12 @@ void Enemy::handleState()
         idle();
         break;
     case AIState::Chase:
-        if (moveTime.asSeconds() <= 0) chase();
+        if (moveTime.asSeconds() <= 0)
+            chase();
         break;
     case AIState::Investigate:
-        if (moveTime.asSeconds() <= 0) investigate();
+        if (moveTime.asSeconds() <= 0)
+            investigate();
         break;
     }
 }
@@ -42,7 +44,7 @@ void Enemy::idle()
         return;
     }
 
-    world->endTurn(this);
+    endTurn();
 }
 
 void Enemy::chase()
@@ -58,7 +60,10 @@ void Enemy::chase()
     auto path = aStar.findPath(pos, playerPos);
 
     // If the path is blocked, go up to the enemy to still chase
-    if (path.empty()) { path = aStar.findPath(pos, playerPos, true); }
+    if (path.empty())
+    {
+        path = aStar.findPath(pos, playerPos, true);
+    }
 
     if (!path.empty() && distToPlayer() > 1)
     {
@@ -66,7 +71,8 @@ void Enemy::chase()
         auto dirOff  = sf::Vector2i(nextPos - pos);
         path.pop_back();
 
-        if (!world->isOccupied(nextPos)) move(dirOff);
+        if (!world->isOccupied(nextPos))
+            move(dirOff);
     }
     else if (distToPlayer() == 1)
     {
@@ -79,8 +85,7 @@ void Enemy::chase()
         }
     }
 
-    world->endTurn(this);
-    moveTime = sf::seconds(.5f);
+    endTurn();
 }
 
 void Enemy::investigate()
@@ -105,20 +110,28 @@ void Enemy::investigate()
         auto dirOff  = sf::Vector2i(nextPos - this->pos);
         path.pop_back();
 
-        if (!world->isOccupied(nextPos)) move(dirOff);
+        if (!world->isOccupied(nextPos))
+            move(dirOff);
     }
 
-    world->endTurn(this);
-    moveTime = sf::seconds(.5f);
+    endTurn();
 }
 
 void Enemy::update(sf::Time dt)
 {
-    if (world->canMove(this) && state != AIState::Idle) moveTime -= dt;
+    if (world->canMove(this) && state != AIState::Idle)
+        moveTime -= dt;
 
-    if (world->canMove(this)) handleState();
+    if (world->canMove(this))
+        handleState();
 
     Entity::update(dt);
+}
+
+void Enemy::endTurn()
+{
+    world->endTurn(this);
+    moveTime = sf::seconds(.5f);
 }
 
 int Enemy::distToPlayer()
@@ -136,7 +149,8 @@ bool Enemy::playerLos()
     float dy = playerPos.y - pos.y;
 
     float step;
-    if (std::abs(dx) >= std::abs(dy)) step = std::abs(dx);
+    if (std::abs(dx) >= std::abs(dy))
+        step = std::abs(dx);
     else
         step = std::abs(dy);
 

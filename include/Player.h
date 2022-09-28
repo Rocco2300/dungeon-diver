@@ -29,6 +29,9 @@ public:
     void onKeyPressed(sf::Keyboard::Key key);
     void update(sf::Time dt);
 
+protected:
+    void endTurn();
+
 private:
     void handleMove(sf::Vector2i nextMove);
     void handleAttack(sf::Vector2i nextMove);

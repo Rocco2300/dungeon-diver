@@ -15,11 +15,11 @@ enum class AIState
 class Enemy : public Entity
 {
 private:
-    AStar aStar;
+    AStar   aStar;
     AIState state;
 
     sf::Vector2i playerPos;
-    sf::Time moveTime;
+    sf::Time     moveTime;
 
 public:
     Enemy();
@@ -34,8 +34,11 @@ public:
     void investigate();
 
     void update(sf::Time dt);
+
+protected:
+    void endTurn();
+
 private:
-    int distToPlayer();
+    int  distToPlayer();
     bool playerLos();
 };
-
