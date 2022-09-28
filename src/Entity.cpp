@@ -44,6 +44,8 @@ void Entity::setHP(int hp) { this->hp = hp; }
 
 void Entity::decrementTurns() { turns--; }
 
+void Entity::setTurns(int turns) { this->turns = turns; }
+
 void Entity::setDamage(int damage) { this->damage = damage; }
 
 void Entity::setSprite(std::string path, sf::Vector2i size)

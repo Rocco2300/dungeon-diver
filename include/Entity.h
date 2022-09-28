@@ -43,6 +43,7 @@ public:
 
     void setHP(int hp);
     void decrementTurns();
+    void setTurns(int turns);
     void setDamage(int damage);
     void setSprite(std::string path, sf::Vector2i size);
     void takeDamage(int damageAmount);
