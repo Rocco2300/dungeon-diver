@@ -28,6 +28,7 @@ protected:
     sf::Vector2f off;
 
     int  hp;
+    int  turns;
     int  damage;
     bool dead;
 
@@ -37,9 +38,11 @@ public:
 
     int  getHp();
     int  getDamage();
+    int  turnsLeft();
     bool isDead();
 
     void setHP(int hp);
+    void decrementTurns();
     void setDamage(int damage);
     void setSprite(std::string path, sf::Vector2i size);
     void takeDamage(int damageAmount);

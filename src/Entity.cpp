@@ -17,7 +17,8 @@ Entity::Entity()
     pos.x = 0.f;
     pos.y = 0.f;
 
-    dead = false;
+    turns = 1;
+    dead  = false;
 
     const std::string path = std::string(PROJ_PATH) + "shader/shader.frag";
     if (!shader.loadFromFile(path, sf::Shader::Fragment))
@@ -35,9 +36,13 @@ int Entity::getHp() { return hp; }
 
 int Entity::getDamage() { return damage; }
 
+int Entity::turnsLeft() { return turns; }
+
 bool Entity::isDead() { return dead; }
 
 void Entity::setHP(int hp) { this->hp = hp; }
+
+void Entity::decrementTurns() { turns--; }
 
 void Entity::setDamage(int damage) { this->damage = damage; }
 
@@ -144,7 +149,11 @@ void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const
     target.draw(sprite, states);
 }
 
-void Entity::endTurn() { world->endTurn(this); }
+void Entity::endTurn()
+{
+    world->endTurn(this);
+    turns = 1;
+}
 
 void Entity::animate(float animationSpeed)
 {
