@@ -130,7 +130,7 @@ void Enemy::update(sf::Time dt)
 
 void Enemy::endTurn()
 {
-    world->endTurn(this);
+    Entity::endTurn();
     moveTime = sf::seconds(.5f);
 }
 
