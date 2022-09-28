@@ -54,6 +54,9 @@ public:
     virtual void update(sf::Time dt);
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
+protected:
+    virtual void endTurn();
+
 private:
     void animate(float animationSpeed);
     void animateMove();
