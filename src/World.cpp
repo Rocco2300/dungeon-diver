@@ -132,7 +132,9 @@ void World::endTurn(Entity* entity)
         entity->decrementTurns();
 
         if (entity->turnsLeft() == 0)
+        {
             toMove = (toMove + 1) % entities->size();
+        }
     }
 }
 
@@ -148,9 +150,9 @@ void World::update(sf::Time dt)
         return;
 
     player->update(dt);
-    for (size_t i = 0; i < entities->size(); i++)
+    for (auto& entity : *entities)
     {
-        auto enemy = dynamic_cast<Enemy*>(entities->at(i));
+        auto enemy = dynamic_cast<Enemy*>(entity);
         if (enemy)
         {
             enemy->update(dt);
@@ -165,9 +167,9 @@ void World::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     target.draw(*map, states);
 
-    for (size_t i = 0; i < entities->size(); i++)
+    for (auto& entity : *entities)
     {
-        target.draw(*entities->at(i), states);
+        target.draw(*entity, states);
     }
 }
 
