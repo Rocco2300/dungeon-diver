@@ -1,43 +1,22 @@
 #include "Map.h"
 
-#include <iostream>
 #include <algorithm>
 #include <fstream>
+#include <iostream>
 
-Map::Map()
-{
-    tiles.alloc();
-}
+Map::Map() { tiles.alloc(); }
 
-Tile& Map::at(int x, int y)
-{
-    return *tiles(x, y);
-}
+Tile& Map::at(int x, int y) { return *tiles(x, y); }
 
-Tile& Map::at(sf::Vector2i pos)
-{
-    return *tiles(pos.x, pos.y);
-}
+Tile& Map::at(sf::Vector2i pos) { return *tiles(pos.x, pos.y); }
 
-Tile& Map::operator()(int x, int y)
-{
-    return *tiles(x, y);
-}
+Tile& Map::operator()(int x, int y) { return *tiles(x, y); }
 
-Tile& Map::operator()(sf::Vector2i pos)
-{
-    return *tiles(pos.x, pos.y);
-}
+Tile& Map::operator()(sf::Vector2i pos) { return *tiles(pos.x, pos.y); }
 
-void Map::setSize(sf::Vector2i size)
-{
-    this->size = size;
-}
+void Map::setSize(sf::Vector2i size) { this->size = size; }
 
-void Map::setTileset(Tileset& tileset)
-{
-    this->tileset = &tileset;
-}
+void Map::setTileset(Tileset& tileset) { this->tileset = &tileset; }
 
 void Map::loadMap(const char* path)
 {
@@ -48,10 +27,7 @@ void Map::loadMap(const char* path)
     in.close();
 }
 
-void Map::loadMap(std::istream& in)
-{
-    loadMapImpl(in);
-}
+void Map::loadMap(std::istream& in) { loadMapImpl(in); }
 
 void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
@@ -66,7 +42,6 @@ void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
         target.draw(*tiles[i], states);
     }
-
 }
 
 void Map::loadMapImpl(std::istream& in)
@@ -94,13 +69,14 @@ void Map::loadMapImpl(std::istream& in)
                 tile = std::make_unique<DoorTile>();
             else
                 tile = std::make_unique<Tile>();
-            
+
             tile->setTileset(*tileset);
             tile->setID(id);
 
-            if (std::find(walkableTiles.begin(), walkableTiles.end(), id) != walkableTiles.end())
+            if (std::find(walkableTiles.begin(), walkableTiles.end(), id) !=
+                walkableTiles.end())
                 tile->setWalkable(true);
-            else 
+            else
                 tile->setWalkable(false);
 
             tiles(j, i) = std::move(tile);
