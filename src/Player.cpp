@@ -9,7 +9,7 @@ Player::Player()
 {
     hp     = 5;
     damage = 1;
-    turns  = 2;
+    turns  = 1;
 
     hook = false;
 
